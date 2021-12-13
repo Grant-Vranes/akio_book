@@ -1503,14 +1503,6 @@ Unstash使用更改
 
 
 
-## 线程
-
-https://www.twle.cn/c/yufei/javatm/javatm-basic-future.html
-
-
-
-
-
 ## 配置文件的ENC加密
 
 https://www.w3cschool.cn/article/57904429.html
@@ -1800,3 +1792,386 @@ Docker Hub(https://hub.docker.com)提供了庞大的镜像集合供使用
 
  [docker8-持续集成与持续交付.pdf](Akio's Book.assets\docker\docker8-持续集成与持续交付.pdf) 
 
+
+
+
+
+
+
+
+
+## 数据库
+
+ `order BY substring_index( area_id,':', -1) + 0  ASC`
+
+![image-20211207155708488](Akio's Book.assets/image-20211207155708488.png)
+
+https://www.cnblogs.com/QFKing/p/11924380.html
+
+
+
+
+
+
+
+## 注解的开发
+
+
+
+
+
+
+
+## 线程池
+
+### 线程
+
+https://www.twle.cn/c/yufei/javatm/javatm-basic-future.html
+
+https://www.cnblogs.com/westlife-11358/p/10469304.html
+
+
+
+参考视频：
+
+https://www.bilibili.com/video/BV1dt4y1i7Gt?from=search&seid=14716473568925631421&spm_id_from=333.337.0.0	用于快速上手
+
+https://www.bilibili.com/video/BV1u7411t7G1?from=search&seid=14716473568925631421&spm_id_from=333.337.0.0
+
+https://www.bilibili.com/video/BV1YN411o7Lz?from=search&seid=1352471604802547590&spm_id_from=333.337.0.0
+
+https://www.bilibili.com/video/BV1ca4y1L7AU?from=search&seid=7037375791473409437&spm_id_from=333.337.0.0
+
+参考博客：
+
+https://cloud.tencent.com/developer/article/1893803
+
+https://blog.csdn.net/weixin_49343190/article/details/115249588
+
+https://blog.csdn.net/qq_20009015/article/details/85953364  包含介绍无界/有界任务队列，直接提交队列
+
+### 线程池
+
+池化思想：线程池、字符串常量池、数据库连接池
+提高资源的利用率
+
+没有线程池之前：1、手动创建线程任务 2、执行任务 3、执行完毕，释放线程对象
+
+线程池优点：
+
+- 提高线程的利用率
+- 提高程序的响应速度
+- 便于同于管理线程对象
+- 可以控制最大并发数
+
+
+
+### 几种线程池
+
+以下的几种线程池均调用了方法
+
+```java
+public ThreadPoolExecutor(int corePoolSize,
+                              int maximumPoolSize,
+                              long keepAliveTime,
+                              TimeUnit unit,
+                              BlockingQueue<Runnable> workQueue) {
+        this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
+             Executors.defaultThreadFactory(), defaultHandler);
+    }
+```
+
+- **带缓存线程池**
+
+  > 使用方法 `ExecutorService executorService = Executors.newCachedThreadPool();`
+  >
+  > 方法详情
+  >
+  > ```java
+  > public static ExecutorService newCachedThreadPool() {
+  >     return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+  >                                   60L, TimeUnit.SECONDS,
+  >                                   new SynchronousQueue<Runnable>());
+  > }
+  > ```
+
+  > 特点：
+  >
+  > - 核心线程数为0，所有线程都是临时线程，线程可重复利用
+  > - 最大线程数为`Integer.MAX_VALUE` ，表示 Java 中的最大整数，意味着线程可以无限创建
+  > - 临时线程的最大空闲时间是60s
+  > - 任务队列（阻塞队列）的方式为没有容量，来一个任务使用一个线程执行它，任务不会等待
+  > - 适合任务数密集，但每个任务执行时间较短的情况
+  > - 由于每个线程执行完之后会归还池中，在空闲时间内还可以执行其余任务，故起名为带缓存
+
+- **固定大小线程池**
+
+  > 使用方法`ExecutorService fixedThreadPool = Executors.newFixedThreadPool(n);`
+  >
+  > - 参数指定 核心线程数 和 最大线程数 的大小
+  >
+  > 方法详情：
+  >
+  > ```java
+  > public static ExecutorService newFixedThreadPool(int nThreads) {
+  >     return new ThreadPoolExecutor(nThreads, nThreads,
+  >                                   0L, TimeUnit.MILLISECONDS,
+  >                                   new LinkedBlockingQueue<Runnable>());
+  > }
+  > ```
+  >
+  > 特点
+  >
+  > - 核心线程数 == 最大线程数，也就是说没有临时线程
+  > - 无需设置临时线程的最大空闲时间
+  > - 阻塞队列是无界的，可以存放任意数量的任务
+  > - 适用于任务量已知，且相对耗时的任务（推荐使用）
+
+- **单线程线程池**
+
+  > 使用方法 `ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();`
+  >
+  > 方法详情
+  >
+  > ```java
+  > public static ExecutorService newSingleThreadExecutor() {
+  >     return new FinalizableDelegatedExecutorService
+  >         (new ThreadPoolExecutor(1, 1,
+  >                                 0L, TimeUnit.MILLISECONDS,
+  >                                 new LinkedBlockingQueue<Runnable>()));
+  > }
+  > ```
+  >
+  > 特点
+  >
+  > - 核心线程数和最大线程数都是1，没有临时线程
+  > - 无需设置临时线程的最大空闲时间
+  > - 阻塞队列是无界的，可以存放任意数量的任务
+  > - 适用于希望多个任务排队执行的情况
+  >
+  > 与自己定义一个线程执行任务的区别
+  >
+  > - 如果自定义的线程出现错误，则程序会终止，队列中的任务都无法执行；而线程池如果当前线程出现错误，还会新建一个线程，保证任务的正常执行
+
+- **时间调度线程池**
+
+  > 使用方法 `ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(n);`
+  >
+  > - 参数指定核心线程数
+  >
+  > 方法详情：
+  >
+  > ```java
+  > public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize) {
+  >     return new ScheduledThreadPoolExecutor(corePoolSize);
+  > }
+  > 
+  > //ScheduledThreadPoolExecutor继承了ThreadPoolExecutor
+  > 
+  > public ScheduledThreadPoolExecutor(int corePoolSize) {
+  >     super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,
+  >           new DelayedWorkQueue());
+  > }
+  > ```
+  >
+  > 特点
+  >
+  > - 参数指定核心线程数
+  > - 最大线程数为 “无限大”
+  > - 阻塞队列的方式是具有延迟特性的无界阻塞队列
+  > - 由于 `DelayedWorkQueue` 队列属于无界队列，故不会产生临时线程
+  >
+  > 使用情景1：`schedule` 方法
+  >
+  > ```java
+  > ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(1);
+  > 
+  > //提交10个任务至线程池
+  > for (int i = 0; i < 10; i++) {
+  >     final int index = i;
+  >     Runnable task = new Runnable() {
+  >         public void run() {
+  >             System.out.println(new Date().toString()
+  >                   + " 第 " + (index + 1) + " 个任务延迟了 " + index + " 秒才运行");
+  >         }
+  >     };
+  > 
+  >     //第一个任务延迟1秒执行，第二个任务延迟2秒执行，第三个任务延迟3秒执行...
+  >     //会立马将所有任务提交，主线程向下运行，提交之后到底什么时候执行，取决于设定值
+  >     ScheduledFuture<?> schedule = scheduledThreadPool.schedule(task, i, TimeUnit.SECONDS);
+  > }
+  > 
+  > //ScheduledExecutorService继承ExecutorService，故可调用父接口方法
+  > //执行完所有任务后，关闭线程池
+  > scheduledThreadPool.shutdown();
+  > ```
+  >
+  > ![img](Akio's Book.assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTM0MzE5MA==,size_16,color_FFFFFF,t_70.png)
+  >
+  > 使用情景2：`scheduleAtFixedRate` 方法
+  >
+  > ```java
+  > ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(5);
+  > 
+  > //创建任务，每隔一秒执行一次，但每次任务执行时间需要三秒
+  > Runnable task = new Runnable() {
+  >     public void run() {
+  >         try {
+  >             System.out.println(new Date().toString() + " " +
+  >                                Thread.currentThread().getName() + " 任务执行了！");
+  >             Thread.sleep(3000);
+  >         } catch (InterruptedException e) {
+  >             e.printStackTrace();
+  >         }
+  >     }
+  > };
+  > scheduledThreadPool.scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
+  > ```
+  >
+  > ![img](Akio's Book.assets/20210326163016923.png)
+  >
+  > 任务的执行时间超过了任务的间隔时间，下一次任务达到了间隔时间准备执行时，发现上一次任务还没有结束，必须等待，当上一次任务执行结束之后，立即启动处于等待状态的下一次任务，所以没有按照设定的间隔时间执行任务
+  >
+  > 使用情景3：`scheduleWithFixedDelay` 方法
+  >
+  > ```java
+  > ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(5);
+  > 
+  > //创建任务，一个任务要执行2秒，执行完成之后，再等待1秒开启下一个任务
+  > Runnable task = new Runnable() {
+  >     public void run() {
+  >         try {
+  >             System.out.println(new Date().toString() + " " +
+  >                                Thread.currentThread().getName() + " 任务执行了！");
+  >             Thread.sleep(2000);
+  >         } catch (InterruptedException e) {
+  >             e.printStackTrace();
+  >         }
+  >     }
+  > };
+  > scheduledThreadPool.scheduleWithFixedDelay(task, 0, 1, TimeUnit.SECONDS);
+  > ```
+  >
+  > ![img](Akio's Book.assets/20210326163027973.png)
+
+
+
+
+
+### 提交优先级和执行优先级
+
+
+
+
+
+
+
+
+
+## POSTMAN批量发送请求
+
+https://www.cnblogs.com/l0923/p/13419986.html
+
+https://blog.csdn.net/enthan809882/article/details/105163200?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link
+
+
+
+
+
+## Jmeter
+
+
+
+
+
+## Actuator生产监控
+
+
+
+
+
+
+
+## Log4j漏洞-JNDI注入
+
+https://www.bilibili.com/video/BV1wb4y1q7Ps?from=search&seid=6489645300758706395&spm_id_from=333.337.0.0
+
+https://cert.360.cn/warning/detail?id=d5dd5bbdfbb3d58c3a633e4e105e22bb
+
+https://mp.weixin.qq.com/s/67q5tabt9T04cQROI1jnkA
+
+
+
+
+
+
+
+## 全栈之巅
+
+https://www.bilibili.com/video/BV18E41127N4?spm_id_from=333.999.0.0
+
+https://www.bilibili.com/video/BV1A4411Y7fi?spm_id_from=333.999.0.0
+
+https://www.bilibili.com/video/BV1S4411W79F?spm_id_from=333.999.0.0
+
+
+
+
+
+## 生产回滚
+
+
+
+
+
+
+
+## 服务器负载
+
+https://blog.csdn.net/weixin_41485592/article/details/88639547
+
+
+
+
+
+## CI/CD
+
+持续集成/持续部署
+
+https://www.bilibili.com/video/BV1zf4y127vu?from=search&seid=9182694068358631743&spm_id_from=333.337.0.0 devops
+
+
+
+
+
+## 阿里云日志的使用
+
+
+
+
+
+## 支付接入支付需要注意那些
+
+
+
+
+
+## debug操作
+
+
+
+
+
+## git
+
+https://www.bilibili.com/video/BV1FE411P7B3?spm_id_from=333.999.0.0
+
+
+
+
+
+## 云原生K8s+Docker+KubeSphere+DevOps
+
+https://www.bilibili.com/video/BV13Q4y1C7hS?from=search&seid=13798867737117338959&spm_id_from=333.337.0.0
+
+https://www.yuque.com/leifengyang/oncloud/ctiwgo
