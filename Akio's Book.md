@@ -2548,3 +2548,29 @@ https://www.cnblogs.com/faberbeta/p/13903221.html
 
 
 
+## 部署一套完整的企业级K8S集群
+
+https://cloud.tencent.com/developer/article/1821688
+
+
+
+## kubectl命令的用法
+
+http://www.codeforest.cn/article/210
+
+https://zhuanlan.zhihu.com/p/364994610
+
+https://blog.csdn.net/qq_29726869/article/details/104363776	在windows电脑上配置kubectl远程操作kubernetes
+
+`kubectl cp uat-wechat-784fb45b98-f2rlt:/springboot/wechat/wechat.log.2021-12-20.0.gz ./wechat.log.2021-12-20.0.gz` 复制容器中的文件出来
+
+`kubectl exec -it uat-wechat-784fb45b98-f2rlt /bin/sh`进入容器
+
+
+
+## debug生产环境
+
+https://www.bilibili.com/video/BV1Ef4y137zY
+
+https://arthas.aliyun.com/zh-cn/
+
