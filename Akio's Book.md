@@ -1,3 +1,145 @@
+## MYSQL的安装卸载
+
+**安装**
+
+- 从[MySQL官网](http://dev.mysql.com/downloads/mysql)下载zip压缩包并解压到自定义安装位置，这里为C:\Program Files\MySQL\mysql-8.0.23-winx64
+- 复制MySQL文件夹下的bin文件夹路径，这里为C:\Program Files\MySQL\mysql-8.0.23-winx64\bin
+- 右键 -> 我的电脑 -> 属性 -> 高级系统设置 -> 环境变量，在系统变量中找到PATH并编辑，点击新建并粘贴我们上面复制的路径，依次点击确定退出
+- 以管理员身份打开cmd，输入以下命令：
+
+```sql
+mysqld --initialize-insecure    #创建data目录并填充mysql系统模式中的表来初始化MySQL安装
+mysqld --install [serviceName]   #serviceName为可选项 不输入默认为MySQL
+net start mysql           		#安装成功后启动服务
+mysqladmin -uroot password yourpass #yourpass 为自己设置的MySQL密码 不执行则默认密码为空
+```
+
+**卸载**
+
+卸载前可以备份所有数据库到一个sql文件
+
+```sql
+mysqldump -uroot -p --all-databases > sqlfile.sql
+```
+
+执行以下命令可以进行数据库文件的导入
+
+```sql
+source d:\sqlfile.sql  # d:\sqlfile.sql为要导入sql文件路径
+```
+
+执行以下命令进行卸载
+
+```sql
+net stop mysql      #mysql为自己安装的mysql服务名称 默认为mysql
+mysqld --remove mysql #mysql为自己安装的mysql服务名称 默认为mysql
+```
+
+---
+
+以上是一种操作，以下是DXC实习生培训提供的操作文档
+
+> 打开刚刚解压的文件夹 **C:\web\mysql-8.0.11** ，在该文件夹下创建 **my.ini** 配置文件，编辑 **my.ini** 配置以下基本信息：
+>
+> ```ini
+> [client]
+> # 设置mysql客户端默认字符集
+> default-character-set=utf8
+> 
+> [mysqld]
+> # 设置3306端口
+> port = 3306
+> 
+> # 设置mysql的安装目录
+> basedir=C:\\web\\mysql-8.0.11
+> 
+> # 设置 mysql数据库的数据的存放目录，MySQL 8+ 不需要以下配置，系统自己生成即可，否则有可能报错
+> # datadir=C:\\web\\sqldata
+> 
+> # 允许最大连接数
+> max_connections=20
+> 
+> # 服务端使用的字符集默认为8比特编码的latin1字符集
+> character-set-server=utf8
+> 
+> # 创建新表时将使用的默认存储引擎
+> default-storage-engine=INNODB
+> ```
+>
+> 
+>
+> **接下来我们来启动下 MySQL 数据库**
+>
+> 以管理员身份打开 cmd 命令行工具，切换目录：
+>
+> `cd C:\web\mysql-8.0.11\bin`
+>
+> 初始化数据库：
+>
+> `mysqld --initialize --console`
+>
+> 执行完成后，会输出 root 用户的初始默认密码，如：
+>
+> ```shell
+> ...
+> 
+> 2018-04-20T02:35:05.464644Z 5 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: APWCY5ws&hjQ
+> 
+> ...
+> ```
+>
+> `APWCY5ws&hjQ `就是初始密码，后续登录需要用到，你也可以在登陆后修改密码。
+>
+> 输入以下安装命令：
+>
+> `mysqld install`
+>
+> 启动输入以下命令即可：
+>
+> `net start mysql`
+>
+> *注意:* *在* *5.7* *需要初始化* *data* *目**录**：*
+>
+> ```
+> cd C:\web\mysql-8.0.11\bin 
+> 
+> mysqld --initialize-insecure 
+> ```
+>
+> 初始化后再运行`net start mysql `即可启动 mysql。
+>
+> 
+>
+> **登录 **MySQL
+>
+> 当 MySQL 服务已经运行时, 我们可以通过 MySQL 自带的客户端工具登录到 MySQL 数据库中, 首先打开命令提示符, 输入以下格式的命名:
+>
+> `mysql -h 主机名 -u 用户名 -p`
+>
+> 参数说明：
+>
+> > ·    **-h** : 指定客户端所要登录的 MySQL 主机名, 登录本机(localhost 或 127.0.0.1)该参数可以省略;
+> >
+> > ·    **-u** : 登录的用户名;
+> >
+> > ·    **-p** : 告诉服务器将会使用一个密码来登录, 如果所要登录的用户名密码为空, 可以忽略此选项。
+>
+> 如果我们要登录本机的 MySQL 数据库，只需要输入以下命令即可：
+>
+> `mysql -u root -p`
+>
+> 按回车确认, 如果安装正确且 MySQL 正在运行, 会得到以下响应:
+>
+> `Enter password:`
+>
+> 若密码存在, 输入密码登录, 不存在则直接按回车登录。登录成功后你将会看到 Welcome to the MySQL monitor... 的提示语。
+>
+> 然后命令提示符会一直以 **mysq>** 加一个闪烁的光标等待命令的输入, 输入 `exit` 或 `quit` 退出登录。
+
+
+
+
+
 ## Redis
 
 Redis就是一个能够将信息\数据保存在内存中的缓存数据库
@@ -2088,9 +2230,160 @@ https://www.processon.com/view/link/60093eeb1e0853406be862f4#map	python自动化
 
 http://47.107.116.139/showdoc/web/?#/3?page_id=51 Jmeter教程网站 登入密码msxy
 
+---
+
+对Jmeter，Postman一些基本我都会。但是如何真实的在项目中去实施呢？ 
+
+### 一、接口测试分类 
+
+> 内部接口：测试被测系统各个子模块之间的接口，或者被测系统提供给内部系统使用的接口。
+>
+>  外部接口： 
+> 		1.被测系统调用外部的接口。 
+> 		2.系统对外提供的接口。
+>
+>  接口测试重点：检查接口参数传递的正确性，接口功能的正确性，输出结果的正确性，以及对各种异常情况的容错处理，以及权限控制， 分页，调用次数的限制。
+
+### 二、目前接口架构设计
+
+> 1.基于SOAP架构。基于XML规范。基于WebSerice协议。特点：接口地址?wsdl结尾。
+>
+> 2.基于RPC架构，基于dubbo协议，thrift协议。SpringCloud微服务。 
+>
+> 3.基于RestFul架构，基于json规范。基于http协议。 
+>
+> ​			RestFul规则： 接口地址：http://127.0.0.1/user
+> ​			get(查询用户)，post（新增用户）, put(修改用户), delete（删除用户） 
+>
+> ​			Json数据格式：只有两种数据类型。 键值对：{key：value} 数组：[arry1,arry2]
+
+> 既然谈到了http协议
+>
+> ![image-20211223210459554](Akio's Book.assets/image-20211223210459554.png)
+>
+> ![image-20211223210528468](Akio's Book.assets/image-20211223210528468.png)
+>
+> 我们可以使用抓包工具获取一个请求的具体数据，工具是Progress Telerik Fiddler Web Debugger
 
 
 
+### 三、市面上的接口测试工具
+
+Jmeter+Ant+Git+Jenkins 
+
+Postman+Newman+Git+Jenkins
+
+soapui，apipost, fildder，charles
+
+
+
+### 四、Jmeter简介，安装，环境变量的配置。
+
+基于Java语言压力测试工具，可以做接口测试，也可以做性能测试。 
+
+安装：JDK1.8以上，配置JDK环境变量。
+
+
+
+### 五、Jmeter目录介绍
+
+![image-20211223211352767](Akio's Book.assets/image-20211223211352767.png)
+
+> backups：脚本备份目录。格式JMX 
+>
+> bin目录：存放Jmeter的启动脚本，配置文件。模块文件。
+> 		 jmeter.bat 启动Jmeter 
+>  		jmeter.properties 核心配置文件。 
+>
+> docs：离线帮助文档。 
+>
+> extras：存放与第三方的集成构建文件。集成Ant,Jenkins。
+>
+> lib目录：存放jar包。 
+>
+> licensce:许可证文件。
+
+
+
+### 六、Jmeter常用组件 
+
+> 1.测试计划：起点。所有组件的容器。 
+>
+> 2.线程组：代表一定数量的用户。 
+>
+> 3.取样器：向服务器发送请求的最小单元。 
+>
+> 4.逻辑控制器：结合取样器实现一些复杂的逻辑。 
+>
+> 5.前置处理器：在请求之前的工作 
+>
+> 6.后置处理器：在请求之后的工作 
+>
+> 7.断言：用于判断请求是否成功。 
+>
+> 8.定时器：负责在请求之间的延迟间隔。如固定，高斯，随机 
+>
+> 9.配置元件：配置信息 
+>
+> 10.监听器：负责收集结果。
+>
+> 
+>
+> <font color=red><b>顺序：非常重要</b></font> 
+>
+> 测试计划》线程组》配置元件》前置处理器》定时器》取样器（请求）》后置处理器》断言》监听器。
+>
+> <font color=red><b>作用域：非常重要 </b></font>
+>
+> 必须组件(做测试必须要有)：测试计划，线程组，取样器 
+>
+> 辅助组件：除了必须组件外
+>
+> **<i>辅助组件作用于父组件，同级组件，以及同级组件下的所有子组件。</i>**
+>
+> 两个简单控制器中的查看结果树只能查看对应控制前的java请求1/2。而所属线程组的，同时与两个简单控制器同级的查看结果树可以收集所有的java请求（运行是运行整个测试计划），这一点证明了辅助组件作用于同级组件，以及同级组件下的所有子组件
+>
+> ![image-20211223212937166](Akio's Book.assets/image-20211223212937166.png)
+>
+> 以下是在java请求1下添加了一个查看结果树，运行测试计划，发现这个查看结果树也能收集到其父组件的结果，故此证明辅助组件作用于父组件
+>
+> ![image-20211223213311522](Akio's Book.assets/image-20211223213311522.png)
+
+
+
+### 七、Jmeter执行接口测试 
+
+> 1.拿到api接口文档（Fiddler），熟悉接口业务，接口地址，鉴权方式，入参，出参，错误码。 
+>
+> 2.编写接口测试用例。 
+> 			<font color=red>测试思路：</font> 
+> 			正例：输入正常入参，查看接口成功返回。 
+> 			反例： 
+> 					鉴权：空，错误，鉴权过期，鉴权次数限制........ 
+> 					参数：空，类型错误，长度错误，错误码的覆盖。 
+> 					其他：黑名单、分页。 
+>
+> 3.使用接口测试工具执行。 
+>
+> 4.Jmeter+Ant+Git+Jenkins实现持续集成输出接口测试报告。通过电子邮件发送。
+
+
+
+### 八、接口测试实战
+
+> 10000，高峰期，10分中内1000个用户，1分钟100个用户。1秒=100/60=5/3
+>
+> 一般来说，做接口测试，这三个值都是1
+>
+> ![image-20211223214930387](Akio's Book.assets/image-20211223214930387.png)
+>
+> Http Cookie管理器，只有在第一次发送请求的时候，服务器会把cookie发送到客户端，以后的客户端对服务端的n次请求都会带上这个cookie。
+>
+> 加入不要动，他会自动管理
+>
+> ![image-20211223215506750](Akio's Book.assets/image-20211223215506750.png)
+>
+> 一般在请求的时候有协议，ip，端口，这些东西在项目中都是固定的
 
 
 
@@ -2540,9 +2833,76 @@ https://www.cnblogs.com/faberbeta/p/13903221.html
 
 
 
+
+
+## Spring核心
+
+https://www.bilibili.com/video/BV1K3411C7dn?from=search&seid=17579069777259600741&spm_id_from=333.337.0.0
+
+### @ComponentScan()
+
+
+
+### @ComponentScan()扫描索引
+
+> 对于spring来说，他在扫描之前肯定是不知道哪些类上有@Component注解。所以说只要是这个包下的类或者说接口，他都会去扫描，解析，然后判断有没有@Component注解。有的话继续处理，没有就不处理。但总而言之他都会去扫描所有类。
+>
+> 对此，spring中提供类一种技术，可以用来扫描索引，就可以提高查询的速度。当你明确知道你的哪些类是bean，你就可以把你的bean相关的类写在一个文件中，在其中配置key-value，key对应你的某个类，通常这个类就是你的bean，value就是对应的注解
+>
+> ![image-20211223174129956](Akio's Book.assets/image-20211223174129956.png)
+>
+> 如上图，如果要使用扫描索引就需要在META-INF目录下配置spring.components文件，文件中存放的就是上述的键值对
+>
+> ```properties
+> 我要加载的bean							这个bean的注解
+> cn.akio.spring.core.service.UserService=org.springframework.stereotype.Component
+> ```
+>
+> spring会根据这个文件来加载bean，举个例子：spring.components文件中我只定义了UserService，没有定义OrderService，
+>
+> ```java
+> UserService.java
+> @Component
+> public class UserService {
+> }
+> 
+> OrderService.java
+> @Component
+> public class OrderService {
+> }
+> 
+> Appconfig.java
+> @ComponentScan(value = "cn.akio.spring.core")
+> public class Appconfig {
+> }
+> 
+> //因为我定义了spring.components文件，所以这个@Component和@ComponentScan注解都没有意义
+> 
+> test.java
+> public class test {
+>     public static void main(String[] args) {
+>         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(Appconfig.class);
+>         System.out.println(applicationContext.getBean("orderService"));//报错No bean named 'orderService' available
+>         System.out.println(applicationContext.getBean("userService"));//成功cn.akio.spring.core.service.UserService@47faa49c
+>     }
+> }
+> ```
+>
+> 
+
+
+
+### @Bean & @Configuration之间的关系
+
+
+
+
+
 ## Spring AOP
 
+https://www.bilibili.com/video/BV1K3411C7dn?from=search&seid=17579069777259600741&spm_id_from=333.337.0.0
 
+https://www.bilibili.com/video/BV1JQ4y1Z79h?from=search&seid=17579069777259600741&spm_id_from=333.337.0.0
 
 
 
