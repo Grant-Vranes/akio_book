@@ -26,3 +26,35 @@ https://blog.csdn.net/lance666/article/details/105469146
 
 
 
+
+
+## VGC项目
+
+### 项目配置
+
+![image-20211229171454761](Android Book.assets/image-20211229171454761.png)
+
+
+
+### 打包
+
+打包APK如下
+
+![image-20211229173126351](Android Book.assets/image-20211229173126351.png)
+
+![image-20211230113813999](Android Book.assets/image-20211230113813999.png)
+
+### ADB安装应用
+
+
+
+### 账号注册
+
+https://sso.vw.com.cn/login?appId=a386e6da502d9105948c85acaf44fa38&backUrl=https%3A%2F%2Fwww.vwcarnet.com.cn%2Fweb%2Fguest%2Fhome%2F-%2Fsso%2Flogin&lang=zh_CN&page=reg
+
+![image-20211229180218103](Android Book.assets/image-20211229180218103.png)
+
+![image-20211230102809427](Android Book.assets/image-20211230102809427.png)
+
+
+

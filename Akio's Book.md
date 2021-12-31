@@ -2204,6 +2204,10 @@ public ThreadPoolExecutor(int corePoolSize,
 
 
 
+## 监测线程池的一种使用情况
+
+https://www.hippox.cn/
+
 
 
 
@@ -2334,6 +2338,46 @@ https://blog.csdn.net/ychgyyn/article/details/82154433	安卓手机抓包
 > 黑色框中可以输入命令操作；Capturing的地方可以点击，点击成空白表示不走代理；All Processes的地方显示当前正在捕捉的是哪些进程
 >
 > https://docs.telerik.com/fiddler/knowledge-base/quickexec   命令文档
+
+
+
+### 4、Fiddler抓取https协议的包
+
+> Fiddler默认是抓取不了https的包的，因为https请求都是加密，需要证书生成双钥进行解密。接下来我们通过配置让Fiddler可以抓取https的包，工具栏点击Tools>Options，选中下面红框中的内容，就自动弹出证书的安装，安装完成后，就可以抓取https请求的包。如果没反应也可以点击右侧的Actions进行手动安装证书。
+>
+> ![image-20211228092817689](Akio's Book.assets/image-20211228092817689.png)
+>
+> ![image-20211228092603299](Akio's Book.assets/image-20211228092603299.png)
+
+
+
+### 5、如何抓取安卓的包
+
+> 以上演示的所有抓包都是在PC端的浏览器上的，那么对于安卓的请求，我们如何抓包呢？
+>
+> 同样，我们也需要设置上一节的https请求的允许。同时也要勾选如下选项
+>
+> <img src="Akio's Book.assets/image-20211228093327587.png" alt="image-20211228093327587" style="zoom:60%;" />
+>
+> 完成上面两项之后，我们还要确保使用Fiddler的电脑和手机（或模拟器）在同一网段
+>
+> 一般的做法是两者连接同一WIFI。
+>
+> 完成上述三项之后，我们还需要给我们的手机设置代理，因为Fiddler在PC端打开的时候，是默认给浏览器增加代理。但对于手机，我们只能手动的去添加代理。https://www.bilibili.com/video/BV19b4y1t79V?p=23
+>
+> 这里的手动代理需要填写的是安装fiddler的主机的IP地址和端口8888
+>
+> ![image-20211228143440804](Akio's Book.assets/image-20211228143440804.png)![image-20211228143452991](Akio's Book.assets/image-20211228143452991.png)
+>
+> 此时还没有完成，我们需要给手机安装Fiddler证书。在手机浏览器上访问Fiddler的地址，可以得到如下图的内容，点击下图红框中，安装证书。然后我们的Fiddler就可以抓到我们手机上的数据
+>
+> ![image-20211228143702195](Akio's Book.assets/image-20211228143702195.png)
+>
+> ![image-20211228143905056](Akio's Book.assets/image-20211228143905056.png)
+>
+> ---
+>
+> ![image-20211228144336753](Akio's Book.assets/image-20211228144336753.png)
 
 
 
@@ -2620,7 +2664,11 @@ soapui，apipost, fildder，charles
 >
 > ![image-20211227115253705](Akio's Book.assets/image-20211227115253705.png)
 >
-> 
+> 如果以上都没有用可以给【Http请求】添加后置处理器【Bean shell后置处理程序】，填充脚本为`prev.setDataEncoding("UTF-8");`
+>
+> ![image-20211230150349698](Akio's Book.assets/image-20211230150349698.png)
+>
+> ![image-20211230150422668](Akio's Book.assets/image-20211230150422668.png)
 
 
 
@@ -2712,7 +2760,7 @@ soapui，apipost, fildder，charles
 > 2.使用【调试取样器】 
 >
 > 3.Jmeter结合fiddler实现调试。
-> 		是把fiddler作为代理） 在没有接口文档，只能通过抓包去获取接口信息的时候使用。之后所有的请求都会被fidder抓包捕获
+> 		是把fiddler作为代理， 在没有接口文档，只能通过抓包去获取接口信息的时候使用。之后所有的请求都会被fidder抓包捕获
 > ![image-20211227150509226](Akio's Book.assets/image-20211227150509226.png)
 
 
@@ -2759,7 +2807,215 @@ soapui，apipost, fildder，charles
 >
 > ![image-20211227154444176](Akio's Book.assets/image-20211227154444176.png)
 >
+> 我们定义一个线程组做一下操作，发现得到的响应中只有简单3行，这就不正常。但其实这也是因为我们没有携带请求头造成的
+>
+> ![image-20211228145714843](Akio's Book.assets/image-20211228145714843.png)
+>
+> ![image-20211228145439431](Akio's Book.assets/image-20211228145439431.png)
+>
+> 如此一来，我们就可以打开Fiddler抓包，然后把对应的 请求头拿过来
+>
+> ![image-20211228150038443](Akio's Book.assets/image-20211228150038443.png)
+>
+> 然后添加一个元件【HTTP信息头管理器】，从剪贴板添加刚复制的All headers
+>
+> ![image-20211228150222644](Akio's Book.assets/image-20211228150222644.png)
+>
+> 然后执行，就可以看到所有正常数据都出现了
+>
+> ![image-20211228150326121](Akio's Book.assets/image-20211228150326121.png)
+
+
+
+### 十七、接口文档录制操作
+
+> 如果没有接口文档的情况下，那么怎么做更好，就可以使用Jmeter 的脚本录制的功能。
+>
+> 在测试计划上添加【非测试元件】HTTP代理服务器
+>
+> ![image-20211228151335715](Akio's Book.assets/image-20211228151335715.png)
+>
+> ![image-20211228151453869](Akio's Book.assets/image-20211228151453869.png)
+>
+> 然后设置本机请求，通过代理去发送
+>
+> ![image-20211228151847388](Akio's Book.assets/image-20211228151847388.png)
+>
+> 然后点击启动，访问你需要的网站接口，访问的信息就会记录下来
+>
+> ![image-20211228154323686](Akio's Book.assets/image-20211228154323686.png)
+>
+> ![image-20211228154353535](Akio's Book.assets/image-20211228154353535.png)
+>
+> 当然也可以使用其中的排除模式或包含模式，排除一些请求和包含特定请求，只是首尾要使用.*
+>
+> ![image-20211228154451162](Akio's Book.assets/image-20211228154451162.png)
+>
+> **注意：使用完录制功能后要把本机代理给关闭，不然的话，你所有的网站都不能访问了**
+
+
+
+### 十八、Jmeter中的Bean Shell组件和语言规则
+
+>  BeanShell是一种完全符合java语法规则的脚本语言，同时他还有自己的语法规则。 
+>
+>  Jmeter有哪些Bean Shell: 
+>
+> 1.前置处理器：Beanshell预处理程序。
+>
+> 2.定时器：BeanShell 
+>
+> 3.采样器：BeanShell 
+>
+> 4.后置处理器：BeanShell 
+>
+> 5.断言：BeanShell 
+>
+> 6.监听器：BeanShel
+
+
+
+### 十九、Bean shell内置的变量和语法规则
+
+> **1.log 打印日志**
+>
+> ```shell
+> log.info("gooe job");
 > 
+> log.error("bad job"); 
+> 
+> System.out.println("控制台打印");//控制台打印的数据在开启Jmeter的cmd控制台上浮现
+> ```
+>
+> ![image-20211228162252635](Akio's Book.assets/image-20211228162252635.png)
+>
+> 
+>
+> **2.vars表示：JmeterVariables，操作Jmeter变量，（只能在当前线程组使用）** 
+>
+> 1）用户定义的变量
+>
+> ![image-20211228164136096](Akio's Book.assets/image-20211228164136096.png)
+>
+> ![image-20211228164202816](Akio's Book.assets/image-20211228164202816.png)
+>
+> 2）正则表达式，JSON提取器。 
+>
+> ![image-20211228164247891](Akio's Book.assets/image-20211228164247891.png)
+>
+> ![image-20211228165403193](Akio's Book.assets/image-20211228165403193.png)
+>
+> 3）定义变量 
+>
+> ```shell
+> vars.put("www","yyy");
+> log.info(vars.get("www"));
+> ```
+>
+> 注意：以上几种方式只能在同意线程组中访问到，不是同一线程组就需要参考下面的方案
+>
+> 
+>
+> **3.props用于存取Jmeter的全局静态变量。（可以跨线程组）**
+>
+> 在Jmeter安装目录下的jmeter.properties中的变量都是全局的。可以拿来测试
+>
+> ![image-20211228165918147](Akio's Book.assets/image-20211228165918147.png)
+>
+> 全局变量
+>
+> ```java
+> props.put("x","yosdif");
+> log.info(props.get("x"));
+> ```
+>
+> 
+>
+> **4.prev 获取到前面一个取样器返回的信息。**
+>
+> ```java
+> //获取前面取样器的值
+> log.info(prev.getResponseCode());
+> log.info(prev.getResponseDataAsString());
+> ```
+>
+> 
+>
+> **5.ctx 上下文**
+>
+> ```java
+> System.out.println(ctx.getProperties());
+> ```
+>
+> ![image-20211228172522914](Akio's Book.assets/image-20211228172522914.png)
+
+
+
+### 二十、Jmeter执行数据库操作
+
+> 1.准备数据库的驱动Jar包。 
+> 	mysql，oracle.... 
+> 	![image-20211228175706675](Akio's Book.assets/image-20211228175706675.png)
+>
+> ​		方式一：在测试计划里面引用。 不过一般是用第二种
+> ​		![image-20211228175751289](Akio's Book.assets/image-20211228175751289.png)
+>
+> ​		方式二：放到jmeter的lib目录。 
+>
+> ​		![image-20211228175920230](Akio's Book.assets/image-20211228175920230.png)
+>
+> 
+>
+> 2,新建一个：JDBC connnection configuration. 
+>
+> ![image-20211228203844667](Akio's Book.assets/image-20211228203844667.png)
+>
+> ![image-20211228204052335](Akio's Book.assets/image-20211228204052335.png)
+>
+> 3.新建一个：JDBC request
+>
+> ![image-20211228204431908](Akio's Book.assets/image-20211228204431908.png)
+>
+> 添加一个【察看结果树】，我们就可以查看到结果
+>
+> ![image-20211228204933365](Akio's Book.assets/image-20211228204933365.png)
+>
+> 此时，我有一个需求：提取第一行的用户名和电话。我就可以用上一节学习到的Bean shell来操作
+>
+> ![image-20211228205550473](Akio's Book.assets/image-20211228205550473.png)
+>
+> 可以打印出来，那么我也可以使用`vars.put`方法存放取到的值，然后在需要这些值的请求中使用它
+
+
+
+### 二十一、Jmeter的非GUI方式运行
+
+> 1、执行JMX文件的命令：jmeter
+>
+> 2、命令行参数：
+> 		-n -t			-n非界面方式运行	-t指定jmx文件的位置
+> 		-l                 -l指定生成的jtl格式的结果
+> 		-e -o           -e生成HTML报告， -o指定HTML报告的文件夹（注意：这个文件夹必须是空目录）
+>
+> 示例：
+>
+> - 在存在.jmx文件夹下打开cmd窗口，执行`jmeter -n -t `
+>
+>   ![image-20211228210824237](Akio's Book.assets/image-20211228210824237.png)
+>
+> - 执行`jmeter -n -t "Test Plan.jmx" -l result.jtl`，可在目录下生成jtl文件，然后我们可以打开jmeter。使用一个【察看结果树】，打开这个文件
+>
+>   ![image-20211228210926432](Akio's Book.assets/image-20211228210926432.png)
+>
+>   ![image-20211228211204278](Akio's Book.assets/image-20211228211204278.png)
+>
+> - 执行`jmeter -n -t "Test Plan.jmx" -l result.jtl -e -o report`，注意：你要先把上面执行过的.jtl文件删掉，并且，这个目录下创建一个空文件夹report
+>
+>   <img src="Akio's Book.assets/image-20211228211550533.png" alt="image-20211228211550533" style="zoom:80%;" />
+>
+>   ![image-20211228211624676](Akio's Book.assets/image-20211228211624676.png)
+>
+>   
 
 
 
@@ -3145,6 +3401,10 @@ https://blog.csdn.net/aiwaston/article/details/117738262
 
 `git merge ‘你要合入的代码分支’ --allow-unrelated-histories` 然后解决冲突
 
+![image-20211229105417746](Akio's Book.assets/image-20211229105417746.png)
+
+https://developer.aliyun.com/article/614459
+
 
 
 ### 业务场景2：idea同步两个远程
@@ -3166,6 +3426,10 @@ https://blog.csdn.net/aiwaston/article/details/117738262
 ![image-20211215144835622](Akio's Book.assets/image-20211215144835622.png)
 
 
+
+### 业务场景3：git如何回滚代码
+
+https://zhuanlan.zhihu.com/p/137856034
 
 
 
@@ -3205,7 +3469,7 @@ https://www.cnblogs.com/faberbeta/p/13903221.html
 
 ## 阿里云日志学习
 
-
+您好！阿里云最佳实践上新啦！《云速搭部署 SLS 实现日志采集处理分析》最佳实践通过云速搭部署 ECS+SLS，在 ECS 上安装 logtail 收集 nginx 应用日志写入SLS。通过日志生成器模拟 nginx 日志生成，并通过 SLS 进行日志分析。详情查看https://bp.aliyun.com/detail/276
 
 
 
