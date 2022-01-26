@@ -4352,7 +4352,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                     
+>                                                                                 
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4367,7 +4367,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                     
+>                                                                                 
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4375,7 +4375,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                     
+>                                                                                 
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4616,7 +4616,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                     
+>                                                                                 
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -8934,10 +8934,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->         
+>               
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->         
+>               
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -8946,10 +8946,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->         
+>               
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->         
+>               
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -9934,7 +9934,334 @@ export default new Vuex.Store({
 
 ##### 优化：mapActions\mapMutations
 
+> 同样在上一节methods方法中也有很多重复的点，使用mapActions\mapMutations也可以自动生成
+>
+> <img src="Akio's Book.assets/image-20220125154947603.png" alt="image-20220125154947603" style="zoom:50%;" />
+>
+> 修改Count.vue
+>
+> ```vue
+> <template>
+> 	<div>
+> 		<h1>当前求和为：{{sum}}</h1>
+> 		<h3>当前求和放大10倍为：{{bigSum}}</h3>
+> 		<h3>我在{{school}}，学习{{subject}}</h3>
+> 		<select v-model.number="n">
+> 			<option value="1">1</option>
+> 			<option value="2">2</option>
+> 			<option value="3">3</option>
+> 		</select>
+> 		<button @click="increment(n)">+</button>
+> 		<button @click="decrement(n)">-</button>
+> 		<button @click="incrementOdd(n)">当前求和为奇数再加</button>
+> 		<button @click="incrementWait(n)">等一等再加</button>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	import {mapState,mapGetters,mapMutations,mapActions} from 'vuex'
+> 	export default {
+> 		name:'Count',
+> 		data() {
+> 			return {
+> 				n:1, //用户选择的数字
+> 			}
+> 		},
+> 		computed:{
+> 			//借助mapState生成计算属性，从state中读取数据。（对象写法）
+> 			// ...mapState({he:'sum',xuexiao:'school',xueke:'subject'}),
+> 
+> 			//借助mapState生成计算属性，从state中读取数据。（数组写法）
+> 			...mapState(['sum','school','subject']),
+> 
+> 			/* ******************************************************************** */
+> 
+> 			//借助mapGetters生成计算属性，从getters中读取数据。（对象写法）
+> 			// ...mapGetters({bigSum:'bigSum'})
+> 			
+> 			//借助mapGetters生成计算属性，从getters中读取数据。（数组写法）
+> 			...mapGetters(['bigSum'])
+> 
+> 		},
+> 		methods: {
+> 			//程序员亲自写方法
+> 			/* increment(){
+> 				this.$store.commit('JIA',this.n)
+> 			},
+> 			decrement(){
+> 				this.$store.commit('JIAN',this.n)
+> 			}, */
+> 
+> 			//借助mapMutations生成对应的方法，方法中会调用commit去联系mutations(对象写法)
+> 			...mapMutations({increment:'JIA',decrement:'JIAN'}),
+> 
+> 			//借助mapMutations生成对应的方法，方法中会调用commit去联系mutations(数组写法)
+> 			// ...mapMutations(['JIA','JIAN']),
+> 
+> 			/* ************************************************* */
+> 
+> 			//程序员亲自写方法
+> 			/* incrementOdd(){
+> 				this.$store.dispatch('jiaOdd',this.n)
+> 			},
+> 			incrementWait(){
+> 				this.$store.dispatch('jiaWait',this.n)
+> 			}, */
+> 
+> 			//借助mapActions生成对应的方法，方法中会调用dispatch去联系actions(对象写法)
+> 			...mapActions({incrementOdd:'jiaOdd',incrementWait:'jiaWait'})
+> 
+> 			//借助mapActions生成对应的方法，方法中会调用dispatch去联系actions(数组写法)
+> 			// ...mapActions(['jiaOdd','jiaWait'])
+> 		},
+> 		mounted() {
+> 			const x = mapState({he:'sum',xuexiao:'school',xueke:'subject'})
+> 			console.log(x)
+> 		},
+> 	}
+> </script>
+> 
+> <style lang="css">
+> 	button{
+> 		margin-left: 5px;
+> 	}
+> </style>
+> ```
 
+
+
+##### 多组件共享数据案例
+
+> <img src="Akio's Book.assets/image-20220125163630543.png" alt="image-20220125163630543" style="zoom:67%;" />
+>
+> <img src="Akio's Book.assets/image-20220125163927489.png" alt="image-20220125163927489" style="zoom:67%;" />
+>
+> 如上图，要实现这样一个案例，Count组件和Person组件中的数据要做到共享
+>
+> App.vue
+>
+> ```vue
+> <template>
+> 	<div>
+> 		<Count/>
+> 		<hr>
+> 		<Person/>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	import Count from './components/Count'
+> 	import Person from './components/Person'
+> 
+> 	export default {
+> 		name:'App',
+> 		components:{Count,Person},
+> 		mounted() {
+> 			// console.log('App',this)
+> 		},
+> 	}
+> </script>
+> ```
+>
+> index.js
+>
+> ```javascript
+> //该文件用于创建Vuex中最为核心的store
+> import Vue from 'vue'
+> //引入Vuex
+> import Vuex from 'vuex'
+> //应用Vuex插件
+> Vue.use(Vuex)
+> 
+> //准备actions——用于响应组件中的动作
+> const actions = {
+> 	/* jia(context,value){
+> 		console.log('actions中的jia被调用了')
+> 		context.commit('JIA',value)
+> 	},
+> 	jian(context,value){
+> 		console.log('actions中的jian被调用了')
+> 		context.commit('JIAN',value)
+> 	}, */
+> 	jiaOdd(context,value){
+> 		console.log('actions中的jiaOdd被调用了')
+> 		if(context.state.sum % 2){
+> 			context.commit('JIA',value)
+> 		}
+> 	},
+> 	jiaWait(context,value){
+> 		console.log('actions中的jiaWait被调用了')
+> 		setTimeout(()=>{
+> 			context.commit('JIA',value)
+> 		},500)
+> 	}
+> }
+> //准备mutations——用于操作数据（state）
+> const mutations = {
+> 	JIA(state,value){
+> 		console.log('mutations中的JIA被调用了')
+> 		state.sum += value
+> 	},
+> 	JIAN(state,value){
+> 		console.log('mutations中的JIAN被调用了')
+> 		state.sum -= value
+> 	},
+> 	ADD_PERSON(state,value){
+> 		console.log('mutations中的ADD_PERSON被调用了')
+> 		state.personList.unshift(value)
+> 	}
+> }
+> //准备state——用于存储数据
+> const state = {
+> 	sum:0, //当前的和
+> 	school:'尚硅谷',
+> 	subject:'前端',
+> 	personList:[
+> 		{id:'001',name:'张三'}
+> 	]
+> }
+> //准备getters——用于将state中的数据进行加工
+> const getters = {
+> 	bigSum(state){
+> 		return state.sum*10
+> 	}
+> }
+> 
+> //创建并暴露store
+> export default new Vuex.Store({
+> 	actions,
+> 	mutations,
+> 	state,
+> 	getters
+> })
+> ```
+>
+> Count.vue
+>
+> ```vue
+> <template>
+> 	<div>
+> 		<h1>当前求和为：{{sum}}</h1>
+> 		<h3>当前求和放大10倍为：{{bigSum}}</h3>
+> 		<h3>我在{{school}}，学习{{subject}}</h3>
+> 		<h3 style="color:red">Person组件的总人数是：{{personList.length}}</h3>
+> 		<select v-model.number="n">
+> 			<option value="1">1</option>
+> 			<option value="2">2</option>
+> 			<option value="3">3</option>
+> 		</select>
+> 		<button @click="increment(n)">+</button>
+> 		<button @click="decrement(n)">-</button>
+> 		<button @click="incrementOdd(n)">当前求和为奇数再加</button>
+> 		<button @click="incrementWait(n)">等一等再加</button>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	import {mapState,mapGetters,mapMutations,mapActions} from 'vuex'
+> 	export default {
+> 		name:'Count',
+> 		data() {
+> 			return {
+> 				n:1, //用户选择的数字
+> 			}
+> 		},
+> 		computed:{
+> 			//借助mapState生成计算属性，从state中读取数据。（数组写法）
+> 			...mapState(['sum','school','subject','personList']),
+> 			//借助mapGetters生成计算属性，从getters中读取数据。（数组写法）
+> 			...mapGetters(['bigSum'])
+> 		},
+> 		methods: {
+> 			//借助mapMutations生成对应的方法，方法中会调用commit去联系mutations(对象写法)
+> 			...mapMutations({increment:'JIA',decrement:'JIAN'}),
+> 			//借助mapActions生成对应的方法，方法中会调用dispatch去联系actions(对象写法)
+> 			...mapActions({incrementOdd:'jiaOdd',incrementWait:'jiaWait'})
+> 		},
+> 		mounted() {
+> 			// const x = mapState({he:'sum',xuexiao:'school',xueke:'subject'})
+> 			// console.log(x)
+> 		},
+> 	}
+> </script>
+> 
+> <style lang="css">
+> 	button{
+> 		margin-left: 5px;
+> 	}
+> </style>
+> ```
+>
+> Person.vue
+>
+> ```vue
+> <template>
+> 	<div>
+> 		<h1>人员列表</h1>
+> 		<h3 style="color:red">Count组件求和为：{{sum}}</h3>
+> 		<input type="text" placeholder="请输入名字" v-model="name">
+> 		<button @click="add">添加</button>
+> 		<ul>
+> 			<li v-for="p in personList" :key="p.id">{{p.name}}</li>
+> 		</ul>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	import {nanoid} from 'nanoid'
+> 	export default {
+> 		name:'Person',
+> 		data() {
+> 			return {
+> 				name:''
+> 			}
+> 		},
+> 		computed:{
+> 			personList(){
+> 				return this.$store.state.personList
+> 			},
+> 			sum(){
+> 				return this.$store.state.sum
+> 			}
+> 		},
+> 		methods: {
+> 			add(){
+> 				const personObj = {id:nanoid(),name:this.name}//封装person对象
+> 				this.$store.commit('ADD_PERSON',personObj)
+> 				this.name = ''
+> 			}
+> 		},
+> 	}
+> </script>
+> ```
+>
+> main.js
+>
+> ```javascript
+> //引入Vue
+> import Vue from 'vue'
+> //引入App
+> import App from './App.vue'
+> //引入插件
+> import vueResource from 'vue-resource'
+> //引入store
+> import store from './store'
+> 
+> //关闭Vue的生产提示
+> Vue.config.productionTip = false
+> //使用插件
+> Vue.use(vueResource)
+> 
+> //创建vm
+> new Vue({
+> 	el:'#app',
+> 	render: h => h(App),
+> 	store,
+> 	beforeCreate() {
+> 		Vue.prototype.$bus = this
+> 	}
+> })
+> ```
 
 
 
@@ -9982,13 +10309,1481 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->        
+>                 
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
 >    ```
 >
 > > 备注：mapActions与mapMutations使用时，若需要传递参数需要：在模板中绑定事件时传递好参数，否则参数是事件对象。
+
+
+
+##### 模块化+命名空间
+
+1. 目的：让代码更好维护，让多种数据分类更加明确。
+
+2. 修改`store.js`
+
+   ```javascript
+   const countAbout = {
+     namespaced:true,//开启命名空间
+     state:{x:1},
+     mutations: { ... },
+     actions: { ... },
+     getters: {
+       bigSum(state){
+          return state.sum * 10
+       }
+     }
+   }
+   
+   const personAbout = {
+     namespaced:true,//开启命名空间
+     state:{ ... },
+     mutations: { ... },
+     actions: { ... }
+   }
+   
+   const store = new Vuex.Store({
+     modules: {
+       countAbout,
+       personAbout
+     }
+   })
+   ```
+
+3. 开启命名空间后，组件中读取state数据：
+
+   ```js
+   //方式一：自己直接读取
+   this.$store.state.personAbout.list
+   //方式二：借助mapState读取：
+   ...mapState('countAbout',['sum','school','subject']),
+   ```
+
+4. 开启命名空间后，组件中读取getters数据：
+
+   ```js
+   //方式一：自己直接读取
+   this.$store.getters['personAbout/firstPersonName']
+   //方式二：借助mapGetters读取：
+   ...mapGetters('countAbout',['bigSum'])
+   ```
+
+5. 开启命名空间后，组件中调用dispatch
+
+   ```js
+   //方式一：自己直接dispatch
+   this.$store.dispatch('personAbout/addPersonWang',person)
+   //方式二：借助mapActions：
+   ...mapActions('countAbout',{incrementOdd:'jiaOdd',incrementWait:'jiaWait'})
+   ```
+
+6. 开启命名空间后，组件中调用commit
+
+   ```js
+   //方式一：自己直接commit
+   this.$store.commit('personAbout/ADD_PERSON',person)
+   //方式二：借助mapMutations：
+   ...mapMutations('countAbout',{increment:'JIA',decrement:'JIAN'}),
+   ```
+
+> 示例
+>
+> <img src="Akio's Book.assets/image-20220126095404095.png" alt="image-20220126095404095" style="zoom:50%;" />
+>
+> App.vue
+>
+> ```vue
+> <template>
+> 	<div>
+> 		<Count/>
+> 		<hr>
+> 		<Person/>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	import Count from './components/Count'
+> 	import Person from './components/Person'
+> 
+> 	export default {
+> 		name:'App',
+> 		components:{Count,Person},
+> 		mounted() {
+> 			// console.log('App',this)
+> 		},
+> 	}
+> </script>
+> ```
+>
+> ---
+>
+> main.js
+>
+> ```javascript
+> //引入Vue
+> import Vue from 'vue'
+> //引入App
+> import App from './App.vue'
+> //引入插件
+> import vueResource from 'vue-resource'
+> //引入store
+> import store from './store'
+> 
+> //关闭Vue的生产提示
+> Vue.config.productionTip = false
+> //使用插件
+> Vue.use(vueResource)
+> 
+> //创建vm
+> new Vue({
+> 	el:'#app',
+> 	render: h => h(App),
+> 	store,
+> 	beforeCreate() {
+> 		Vue.prototype.$bus = this
+> 	}
+> })
+> ```
+>
+> ---
+>
+> components\Count.vue
+>
+> ```vue
+> <template>
+> 	<div>
+> 		<h1>当前求和为：{{sum}}</h1>
+> 		<h3>当前求和放大10倍为：{{bigSum}}</h3>
+> 		<h3>我在{{school}}，学习{{subject}}</h3>
+> 		<h3 style="color:red">Person组件的总人数是：{{personList.length}}</h3>
+> 		<select v-model.number="n">
+> 			<option value="1">1</option>
+> 			<option value="2">2</option>
+> 			<option value="3">3</option>
+> 		</select>
+> 		<button @click="increment(n)">+</button>
+> 		<button @click="decrement(n)">-</button>
+> 		<button @click="incrementOdd(n)">当前求和为奇数再加</button>
+> 		<button @click="incrementWait(n)">等一等再加</button>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	import {mapState,mapGetters,mapMutations,mapActions} from 'vuex'
+> 	export default {
+> 		name:'Count',
+> 		data() {
+> 			return {
+> 				n:1, //用户选择的数字
+> 			}
+> 		},
+> 		computed:{
+> 			//借助mapState生成计算属性，从state中读取数据。（数组写法）
+> 			...mapState('countAbout',['sum','school','subject']),
+> 			...mapState('personAbout',['personList']),
+> 			//借助mapGetters生成计算属性，从getters中读取数据。（数组写法）
+> 			...mapGetters('countAbout',['bigSum'])
+> 		},
+> 		methods: {
+> 			//借助mapMutations生成对应的方法，方法中会调用commit去联系mutations(对象写法)
+> 			...mapMutations('countAbout',{increment:'JIA',decrement:'JIAN'}),
+> 			//借助mapActions生成对应的方法，方法中会调用dispatch去联系actions(对象写法)
+> 			...mapActions('countAbout',{incrementOdd:'jiaOdd',incrementWait:'jiaWait'})
+> 		},
+> 		mounted() {
+> 			console.log(this.$store)
+> 		},
+> 	}
+> </script>
+> 
+> <style lang="css">
+> 	button{
+> 		margin-left: 5px;
+> 	}
+> </style>
+> ```
+>
+> components\Person.vue
+>
+> ```vue
+> <template>
+> 	<div>
+> 		<h1>人员列表</h1>
+> 		<h3 style="color:red">Count组件求和为：{{sum}}</h3>
+> 		<h3>列表中第一个人的名字是：{{firstPersonName}}</h3>
+> 		<input type="text" placeholder="请输入名字" v-model="name">
+> 		<button @click="add">添加</button>
+> 		<button @click="addWang">添加一个姓王的人</button>
+> 		<button @click="addPersonServer">添加一个人，名字随机</button>
+> 		<ul>
+> 			<li v-for="p in personList" :key="p.id">{{p.name}}</li>
+> 		</ul>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	import {nanoid} from 'nanoid'
+> 	export default {
+> 		name:'Person',
+> 		data() {
+> 			return {
+> 				name:''
+> 			}
+> 		},
+> 		computed:{
+> 			personList(){
+> 				return this.$store.state.personAbout.personList
+> 			},
+> 			sum(){
+> 				return this.$store.state.countAbout.sum
+> 			},
+> 			firstPersonName(){
+> 				return this.$store.getters['personAbout/firstPersonName']
+> 			}
+> 		},
+> 		methods: {
+> 			add(){
+> 				const personObj = {id:nanoid(),name:this.name}
+> 				this.$store.commit('personAbout/ADD_PERSON',personObj)
+> 				this.name = ''
+> 			},
+> 			addWang(){
+> 				const personObj = {id:nanoid(),name:this.name}
+> 				this.$store.dispatch('personAbout/addPersonWang',personObj)
+> 				this.name = ''
+> 			},
+> 			addPersonServer(){
+> 				this.$store.dispatch('personAbout/addPersonServer')
+> 			}
+> 		},
+> 	}
+> </script>
+> ```
+>
+> ---
+>
+> store\index.js
+>
+> ```javascript
+> //该文件用于创建Vuex中最为核心的store
+> import Vue from 'vue'
+> //引入Vuex
+> import Vuex from 'vuex'
+> //引入两个模块
+> import countOptions from './count'
+> import personOptions from './person'
+> //应用Vuex插件
+> Vue.use(Vuex)
+> 
+> //创建并暴露store
+> export default new Vuex.Store({
+> 	modules:{
+> 		countAbout:countOptions,
+> 		personAbout:personOptions
+> 	}
+> })
+> ```
+>
+> store\count.js
+>
+> ```javascript
+> //求和相关的配置
+> export default {
+> 	namespaced:true,
+> 	actions:{
+> 		jiaOdd(context,value){
+> 			console.log('actions中的jiaOdd被调用了')
+> 			if(context.state.sum % 2){
+> 				context.commit('JIA',value)
+> 			}
+> 		},
+> 		jiaWait(context,value){
+> 			console.log('actions中的jiaWait被调用了')
+> 			setTimeout(()=>{
+> 				context.commit('JIA',value)
+> 			},500)
+> 		}
+> 	},
+> 	mutations:{
+> 		JIA(state,value){
+> 			console.log('mutations中的JIA被调用了')
+> 			state.sum += value
+> 		},
+> 		JIAN(state,value){
+> 			console.log('mutations中的JIAN被调用了')
+> 			state.sum -= value
+> 		},
+> 	},
+> 	state:{
+> 		sum:0, //当前的和
+> 		school:'尚硅谷',
+> 		subject:'前端',
+> 	},
+> 	getters:{
+> 		bigSum(state){
+> 			return state.sum*10
+> 		}
+> 	},
+> }
+> ```
+>
+> store\person.js
+>
+> ```javascript
+> //人员管理相关的配置
+> import axios from 'axios'
+> import { nanoid } from 'nanoid'
+> export default {
+> 	namespaced:true,
+> 	actions:{
+> 		addPersonWang(context,value){
+> 			if(value.name.indexOf('王') === 0){
+> 				context.commit('ADD_PERSON',value)
+> 			}else{
+> 				alert('添加的人必须姓王！')
+> 			}
+> 		},
+> 		addPersonServer(context){
+> 			axios.get('https://api.uixsj.cn/hitokoto/get?type=social').then(
+> 				response => {
+> 					context.commit('ADD_PERSON',{id:nanoid(),name:response.data})
+> 				},
+> 				error => {
+> 					alert(error.message)
+> 				}
+> 			)
+> 		}
+> 	},
+> 	mutations:{
+> 		ADD_PERSON(state,value){
+> 			console.log('mutations中的ADD_PERSON被调用了')
+> 			state.personList.unshift(value)
+> 		}
+> 	},
+> 	state:{
+> 		personList:[
+> 			{id:'001',name:'张三'}
+> 		]
+> 	},
+> 	getters:{
+> 		firstPersonName(state){
+> 			return state.personList[0].name
+> 		}
+> 	},
+> }
+> ```
+
+
+
+### vue-router路由
+
+> <img src="Akio's Book.assets/image-20220126103733452.png" alt="image-20220126103733452" style="zoom:50%;" />
+>
+> 1. 理解： 一个路由（route）就是一组映射关系（key - value），多个路由需要路由器（router）进行管理。
+> 2. 前端路由：key是路径，value是组件。
+
+#### 1.基本使用
+
+1. 安装vue-router，命令：`npm i vue-router`
+
+2. 应用插件：`Vue.use(VueRouter)`
+
+3. 编写router配置项:
+
+   ```js
+   //引入VueRouter
+   import VueRouter from 'vue-router'
+   //引入路由组件
+   import About from '../components/About'
+   import Home from '../components/Home'
+   
+   //创建router实例对象，去管理一组一组的路由规则
+   const router = new VueRouter({
+   	routes:[
+   		{
+   			path:'/about',
+   			component:About
+   		},
+   		{
+   			path:'/home',
+   			component:Home
+   		}
+   	]
+   })
+   
+   //暴露router
+   export default router
+   ```
+
+4. 实现切换（active-class可配置高亮样式）
+
+   ```vue
+   <router-link active-class="active" to="/about">About</router-link>
+   ```
+
+5. 指定展示位置
+
+   ```vue
+   <router-view></router-view>
+   ```
+
+> 示例：
+>
+> <img src="Akio's Book.assets/image-20220126113934010.png" alt="image-20220126113934010" style="zoom:50%;" />
+>
+> main.js
+>
+> ```javascript
+> //引入Vue
+> import Vue from 'vue'
+> //引入App
+> import App from './App.vue'
+> //引入VueRouter
+> import VueRouter from 'vue-router'	//------------
+> //引入路由器
+> import router from './router'		//-----------
+> 
+> //关闭Vue的生产提示
+> Vue.config.productionTip = false
+> //应用插件
+> Vue.use(VueRouter)		//--------------
+> 
+> //创建vm
+> new Vue({
+> 	el:'#app',
+> 	render: h => h(App),
+> 	router:router		//-----------
+> })
+> ```
+>
+> App.js
+>
+> ```javascript
+> <template>
+>   <div>
+>     <div class="row">
+>       <div class="col-xs-offset-2 col-xs-8">
+>         <div class="page-header"><h2>Vue Router Demo</h2></div>
+>       </div>
+>     </div>
+>     <div class="row">
+>       <div class="col-xs-2 col-xs-offset-2">
+>         <div class="list-group">
+> 					<!-- 原始html中我们使用a标签实现页面的跳转 -->
+>           <!-- <a class="list-group-item active" href="./about.html">About</a> -->
+>           <!-- <a class="list-group-item" href="./home.html">Home</a> -->
+> 
+> 					<!-- Vue中借助router-link标签实现路由的切换 -->
+>           <!-- active-class="active"做的很好，点击即可跳转 -->
+> 					<router-link class="list-group-item" active-class="active" to="/about">About</router-link>
+>           <router-link class="list-group-item" active-class="active" to="/home">Home</router-link>
+>         </div>
+>       </div>
+>       <div class="col-xs-6">
+>         <div class="panel">
+>           <div class="panel-body">
+> 						<!-- 指定组件的呈现位置 -->
+>             <router-view></router-view>
+>           </div>
+>         </div>
+>       </div>
+>     </div>
+>   </div>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'App',
+> 	}
+> </script>
+> ```
+>
+> components\About.vue
+>
+> ```vue
+> <template>
+> 	<h2>我是About的内容</h2>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'About'
+> 	}
+> </script>
+> ```
+>
+> components\Home.vue
+>
+> ```vue
+> <template>
+> 	<h2>我是Home的内容</h2>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'Home'
+> 	}
+> </script>
+> ```
+>
+> router\index.js
+>
+> ```javascript
+> // 该文件专门用于创建整个应用的路由器
+> import VueRouter from 'vue-router'
+> //引入组件
+> import About from '../components/About'
+> import Home from '../components/Home'
+> 
+> //创建并暴露一个路由器
+> export default new VueRouter({
+> 	routes:[
+> 		{
+> 			path:'/about',
+> 			component:About
+> 		},
+> 		{
+> 			path:'/home',
+> 			component:Home
+> 		}
+> 	]
+> })
+> ```
+>
+> <img src="Akio's Book.assets/image-20220126115548878.png" alt="image-20220126115548878" style="zoom:67%;" />
+
+
+
+#### 2.几个注意点
+
+1. 路由组件通常存放在`pages`文件夹，一般组件通常存放在`components`文件夹。
+2. 通过切换，“隐藏”了的路由组件，默认是被销毁掉的，需要的时候再去挂载。
+3. 每个组件都有自己的`$route`属性，里面存储着自己的路由信息。
+4. 整个应用只有一个router，可以通过组件的`$router`属性获取到。
+
+
+
+#### 3.多级路由（嵌套路由）
+
+如导航栏中，一级导航下的二级导航
+
+1. 配置路由规则，使用children配置项：
+
+   ```js
+   routes:[
+   	{
+   		path:'/about',
+   		component:About,
+   	},
+   	{
+   		path:'/home',
+   		component:Home,
+   		children:[ //通过children配置子级路由
+   			{
+   				path:'news', //此处一定不要写斜杠：/news
+   				component:News
+   			},
+   			{
+   				path:'message',//此处一定不要写：/message
+   				component:Message
+   			}
+   		]
+   	}
+   ]
+   ```
+
+2. 跳转（要写完整路径）：
+
+   ```vue
+   <router-link to="/home/news">News</router-link>
+   ```
+
+   <img src="Akio's Book.assets/image-20220126120731889.png" alt="image-20220126120731889" style="zoom:67%;" />
+
+​	
+
+#### 4.路由的query参数
+
+1. 传递参数
+
+   ```vue
+   <!-- 跳转并携带query参数，to的字符串写法 -->
+   <router-link :to="/home/message/detail?id=666&title=你好">跳转</router-link>
+   				
+   <!-- 跳转并携带query参数，to的对象写法 -->
+   <router-link 
+   	:to="{
+   		path:'/home/message/detail',
+   		query:{
+   		   id:666,
+               title:'你好'
+   		}
+   	}"
+   >跳转</router-link>
+   ```
+
+2. 接收参数：
+
+   ```js
+   $route.query.id
+   $route.query.title
+   ```
+
+> 示例：
+>
+> Message.vue
+>
+> ```vue
+> <template>
+> 	<div>
+> 		<ul>
+> 			<li v-for="m in messageList" :key="m.id">
+> 				<!-- 跳转路由并携带query参数，to的字符串写法 -->
+> 				<!-- <router-link :to="`/home/message/detail?id=${m.id}&title=${m.title}`">{{m.title}}</router-link>&nbsp;&nbsp; -->
+> 
+> 				<!-- 跳转路由并携带query参数，to的对象写法 -->
+> 				<router-link :to="{
+> 					path:'/home/message/detail',
+> 					query:{
+> 						id:m.id,
+> 						title:m.title
+> 					}
+> 				}">
+> 					{{m.title}}
+> 				</router-link>
+> 			
+> 			</li>
+> 		</ul>
+> 		<hr>
+> 		<router-view></router-view>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'Message',
+> 		data() {
+> 			return {
+> 				messageList:[
+> 					{id:'001',title:'消息001'},
+> 					{id:'002',title:'消息002'},
+> 					{id:'003',title:'消息003'}
+> 				]
+> 			}
+> 		},
+> 	}
+> </script>
+> ```
+>
+> Detail.vue
+>
+> ```vue
+> <template>
+> 	<ul>
+> 		<li>消息编号：{{$route.query.id}}</li>
+> 		<li>消息标题：{{$route.query.title}}</li>
+> 	</ul>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'Detail',
+> 		mounted() {
+> 			console.log(this.$route)
+> 		},
+> 	}
+> </script>
+> ```
+>
+> <img src="Akio's Book.assets/image-20220126144901806.png" alt="image-20220126144901806" style="zoom:67%;" />
+
+
+
+#### 5.命名路由
+
+1. 作用：可以简化路由的跳转。
+
+2. 如何使用
+
+   1. 给路由命名：router/index.js
+
+      ```js
+      {
+      	path:'/demo',
+      	component:Demo,
+      	children:[
+      		{
+      			path:'test',
+      			component:Test,
+      			children:[
+      				{
+                            name:'hello' //给路由命名
+      					path:'welcome',
+      					component:Hello,
+      				}
+      			]
+      		}
+      	]
+      }
+      ```
+
+   2. 简化跳转：
+
+      ```vue
+      <!--简化前，需要写完整的路径 -->
+      <router-link to="/demo/test/welcome">跳转</router-link>
+      
+      <!--简化后，直接通过名字跳转 -->
+      <router-link :to="{name:'hello'}">跳转</router-link>
+      
+      <!--简化写法配合传递参数 -->
+      <router-link 
+      	:to="{
+      		name:'hello',
+      		query:{
+      		   id:666,
+                  title:'你好'
+      		}
+      	}"
+      >跳转</router-link>
+      ```
+
+
+
+#### 6.路由的params参数
+
+1. 配置路由，声明接收params参数
+
+   ```js
+   {
+   	path:'/home',
+   	component:Home,
+   	children:[
+   		{
+   			path:'news',
+   			component:News
+   		},
+   		{
+   			component:Message,
+   			children:[
+   				{
+   					name:'xiangqing',
+   					path:'detail/:id/:title', //使用占位符声明接收params参数
+   					component:Detail
+   				}
+   			]
+   		}
+   	]
+   }
+   ```
+
+2. 传递参数
+
+   ```vue
+   <!-- 跳转并携带params参数，to的字符串写法 -->
+   <router-link :to="/home/message/detail/666/你好">跳转</router-link>
+   				
+   <!-- 跳转并携带params参数，to的对象写法 -->
+   <router-link 
+   	:to="{
+            <!-- path:'/home/message/detail', --> 不行
+   		name:'xiangqing', //特别注意
+   		params:{
+   		   id:666,
+               title:'你好'
+   		}
+   	}"
+   >跳转</router-link>
+   ```
+
+   > 特别注意：路由携带params参数时，若使用to的对象写法，则不能使用path配置项，必须使用name配置！
+
+3. 接收参数：
+
+   ```js
+   $route.params.id
+   $route.params.title
+   ```
+
+
+
+#### 7.路由的props配置
+
+ 作用：让路由组件更方便的收到参数
+
+```js
+{
+	name:'xiangqing',
+	path:'detail/:id',
+	component:Detail,
+
+	//第一种写法：props值为对象，该对象中所有的key-value的组合最终都会通过props传给Detail组件
+	// props:{a:900}
+
+	//第二种写法：props值为布尔值，布尔值为true，则把路由收到的所有params参数通过props传给Detail组件
+	// props:true
+	
+	//第三种写法：props值为函数，该函数返回的对象中每一组key-value都会通过props传给Detail组件
+	props(route){
+		return {
+			id:route.query.id,
+			title:route.query.title
+		}
+	}
+}
+```
+
+> 示例：
+>
+> pages\Detail.vue
+>
+> ```vue
+> <template>
+> 	<ul>
+> 		<li>消息编号：{{id}}</li>
+> 		<li>消息标题：{{title}}</li>
+> 	</ul>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'Detail',
+> 		props:['id','title'],
+> 		computed: {
+> 			// id(){
+> 			// 	return this.$route.query.id
+> 			// },
+> 			// title(){
+> 			// 	return this.$route.query.title
+> 			// },
+> 		},
+> 		mounted() {
+> 			// console.log(this.$route)
+> 		},
+> 	}
+> </script>
+> ```
+>
+> router\index.js
+>
+> ```javascript
+> // 该文件专门用于创建整个应用的路由器
+> import VueRouter from 'vue-router'
+> //引入组件
+> import About from '../pages/About'
+> import Home from '../pages/Home'
+> import News from '../pages/News'
+> import Message from '../pages/Message'
+> import Detail from '../pages/Detail'
+> 
+> //创建并暴露一个路由器
+> export default new VueRouter({
+> 	routes:[
+> 		{
+> 			name:'guanyu',
+> 			path:'/about',
+> 			component:About
+> 		},
+> 		{
+> 			path:'/home',
+> 			component:Home,
+> 			children:[
+> 				{
+> 					path:'news',
+> 					component:News,
+> 				},
+> 				{
+> 					path:'message',
+> 					component:Message,
+> 					children:[
+> 						{
+> 							name:'xiangqing',
+> 							path:'detail',
+> 							component:Detail,
+> 
+> 							//props的第一种写法，值为对象，该对象中的所有key-value都会以props的形式传给Detail组件。
+> 							// props:{a:1,b:'hello'}
+> 
+> 							//props的第二种写法，值为布尔值，若布尔值为真，就会把该路由组件收到的所有params参数，以props的形式传给Detail组件。
+> 							// props:true
+> 
+> 							//props的第三种写法，值为函数
+> 							props($route){
+> 								return {
+> 									id:$route.query.id,
+> 									title:$route.query.title,
+> 									a:1,
+> 									b:'hello'
+> 								}
+> 							}
+>                             
+>                             //第三种写法简洁
+> 							props({query}) {
+> 								return {id:query.id, title:query.title}
+> 							}
+> 
+> 							//第三种写法最简洁
+> 							props({query:{id, title}}) {
+> 								return {id, title}
+> 							}
+> 						}
+> 					]
+> 				}
+> 			]
+> 		}
+> 	]
+> })
+> ```
+
+
+
+#### 8.`<router-link>`的replace属性
+
+1. 作用：控制路由跳转时操作浏览器历史记录的模式
+2. 浏览器的历史记录有两种写入方式：分别为`push`和`replace`，`push`是追加历史记录，`replace`是替换当前记录。路由跳转时候默认为`push`
+3. 如何开启`replace`模式：`<router-link replace .......>News</router-link>`或`<router-link :replace="true">`
+
+
+
+#### 9.编程式路由导航
+
+1. 作用：不借助`<router-link> `实现路由跳转，让路由跳转更加灵活;因为`<router-link>`就是最终会转换成`<a>`标签，但是如果我是通过<button>按钮来进行路由跳转就需要采取下面的方式了
+
+2. 具体编码：
+
+   ```js
+   //$router的两个API
+   this.$router.push({
+   	name:'xiangqing',
+   		params:{
+   			id:xxx,
+   			title:xxx
+   		}
+   })
+   
+   this.$router.replace({
+   	name:'xiangqing',
+   		params:{
+   			id:xxx,
+   			title:xxx
+   		}
+   })
+   this.$router.forward() //前进
+   this.$router.back() //后退
+   this.$router.go() //可前进也可后退
+   ```
+
+> 示例：
+>
+> Message.vue
+>
+> ```vue
+> <template>
+> 	<div>
+> 		<ul>
+> 			<li v-for="m in messageList" :key="m.id">
+> 				<!-- 跳转路由并携带params参数，to的字符串写法 -->
+> 				<!-- <router-link :to="`/home/message/detail/${m.id}/${m.title}`">{{m.title}}</router-link>&nbsp;&nbsp; -->
+> 
+> 				<!-- 跳转路由并携带params参数，to的对象写法 -->
+> 				<router-link :to="{
+> 					name:'xiangqing',
+> 					query:{
+> 						id:m.id,
+> 						title:m.title
+> 					}
+> 				}">
+> 					{{m.title}}
+> 				</router-link>
+> 				<button @click="pushShow(m)">push查看</button>
+> 				<button @click="replaceShow(m)">replace查看</button>
+> 			</li>
+> 		</ul>
+> 		<hr>
+> 		<router-view></router-view>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'Message',
+> 		data() {
+> 			return {
+> 				messageList:[
+> 					{id:'001',title:'消息001'},
+> 					{id:'002',title:'消息002'},
+> 					{id:'003',title:'消息003'}
+> 				]
+> 			}
+> 		},
+> 		methods: {
+> 			pushShow(m){
+> 				this.$router.push({
+> 					name:'xiangqing',
+> 					query:{
+> 						id:m.id,
+> 						title:m.title
+> 					}
+> 				})
+> 			},
+> 			replaceShow(m){
+> 				this.$router.replace({
+> 					name:'xiangqing',
+> 					query:{
+> 						id:m.id,
+> 						title:m.title
+> 					}
+> 				})
+> 			}
+> 		},
+> 	}
+> </script>
+> ```
+>
+> <img src="Akio's Book.assets/image-20220126161837903.png" alt="image-20220126161837903" style="zoom:60%;" />
+
+
+
+#### 10.缓存路由组件
+
+1. 作用：让不展示的路由组件保持挂载，不被销毁。
+
+2. 具体编码：
+
+   ```vue
+   <!-- 缓存多个路由组件 -->
+   <!-- <keep-alive :include="['News','Message']"> -->
+       
+   <keep-alive include="News"> 
+       <router-view></router-view>
+   </keep-alive>
+   ```
+
+> 示例：如下图，我想要在News这个文本框中输入值，然后切到Message下，再切回来，保证我输入的值不会丢失
+>
+> <img src="Akio's Book.assets/image-20220126162822589.png" alt="image-20220126162822589" style="zoom: 50%;" />
+>
+> 此时我们需要找到这两者的共同组件Home.vue，使用缓存路由组件即可
+>
+> ![image-20220126163020597](Akio's Book.assets/image-20220126163020597.png)
+
+
+
+#### 11.两个新的生命周期钩子
+
+1. 作用：路由组件所独有的两个钩子，用于捕获路由组件的激活状态。
+2. 具体名字：
+   1. `activated`路由组件被激活时触发。
+   2. `deactivated`路由组件失活时触发。
+
+> 示例：当点击News时，控制台显示组件被激活；切换到其他位置显示组件失活
+>
+> <img src="Akio's Book.assets/image-20220126165352960.png" alt="image-20220126165352960" style="zoom:50%;" />
+>
+> <img src="Akio's Book.assets/image-20220126165407400.png" alt="image-20220126165407400" style="zoom:50%;" />
+>
+> News.vue
+>
+> ```vue
+> <template>
+> 	<ul>
+> 		<li :style="{opacity}">欢迎学习Vue</li>	闪烁显示
+> 		<li>news001 <input type="text"></li>
+> 		<li>news002 <input type="text"></li>
+> 		<li>news003 <input type="text"></li>
+> 	</ul>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'News',
+> 		data() {
+> 			return {
+> 				opacity:1
+> 			}
+> 		},
+>         //旧写法
+> 		/* beforeDestroy() {
+> 			console.log('News组件即将被销毁了')
+> 			clearInterval(this.timer)
+> 		}, */
+> 		/* mounted(){
+> 			this.timer = setInterval(() => {
+> 				console.log('@')
+> 				this.opacity -= 0.01
+> 				if(this.opacity <= 0) this.opacity = 1
+> 			},16)
+> 		}, */
+> 		activated() {
+> 			console.log('News组件被激活了')
+> 			this.timer = setInterval(() => {
+> 				console.log('@')
+> 				this.opacity -= 0.01
+> 				if(this.opacity <= 0) this.opacity = 1
+> 			},16)
+> 		},
+> 		deactivated() {
+> 			console.log('News组件失活了')
+> 			clearInterval(this.timer)
+> 		},
+> 	}
+> </script>
+> ```
+
+
+
+#### 12.路由守卫
+
+1. 作用：对路由进行权限控制
+2. 分类：全局守卫、独享守卫、组件内守卫
+
+
+
+##### 全局守卫（全局前置/后置守卫）
+
+```js
+//全局前置守卫：初始化时执行、每次路由切换前执行
+router.beforeEach((to,from,next)=>{
+	console.log('beforeEach',to,from)
+	if(to.meta.isAuth){ //判断当前路由是否需要进行权限控制
+		if(localStorage.getItem('school') === 'atguigu'){ //权限控制的具体规则
+			next() //放行
+		}else{
+			alert('暂无权限查看')
+			// next({name:'guanyu'})
+		}
+	}else{
+		next() //放行
+	}
+})
+
+//全局后置守卫：初始化时执行、每次路由切换后执行
+router.afterEach((to,from)=>{
+	console.log('afterEach',to,from)
+	if(to.meta.title){ 
+		document.title = to.meta.title //修改网页的title
+	}else{
+		document.title = 'vue_test'
+	}
+})
+```
+
+> 通过全局前置守卫，我们可以判断权限，然后决定是否放行页面；通过全局后置守卫，我们可以实现页面切换之后，title也跟着变。
+>
+> 无权限
+>
+> <img src="Akio's Book.assets/image-20220126181626056.png" alt="image-20220126181626056" style="zoom:50%;" />
+>
+> 有权限，title也跟着切换
+>
+> ![image-20220126181725748](Akio's Book.assets/image-20220126181725748.png)
+>
+> router\index.js
+>
+> ```javascript
+> // 该文件专门用于创建整个应用的路由器
+> import VueRouter from 'vue-router'
+> //引入组件
+> import About from '../pages/About'
+> import Home from '../pages/Home'
+> import News from '../pages/News'
+> import Message from '../pages/Message'
+> import Detail from '../pages/Detail'
+> 
+> //创建并暴露一个路由器
+> const router =  new VueRouter({
+> 	routes:[
+> 		{
+> 			name:'guanyu',
+> 			path:'/about',
+> 			component:About,
+> 			meta:{title:'关于'}
+> 		},
+> 		{
+> 			name:'zhuye',
+> 			path:'/home',
+> 			component:Home,
+> 			meta:{title:'主页'},
+> 			children:[
+> 				{
+> 					name:'xinwen',
+> 					path:'news',
+> 					component:News,
+> 					meta:{isAuth:true,title:'新闻'}
+> 				},
+> 				{
+> 					name:'xiaoxi',
+> 					path:'message',
+> 					component:Message,
+> 					meta:{isAuth:true,title:'消息'},
+> 					children:[
+> 						{
+> 							name:'xiangqing',
+> 							path:'detail',
+> 							component:Detail,
+> 							meta:{isAuth:true,title:'详情'},
+> 
+> 							//props的第一种写法，值为对象，该对象中的所有key-value都会以props的形式传给Detail组件。
+> 							// props:{a:1,b:'hello'}
+> 
+> 							//props的第二种写法，值为布尔值，若布尔值为真，就会把该路由组件收到的所有params参数，以props的形式传给Detail组件。
+> 							// props:true
+> 
+> 							//props的第三种写法，值为函数
+> 							props($route){
+> 								return {
+> 									id:$route.query.id,
+> 									title:$route.query.title,
+> 									a:1,
+> 									b:'hello'
+> 								}
+> 							}
+> 
+> 						}
+> 					]
+> 				}
+> 			]
+> 		}
+> 	]
+> })
+> 
+> //全局前置路由守卫————初始化的时候被调用、每次路由切换之前被调用
+> router.beforeEach((to,from,next)=>{
+> 	console.log('前置路由守卫',to,from)
+> 	if(to.meta.isAuth){ //判断是否需要鉴权
+> 		if(localStorage.getItem('school')==='atguigu'){
+> 			next()
+> 		}else{
+> 			alert('学校名不对，无权限查看！')
+> 		}
+> 	}else{
+> 		next()
+> 	}
+> })
+> 
+> //全局后置路由守卫————初始化的时候被调用、每次路由切换之后被调用
+> router.afterEach((to,from)=>{
+> 	console.log('后置路由守卫',to,from)
+> 	document.title = to.meta.title || '硅谷系统'
+> })
+> 
+> export default router
+> ```
+
+
+
+##### 独享守卫
+
+```js
+beforeEnter(to,from,next){
+	console.log('beforeEnter',to,from)
+	if(to.meta.isAuth){ //判断当前路由是否需要进行权限控制
+		if(localStorage.getItem('school') === 'atguigu'){
+			next()
+		}else{
+			alert('暂无权限查看')
+			// next({name:'guanyu'})
+		}
+	}else{
+		next()
+	}
+}
+```
+
+<img src="Akio's Book.assets/image-20220126195634219.png" alt="image-20220126195634219" style="zoom:67%;" />
+
+
+
+
+
+##### 组件内守卫
+
+```js
+//进入守卫：通过路由规则，进入该组件时被调用
+beforeRouteEnter (to, from, next) {		//此处的to即是这个组件
+},
+//离开守卫：通过路由规则，离开该组件时被调用
+beforeRouteLeave (to, from, next) {		//此处的from即是这个组件
+}
+```
+
+About.vue
+
+```vue
+<template>
+	<h2>我是About的内容</h2>
+</template>
+
+<script>
+	export default {
+		name:'About',
+		/* beforeDestroy() {
+			console.log('About组件即将被销毁了')
+		},*/
+		/* mounted() {
+			console.log('About组件挂载完毕了',this)
+			window.aboutRoute = this.$route
+			window.aboutRouter = this.$router
+		},  */
+		mounted() {
+			// console.log('%%%',this.$route)
+		},
+
+		//通过路由规则，进入该组件时被调用
+		beforeRouteEnter (to, from, next) {
+			console.log('About--beforeRouteEnter',to,from)
+			if(to.meta.isAuth){ //判断是否需要鉴权
+				if(localStorage.getItem('school')==='atguigu'){
+					next()
+				}else{
+					alert('学校名不对，无权限查看！')
+				}
+			}else{
+				next()
+			}
+		},
+
+		//通过路由规则，离开该组件时被调用
+		beforeRouteLeave (to, from, next) {
+			console.log('About--beforeRouteLeave',to,from)
+			next()
+		}
+	}
+</script>
+```
+
+
+
+#### 13.路由器的两种工作模式
+
+https://www.bilibili.com/video/BV1Zy4y1K7SH?p=133&spm_id_from=pageDriver
+
+1. 对于一个url来说，什么是hash值？—— #及其后面的内容就是hash值。
+2. hash值不会包含在 HTTP 请求中，即：hash值不会带给服务器。
+3. hash模式：
+   1. 地址中永远带着#号，不美观 。
+   2. 若以后将地址通过第三方手机app分享，若app校验严格，则地址会被标记为不合法。
+   3. 兼容性较好。
+4. history模式：
+   1. 地址干净，美观 。
+   2. 兼容性和hash模式相比略差。
+   3. 应用部署上线时需要后端人员支持，解决刷新页面服务端404的问题。
+
+<img src="Akio's Book.assets/image-20220126202025632.png" alt="image-20220126202025632" style="zoom:60%;" />
+
+
+
+### vue ui组件库
+
+移动端常用 UI 组件库 
+
+1. Vant https://youzan.github.io/vant 
+2. Cube UI https://didi.github.io/cube-ui 
+3. Mint UI http://mint-ui.github.io 
+
+PC 端常用 UI 组件库
+
+1. Element UI https://element.eleme.cn 
+2. IView UI https://www.iviewui.co
+
+**按需引入**https://www.bilibili.com/video/BV1Zy4y1K7SH?p=135&spm_id_from=pageDriver
+
+> 示例：
+>
+> <img src="Akio's Book.assets/image-20220126205208529.png" alt="image-20220126205208529" style="zoom:67%;" />
+>
+> main.js
+>
+> ```javascript
+> //引入Vue
+> import Vue from 'vue'
+> //引入App
+> import App from './App.vue'
+> 
+> //完整引入
+> //引入ElementUI组件库
+> // import ElementUI from 'element-ui';
+> //引入ElementUI全部样式
+> // import 'element-ui/lib/theme-chalk/index.css';
+> 
+> //按需引入
+> import { Button,Row,DatePicker } from 'element-ui';
+> 
+> //关闭Vue的生产提示
+> Vue.config.productionTip = false
+> 
+> //应用ElementUI
+> // Vue.use(ElementUI);
+> Vue.component('gr-button', Button);
+> Vue.component('gr-row', Row);
+> Vue.component('gr-date-picker', DatePicker);
+> 
+> //创建vm
+> new Vue({
+> 	el:'#app',
+> 	render: h => h(App),
+> })
+> ```
+>
+> App.vue
+>
+> ```vue
+> <template>
+>   <div>
+> 		<button>原生的按钮</button>
+> 		<input type="text">
+> 		<gr-row>
+> 			<gr-button>默认按钮</gr-button>
+> 			<gr-button type="primary">主要按钮</gr-button>
+> 			<gr-button type="success">成功按钮</gr-button>
+> 			<gr-button type="info">信息按钮</gr-button>
+> 			<gr-button type="warning">警告按钮</gr-button>
+> 			<gr-button type="danger">危险按钮</gr-button>
+> 		</gr-row>
+> 		<gr-date-picker
+>       type="date"
+>       placeholder="选择日期">
+>     </gr-date-picker>
+> 		<gr-row>
+> 			<gr-button icon="el-icon-search" circle></gr-button>
+> 			<gr-button type="primary" icon="el-icon-s-check" circle></gr-button>
+> 			<gr-button type="success" icon="el-icon-check" circle></gr-button>
+> 			<gr-button type="info" icon="el-icon-message" circle></gr-button>
+> 			<gr-button type="warning" icon="el-icon-star-off" circle></gr-button>
+> 			<gr-button type="danger" icon="el-icon-delete" circle></gr-button>
+> 		</gr-row>
+>   </div>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'App',
+> 	}
+> </script>
+> ```
+>
+> babel.config.js
+>
+> ```javascript
+> module.exports = {
+>   presets: [
+>     '@vue/cli-plugin-babel/preset',
+> 		["@babel/preset-env", { "modules": false }],
+>   ],
+> 	plugins:[
+>     [
+>       "component",
+>       {
+>         "libraryName": "element-ui",
+>         "styleLibraryName": "theme-chalk"
+>       }
+>     ]
+>   ]
+> }
+> ```
 
 
 
