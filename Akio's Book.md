@@ -4352,7 +4352,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                 
+>                                                                                     
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4367,7 +4367,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                 
+>                                                                                     
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4375,7 +4375,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                 
+>                                                                                     
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4616,7 +4616,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                 
+>                                                                                     
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -8934,10 +8934,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->               
+>                 
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->               
+>                 
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -8946,10 +8946,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->               
+>                 
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->               
+>                 
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -9267,9 +9267,746 @@ Student.vue
 
 
 
-略过p82~p104
+### 全局事件总线
+
+> ![image-20220127115918858](Akio's Book.assets/image-20220127115918858.png)
+>
+> ---
+>
+> 1. 一种组件间通信的方式，适用于任意组件间通信。
+>
+> 2. 安装全局事件总线：main.js中
+>
+>    ```js
+>    new Vue({
+>    	......
+>    	beforeCreate() {
+>    		Vue.prototype.$bus = this //安装全局事件总线，$bus就是当前应用的vm
+>    	},
+>        ......
+>    }) 
+>    ```
+>
+> 3. 使用事件总线：
+>
+>    1. 接收数据：A组件想接收数据，则在A组件中给$bus绑定自定义事件，事件的回调留在A组件自身。
+>
+>       ```js
+>       methods(){
+>         demo(data){......}
+>       }
+>       ......
+>       mounted() {
+>         this.$bus.$on('xxxx',this.demo)
+>       }
+>       ```
+>
+>    2. 提供数据：`this.$bus.$emit('xxxx',数据)`
+>
+> 4. 最好在beforeDestroy钩子中，用$off去解绑当前组件所用到的事件。
+
+> 实例：
+>
+> <img src="Akio's Book.assets/image-20220127201500874.png" alt="image-20220127201500874" style="zoom:67%;" />
+>
+> main.js
+>
+> ```javascript
+> //引入Vue
+> import Vue from 'vue'
+> //引入App
+> import App from './App.vue'
+> //关闭Vue的生产提示
+> Vue.config.productionTip = false
+> 
+> //创建vm
+> new Vue({
+> 	el:'#app',
+> 	render: h => h(App),
+> 	beforeCreate() {
+> 		Vue.prototype.$bus = this //安装全局事件总线
+> 	},
+> })
+> ```
+>
+> App.vue
+>
+> ```vue
+> <template>
+> 	<div class="app">
+> 		<h1>{{msg}}</h1>
+> 		<School/>
+> 		<Student/>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	import Student from './components/Student'
+> 	import School from './components/School'
+> 
+> 	export default {
+> 		name:'App',
+> 		components:{School,Student},
+> 		data() {
+> 			return {
+> 				msg:'你好啊！',
+> 			}
+> 		}
+> 	}
+> </script>
+> 
+> <style scoped>
+> 	.app{
+> 		background-color: gray;
+> 		padding: 5px;
+> 	}
+> </style>
+> ```
+>
+> components\Student.vue
+>
+> ```vue
+> <template>
+> 	<div class="student">
+> 		<h2>学生姓名：{{name}}</h2>
+> 		<h2>学生性别：{{sex}}</h2>
+> 		<button @click="sendStudentName">把学生名给School组件</button>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'Student',
+> 		data() {
+> 			return {
+> 				name:'张三',
+> 				sex:'男',
+> 			}
+> 		},
+> 		mounted() {
+> 			// console.log('Student',this.x)
+> 		},
+> 		methods: {
+> 			sendStudentName(){
+> 				this.$bus.$emit('hello',this.name)
+> 			}
+> 		},
+> 	}
+> </script>
+> 
+> <style lang="less" scoped>
+> 	.student{
+> 		background-color: pink;
+> 		padding: 5px;
+> 		margin-top: 30px;
+> 	}
+> </style>
+> ```
+>
+> components\School.vue
+>
+> ```vue
+> <template>
+> 	<div class="school">
+> 		<h2>学校名称：{{name}}</h2>
+> 		<h2>学校地址：{{address}}</h2>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'School',
+> 		data() {
+> 			return {
+> 				name:'尚硅谷',
+> 				address:'北京',
+> 			}
+> 		},
+> 		mounted() {
+> 			// console.log('School',this)
+> 			this.$bus.$on('hello',(data)=>{
+> 				console.log('我是School组件，收到了数据',data)
+> 			})
+> 		},
+> 		beforeDestroy() {
+> 			this.$bus.$off('hello')
+> 		},
+> 	}
+> </script>
+> 
+> <style scoped>
+> 	.school{
+> 		background-color: skyblue;
+> 		padding: 5px;
+> 	}
+> </style>
+> ```
 
 
+
+
+
+略过p82~p98
+
+
+
+### github搜索案例
+
+https://www.bilibili.com/video/BV1Zy4y1K7SH?p=98&spm_id_from=pageDriver
+
+> 注意：当我在项目中使用到了bootstrap.css的样式，一般都是创建在src\assets目录下
+>
+> ![image-20220127105908897](Akio's Book.assets/image-20220127105908897.png)
+>
+> 然后在App.vue中import
+>
+> <img src="Akio's Book.assets/image-20220127110016275.png" alt="image-20220127110016275" style="zoom:50%;" />
+>
+> 但是要注意，这里的import是会检查的，只要有一个东西不存在就会报错，如下图显示bootstrap.css中有font的引入但是没有对应文件，此时就只能是网上下载文件放在对应的文件夹下才能消除这个问题。
+>
+> <img src="Akio's Book.assets/image-20220127110102403.png" alt="image-20220127110102403" style="zoom:50%;" />
+>
+> 但问题是我程序中没用到这个font，又不想麻烦，就可以直接在public下创建css文件夹，放入bootstrap.css文件，并直接在index.html中<link>引入
+>
+> <img src="Akio's Book.assets/image-20220127110336651.png" alt="image-20220127110336651" style="zoom:67%;" />
+>
+> ```html
+> <!-- 引入第三方样式 -->
+> <link rel="stylesheet" href="<%= BASE_URL %>css/bootstrap.css">
+> ```
+
+> 完整实例：
+>
+> <img src="Akio's Book.assets/image-20220127114657476.png" alt="image-20220127114657476" style="zoom:67%;" />
+>
+> main.js
+>
+> ```javascript
+> //引入Vue
+> import Vue from 'vue'
+> //引入App
+> import App from './App.vue'
+> //关闭Vue的生产提示
+> Vue.config.productionTip = false
+> 
+> //创建vm
+> new Vue({
+> 	el:'#app',
+> 	render: h => h(App),
+> 	beforeCreate() {
+> 		Vue.prototype.$bus = this
+> 	},
+> })
+> ```
+>
+> App.vue
+>
+> ```vue
+> <template>
+> 	<div class="container">
+> 		<Search/>
+> 		<List/>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	import Search from './components/Search'
+> 	import List from './components/List'
+> 	export default {
+> 		name:'App',
+> 		components:{Search,List}
+> 	}
+> </script>
+> ```
+>
+> components\Search.vue
+>
+> ```vue
+> <template>
+> 	<section class="jumbotron">
+> 		<h3 class="jumbotron-heading">Search Github Users</h3>
+> 		<div>
+> 			<input type="text" placeholder="enter the name you search" v-model="keyWord"/>&nbsp;
+> 			<button @click="searchUsers">Search</button>
+> 		</div>
+> 	</section>
+> </template>
+> 
+> <script>
+> 	import axios from 'axios'
+> 	export default {
+> 		name:'Search',
+> 		data() {
+> 			return {
+> 				keyWord:''
+> 			}
+> 		},
+> 		methods: {
+> 			searchUsers(){
+> 				//请求前更新List的数据
+> 				this.$bus.$emit('updateListData',{isLoading:true,errMsg:'',users:[],isFirst:false})
+> 				axios.get(`https://api.github.com/search/users?q=${this.keyWord}`).then(
+> 					response => {
+> 						console.log('请求成功了')
+> 						//请求成功后更新List的数据
+> 						this.$bus.$emit('updateListData',{isLoading:false,errMsg:'',users:response.data.items})
+> 					},
+> 					error => {
+> 						//请求后更新List的数据
+> 						this.$bus.$emit('updateListData',{isLoading:false,errMsg:error.message,users:[]})
+> 					}
+> 				)
+> 			}
+> 		},
+> 	}
+> </script>
+> ```
+>
+> components\List.vue
+>
+> ```vue
+> <template>
+> 	<div class="row">
+> 		<!-- 展示用户列表 -->
+> 		<div v-show="info.users.length" class="card" v-for="user in info.users" :key="user.login">
+> 			<a :href="user.html_url" target="_blank">
+> 				<img :src="user.avatar_url" style='width: 100px'/>
+> 			</a>
+> 			<p class="card-text">{{user.login}}</p>
+> 		</div>
+> 		<!-- 展示欢迎词 -->
+> 		<h1 v-show="info.isFirst">欢迎使用！</h1>
+> 		<!-- 展示加载中 -->
+> 		<h1 v-show="info.isLoading">加载中....</h1>
+> 		<!-- 展示错误信息 -->
+> 		<h1 v-show="info.errMsg">{{info.errMsg}}</h1>
+> 	</div>
+> </template>
+> 
+> <script>
+> 	export default {
+> 		name:'List',
+> 		data() {
+> 			return {
+> 				info:{
+> 					isFirst:true,
+> 					isLoading:false,
+> 					errMsg:'',
+> 					users:[]
+> 				}
+> 			}
+> 		},
+> 		mounted() {
+> 			this.$bus.$on('updateListData',(dataObj)=>{
+> 				this.info = {...this.info,...dataObj}
+> 			})
+> 		},
+> 	}
+> </script>
+> 
+> <style scoped>
+> 	.album {
+> 		min-height: 50rem; /* Can be removed; just added for demo purposes */
+> 		padding-top: 3rem;
+> 		padding-bottom: 3rem;
+> 		background-color: #f7f7f7;
+> 	}
+> 
+> 	.card {
+> 		float: left;
+> 		width: 33.333%;
+> 		padding: .75rem;
+> 		margin-bottom: 2rem;
+> 		border: 1px solid #efefef;
+> 		text-align: center;
+> 	}
+> 
+> 	.card > img {
+> 		margin-bottom: .75rem;
+> 		border-radius: 100px;
+> 	}
+> 
+> 	.card-text {
+> 		font-size: 85%;
+> 	}
+> </style>
+> ```
+>
+> <img src="Akio's Book.assets/image-20220127115132169.png" alt="image-20220127115132169" style="zoom:80%;" />
+
+
+
+### 插槽
+
+1. 作用：让父组件可以向子组件指定位置插入html结构，也是一种组件间通信的方式，适用于 **父组件 ===> 子组件** 。
+
+2. 分类：默认插槽、具名插槽、作用域插槽
+
+3. 使用方式：
+
+   1. 默认插槽：
+
+      ```vue
+      父组件中：
+              <Category>
+                 <div>html结构1</div>
+              </Category>
+      子组件中：
+              <template>
+                  <div>
+                     <!-- 定义插槽 -->
+                     <slot>插槽默认内容...</slot>
+                  </div>
+              </template>
+      ```
+
+      > 示例：
+      >
+      > App.vue
+      >
+      > ```vue
+      > <template>
+      > 	<div class="container">
+      > 		<Category title="美食" >
+      > 			<img src="https://s3.ax1x.com/2021/01/16/srJlq0.jpg" alt="">
+      > 		</Category>
+      > 
+      > 		<Category title="游戏" >
+      > 			<ul>
+      > 				<li v-for="(g,index) in games" :key="index">{{g}}</li>
+      > 			</ul>
+      > 		</Category>
+      > 
+      > 		<Category title="电影">
+      > 			<video controls src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"></video>
+      > 		</Category>
+      > 	</div>
+      > </template>
+      > 
+      > <script>
+      > 	import Category from './components/Category'
+      > 	export default {
+      > 		name:'App',
+      > 		components:{Category},
+      > 		data() {
+      > 			return {
+      > 				foods:['火锅','烧烤','小龙虾','牛排'],
+      > 				games:['红色警戒','穿越火线','劲舞团','超级玛丽'],
+      > 				films:['《教父》','《拆弹专家》','《你好，李焕英》','《尚硅谷》']
+      > 			}
+      > 		},
+      > 	}
+      > </script>
+      > 
+      > <style scoped>
+      > 	.container{
+      > 		display: flex;
+      > 		justify-content: space-around;
+      > 	}
+      > </style>
+      > ```
+      >
+      > Category.vue
+      >
+      > ```vue
+      > <template>
+      > 	<div class="category">
+      > 		<h3>{{title}}分类</h3>
+      > 		<!-- 定义一个插槽（挖个坑，等着组件的使用者进行填充） -->
+      > 		<slot>我是一些默认值，当使用者没有传递具体结构时，我会出现</slot>
+      > 	</div>
+      > </template>
+      > 
+      > <script>
+      > 	export default {
+      > 		name:'Category',
+      > 		props:['title']
+      > 	}
+      > </script>
+      > 
+      > <style scoped>
+      > 	.category{
+      > 		background-color: skyblue;
+      > 		width: 200px;
+      > 		height: 300px;
+      > 	}
+      > 	h3{
+      > 		text-align: center;
+      > 		background-color: orange;
+      > 	}
+      > 	video{
+      > 		width: 100%;
+      > 	}
+      > 	img{
+      > 		width: 100%;
+      > 	}
+      > </style>
+      > ```
+
+   2. 具名插槽：
+
+      ```vue
+      父组件中：
+              <Category>
+                  <template slot="center">
+                    <div>html结构1</div>
+                  </template>
+      
+                  <template v-slot:footer>
+                     <div>html结构2</div>
+                  </template>
+              </Category>
+      子组件中：
+              <template>
+                  <div>
+                     <!-- 定义插槽 -->
+                     <slot name="center">插槽默认内容...</slot>
+                     <slot name="footer">插槽默认内容...</slot>
+                  </div>
+              </template>
+      ```
+
+      > 示例：
+      >
+      > App.vue
+      >
+      > ```vue
+      > <template>
+      > 	<div class="container">
+      > 		<Category title="美食" >
+      > 			<img slot="center" src="https://s3.ax1x.com/2021/01/16/srJlq0.jpg" alt="">
+      > 			<a slot="footer" href="http://www.atguigu.com">更多美食</a>
+      > 		</Category>
+      > 
+      > 		<Category title="游戏" >
+      > 			<ul slot="center">
+      > 				<li v-for="(g,index) in games" :key="index">{{g}}</li>
+      > 			</ul>
+      > 			<div class="foot" slot="footer">
+      > 				<a href="http://www.atguigu.com">单机游戏</a>
+      > 				<a href="http://www.atguigu.com">网络游戏</a>
+      > 			</div>
+      > 		</Category>
+      > 
+      > 		<Category title="电影">
+      > 			<video slot="center" controls src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"></video>
+      > 			<!-- <template slot="footer"> -->
+      > 			<template v-slot:footer>	<!-- 这里v-slot 只有当使用<template>的时候才能使用 -->
+      > 				<div class="foot">
+      > 					<a href="http://www.atguigu.com">经典</a>
+      > 					<a href="http://www.atguigu.com">热门</a>
+      > 					<a href="http://www.atguigu.com">推荐</a>
+      > 				</div>
+      > 				<h4>欢迎前来观影</h4>
+      > 			</template>
+      > 		</Category>
+      > 	</div>
+      > </template>
+      > 
+      > <script>
+      > 	import Category from './components/Category'
+      > 	export default {
+      > 		name:'App',
+      > 		components:{Category},
+      > 		data() {
+      > 			return {
+      > 				foods:['火锅','烧烤','小龙虾','牛排'],
+      > 				games:['红色警戒','穿越火线','劲舞团','超级玛丽'],
+      > 				films:['《教父》','《拆弹专家》','《你好，李焕英》','《尚硅谷》']
+      > 			}
+      > 		},
+      > 	}
+      > </script>
+      > 
+      > <style scoped>
+      > 	.container,.foot{
+      > 		display: flex;
+      > 		justify-content: space-around;
+      > 	}
+      > 	h4{
+      > 		text-align: center;
+      > 	}
+      > </style>
+      > ```
+      >
+      > Category.vue
+      >
+      > ```vue
+      > <template>
+      > 	<div class="category">
+      > 		<h3>{{title}}分类</h3>
+      > 		<!-- 定义一个插槽（挖个坑，等着组件的使用者进行填充） -->
+      > 		<slot name="center">我是一些默认值，当使用者没有传递具体结构时，我会出现1</slot>
+      > 		<slot name="footer">我是一些默认值，当使用者没有传递具体结构时，我会出现2</slot>
+      > 	</div>
+      > </template>
+      > 
+      > <script>
+      > 	export default {
+      > 		name:'Category',
+      > 		props:['title']
+      > 	}
+      > </script>
+      > 
+      > <style scoped>
+      > 	.category{
+      > 		background-color: skyblue;
+      > 		width: 200px;
+      > 		height: 300px;
+      > 	}
+      > 	h3{
+      > 		text-align: center;
+      > 		background-color: orange;
+      > 	}
+      > 	video{
+      > 		width: 100%;
+      > 	}
+      > 	img{
+      > 		width: 100%;
+      > 	}
+      > </style>
+      > ```
+
+   3. 作用域插槽：
+
+      1. 理解：数据在组件的自身，但根据数据生成的结构需要组件的使用者来决定。（games数据在Category组件中，但使用数据所遍历出来的结构由App组件决定）
+
+      2. 具体编码：
+
+         ```vue
+         父组件中：
+         		<Category>
+         			<template scope="scopeData">
+         				<!-- 生成的是ul列表 -->
+         				<ul>
+         					<li v-for="g in scopeData.games" :key="g">{{g}}</li>
+         				</ul>
+         			</template>
+         		</Category>
+         
+         		<Category>
+         			<template slot-scope="scopeData">
+         				<!-- 生成的是h4标题 -->
+         				<h4 v-for="g in scopeData.games" :key="g">{{g}}</h4>
+         			</template>
+         		</Category>
+         子组件中：
+                 <template>
+                     <div>
+                         <slot :games="games"></slot>
+                     </div>
+                 </template>
+         		
+                 <script>
+                     export default {
+                         name:'Category',
+                         props:['title'],
+                         //数据在子组件自身
+                         data() {
+                             return {
+                                 games:['红色警戒','穿越火线','劲舞团','超级玛丽']
+                             }
+                         },
+                     }
+                 </script>
+         ```
+
+         > 示例：
+         >
+         > App.vue
+         >
+         > ```vue
+         > <template>
+         > 	<div class="container">
+         > 
+         > 		<Category title="游戏">
+         > 			<!-- 要使用的数据games不在你这，也不允许别人给你，就需要通过这个作用域插槽来 -->
+         > 			<template scope="atguigu">
+         > 				<ul>
+         > 					<li v-for="(g,index) in atguigu.games" :key="index">{{g}}</li>
+         > 				</ul>
+         > 			</template>
+         > 		</Category>
+         > 
+         > 		<Category title="游戏">
+         > 			<template scope="{games}">
+         > 				<ol>
+         > 					<li style="color:red" v-for="(g,index) in games" :key="index">{{g}}</li>
+         > 				</ol>
+         > 			</template>
+         > 		</Category>
+         > 
+         > 		<Category title="游戏">
+         > 			<template slot-scope="{games}">
+         > 				<h4 v-for="(g,index) in games" :key="index">{{g}}</h4>
+         > 			</template>
+         > 		</Category>
+         > 
+         > 	</div>
+         > </template>
+         > 
+         > <script>
+         > 	import Category from './components/Category'
+         > 	export default {
+         > 		name:'App',
+         > 		components:{Category},
+         > 	}
+         > </script>
+         > 
+         > <style scoped>
+         > 	.container,.foot{
+         > 		display: flex;
+         > 		justify-content: space-around;
+         > 	}
+         > 	h4{
+         > 		text-align: center;
+         > 	}
+         > </style>
+         > ```
+         >
+         > Category.vue
+         >
+         > ```vue
+         > <template>
+         > 	<div class="category">
+         > 		<h3>{{title}}分类</h3>
+         > 		<!-- 谁使用这个slot插槽，这个games就传递给谁 -->
+         > 		<slot :games="games" msg="hello">我是默认的一些内容</slot>
+         > 	</div>
+         > </template>
+         > 
+         > <script>
+         > 	export default {
+         > 		name:'Category',
+         > 		props:['title'],
+         > 		data() {
+         > 			return {
+         > 				games:['红色警戒','穿越火线','劲舞团','超级玛丽'],
+         > 			}
+         > 		},
+         > 	}
+         > </script>
+         > 
+         > <style scoped>
+         > 	.category{
+         > 		background-color: skyblue;
+         > 		width: 200px;
+         > 		height: 300px;
+         > 	}
+         > 	h3{
+         > 		text-align: center;
+         > 		background-color: orange;
+         > 	}
+         > 	video{
+         > 		width: 100%;
+         > 	}
+         > 	img{
+         > 		width: 100%;
+         > 	}
+         > </style>
+         > ```
+
+         
 
 ### VUEX
 
@@ -10309,7 +11046,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                 
+>                    
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
