@@ -4352,7 +4352,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                     
+>                                                                                         
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4367,7 +4367,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                     
+>                                                                                         
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4375,7 +4375,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                     
+>                                                                                         
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4616,7 +4616,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                     
+>                                                                                         
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -5833,7 +5833,7 @@ vue打印出来
 
 
 
-#### 天气案例
+##### 天气案例
 
 > ```html
 > <!DOCTYPE html>
@@ -5881,6 +5881,16 @@ vue打印出来
 
 
 ##### 监视属性
+
+> 注意：vuex如何用watch监听this.$store数据的变化
+>
+> ```javascript
+> watch: {
+>     '$store.state.app.language': function () {
+>       //你需要执行的代码
+>     }
+> }
+> ```
 
 > ```html
 > <!DOCTYPE html>
@@ -8934,10 +8944,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                 
+>                   
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                 
+>                   
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -8946,10 +8956,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                 
+>                   
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                 
+>                   
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -11046,7 +11056,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                    
+>                       
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
