@@ -3952,6 +3952,43 @@ https://blog.csdn.net/u014209205/article/details/79961622 'parent.relativePath' 
 
 
 
+## mapper.xml文件在java目录下
+
+> 一般来说，UserMapper.java对应的xml文件都在resource/mapper下，如果我想让他在java包下呢，如下图
+>
+> <img src="Akio's Book.assets/image-20220207224305896.png" alt="image-20220207224305896" style="zoom:67%;" />
+>
+> <img src="Akio's Book.assets/image-20220207224434960.png" alt="image-20220207224434960" style="zoom:67%;" />
+>
+> 此时我们需要进行两处配置
+>
+> application.properties
+>
+> ```properties
+> #mybatis-plus's XML file location,you must do this in order for your XML to bind with MyBatis
+> mybatis-plus.mapper-locations=com/shenhua/ktsys/mapper/xml/*.xml
+> ```
+>
+> pom.xml
+>
+> ```xml
+> <build>
+>         <resources>
+>         <!-- 声明mapper.xml文件在java目录下 -->
+>         <resource>
+>             <directory>src/main/java</directory>
+>             <includes>
+>                 <include>**/*.xml</include>
+>             </includes>
+>         </resource>
+>         </resources>
+>     </build>
+> ```
+>
+> 即可
+
+
+
 ## mvn
 
 ### mvn的安装
@@ -4352,7 +4389,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                         
+>                                                                                                                     
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4367,7 +4404,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                         
+>                                                                                                                     
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4375,7 +4412,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                         
+>                                                                                                                     
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4616,7 +4653,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                         
+>                                                                                                                     
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -7777,7 +7814,15 @@ index.html
 >
 > - 如出现下载缓慢请配置 npm 淘宝镜像：`npm config set registry https://registry.npm.taobao.org`
 >
-> - Vue 脚手架隐藏了所有 webpack 相关的配置，若想查看具体的 webpakc 配置， 请执行：`vue inspect > output.js`
+> - Vue 脚手架隐藏了所有 webpack 相关的配置，若想查看具体的 webpack 配置， 请执行：`vue inspect > out.js`
+
+#### 输出webpack 相关的配置
+
+> `vue inspect > out.js`
+>
+> 注意：如果出错显示no scripts，输入`Set-ExecutionPolicy RemoteSigned`
+>
+> https://blog.csdn.net/u010263423/article/details/107099435
 
 
 
@@ -8428,7 +8473,9 @@ Student.vue
 >
 > 安装7的命令`npm i less-loader@7`
 
+#### 版本安装less-loader
 
+上面一节写了
 
 #### 10、Todo-list案例
 
@@ -8944,10 +8991,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                   
+>                                 
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                   
+>                                 
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -8956,10 +9003,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                   
+>                                 
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                   
+>                                 
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -10810,7 +10857,7 @@ export default new Vuex.Store({
 > </script>
 > ```
 >
-> index.js
+> store/index.js
 >
 > ```javascript
 > //该文件用于创建Vuex中最为核心的store
@@ -11056,7 +11103,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                       
+>                                            
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
@@ -12404,7 +12451,7 @@ About.vue
 
 
 
-#### 13.路由器的两种工作模式
+#### 13.路由器的两种工作模式,地址带#和不带
 
 https://www.bilibili.com/video/BV1Zy4y1K7SH?p=133&spm_id_from=pageDriver
 
@@ -13684,13 +13731,376 @@ https://www.bilibili.com/video/BV17m4y1Q7gn?from=search&seid=1312060188951142397
 
 
 
+### element-ui-upload上传文件大小与文件类型校验，并获取返回值
+
+https://blog.csdn.net/ka_xingl/article/details/115522816
+
+https://blog.csdn.net/weixin_45393094/article/details/111407514
+
+> ```vue
+> <template>
+>   <div class="mainhead">
+>     <el-row class="row-style">
+>       <svg-icon icon-class="language" />
+>       <button class="icon-btn" @click="switchEnAndCn()">
+>         <img src="../../../src/assets/icons/language.png" alt="中/英" title="中英文切换">
+>       </button>
+>       <button class="icon-btn">
+>         <img src="../../../src/assets/icons/save.png" alt="保存" title="保存当前版本">
+>       </button>
+>       <button class="icon-btn">
+>         <img src="../../../src/assets/icons/download.png" alt="download" title="下载为word">
+>       </button>
+>       <div class="pdf-div">
+>         <el-upload
+>           ref="upload"
+>           class="upload-demo"
+>           action="http://localhost:8888/uploadpdf"
+>           :on-preview="handlePreview"
+>           :on-remove="handleRemove"
+>           :on-exceed="handleExceed"
+>           :on-success="handleSuccess"
+>           :on-error="handleError"
+>           :file-list="fileHold"
+>           :auto-upload="false"
+>           :limit="1"
+>           :before-upload="beforeUpload"
+>         >
+>           <el-button slot="trigger" size="small" type="primary">choose pdfFile</el-button>
+>           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">upload</el-button>
+>           <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+>         </el-upload>
+>       </div>
+>     </el-row>
+>   </div>
+> </template>
+> 
+> <script>
+> // import axios from 'axios'
+> // import { any } from 'element-ui'
+> export default {
+>   data() {
+>     return {
+>       fileHold: []
+>       // fileHold: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }]
+>     }
+>   },
+>   methods: {
+>     // switching butween Chinese and English
+>     switchEnAndCn() {
+>       // console.log('is click')
+>       this.$store.dispatch('switchEnAndCn')
+>       // 当然中英文的切换可以用全局变量来做
+>       // Vue.prototype.$isCn1 = !Vue.prototype.$isCn1
+>     },
+>     submitUpload() {
+>       // console.log(this.fileHold)
+>       this.$refs.upload.submit()
+>       // this.fileHold.unshift()
+>       // const fileData = new FormData()
+>       // fileData.append('file', file)
+>       // axios({
+>       //   url: 'uploadpdf',
+>       //   method: 'post',
+>       //   data: fileData
+>       // }).then(function(response) {
+>       //   alert(response.data)
+>       // })
+>     },
+>     handleRemove(file, fileHold) {
+>       console.log(file, fileHold)
+>     },
+>     handlePreview(file) {
+>       console.log(file)
+>     },
+>     // 超出文件后覆盖替换
+>     handleExceed(files, fileHold) {
+>       // this.fileHold.unshift()
+>       // this.fileHold.push(files[0])
+>     },
+>     handleSuccess(response) {//可以获取返回值
+>       this.$message.success('Succeed to upload files')
+>       alert(response)
+>       // this.handleRemove(file, fileHold)
+>     },
+>     handleError() {
+>       this.$message.error('Failed to upload files')
+>     },
+>     beforeUpload(file) {
+>       const isPdf = file.type === 'application/pdf'
+>       if (!isPdf) {
+>         this.$message.warning('Please check again whether the uploaded file is in PDF format')
+>         return isPdf
+>       }
+>       // else {
+>       //   this.fileHold.push(file)
+>       // }
+>     }
+>   }
+> }
+> </script>
+> 
+> <style lang="scss" scoped>
+> .mainhead {
+>   width: 100%;
+>   height: 50px;
+>   border-bottom: 1px #d0b8be solid;
+>   // border: 1px red solid;
+> 
+>   .row-style {
+>     margin: 5px 0 0 6px;
+>   }
+> 
+>   .upload-btn {
+>     float: right;
+>   }
+> 
+>   .icon-btn {
+>     display: inline-block;
+>     margin: 5px 10px 0 0;
+>     background-color: white;
+>     border-radius: 10px;
+>     border: none;
+>     cursor: pointer;
+>   }
+> 
+>   .icon-btn:hover {
+>     // color: red;
+>     background-color: #97add3;
+>   }
+> 
+>   .icon-btn > img {
+>     width: 30px;
+>     height: 30px;
+>   }
+> 
+>   .pdf-div {
+>     margin-top: 5px;
+>     float: right;
+>   }
+> }
+> </style>
+> ```
+
+
+
 ## JsonResult
 
 
 
 
 
-## 前端html转word
+## vue项目纯前端html转word
+
+> https://blog.csdn.net/qq_41615323/article/details/109235888
+>
+> http://markswindoll.github.io/jquery-word-export/
+>
+> https://github.com/eligrey/FileSaver.js/
+>
+> 以上是第一种方法，不推荐，因为有很多的样式和导出的格式不兼容
+>
+> 推荐一下第二种方法
+>
+> https://www.jianshu.com/p/b3622d6f8d98
+>
+> https://www.jianshu.com/p/0de31429b12a
+>
+> 首先vue项目安装组件
+>
+> ```
+> -- 安装 docxtemplater
+> cnpm install docxtemplater pizzip  --save
+> 
+> -- 安装 jszip-utils
+> cnpm install jszip-utils --save 
+> 
+> -- 安装 jszip
+> cnpm install jszip --save
+> 
+> -- 安装 FileSaver
+> cnpm install file-saver --save
+> ```
+>
+> 在需要用到的组件中引入
+>
+> ```javascript
+>     import Docxtemplater from 'docxtemplater'
+>     import PizZip from 'pizzip'
+>     import JSZipUtils from 'jszip-utils'
+>     import {saveAs} from 'file-saver'
+> ```
+>
+> 创建模板文件，因为 Docxtemplater就是根据提供的数据填充模板中的插值
+>
+> 如图，产生一个模板，命名为template.docx
+>
+> <img src="Akio's Book.assets/image-20220211215631787.png" alt="image-20220211215631787" style="zoom: 67%;" />
+>
+> 注意，这个模板最好存放在最外层的public中，不然你很有可能会遇到`Can't find end of central directory : is this a zip file ? `
+>
+> <img src="Akio's Book.assets/image-20220211215730914.png" alt="image-20220211215730914" style="zoom:67%;" />
+>
+> 然后在对应组件中添加方法
+>
+> ```javascript
+> <template>
+>     ...
+>     <tr>
+>           <td
+>             style="background-color: transparent"
+>             width="200px"
+>             class="text-center"
+>           >
+>             <span>Mode 5</span><br>
+>             <span v-if="isCn">模式5</span><br>
+>             <el-select v-model="value" name="C3_product" clearable placeholder="Select Product" @change="handleChange">
+>               <el-option
+>                 v-for="item in options"
+>                 :key="item.value"
+>                 :label="item.label"
+>                 :value="item.value"
+>               />
+>             </el-select>
+>           </td>
+>           <td
+>             style="background-color: transparent"
+>             width="200px"
+>             class="text-left"
+>           >
+>             <span>Regulation</span><br>
+>             <span v-if="isCn">执行模式</span>
+>           </td>
+>           <td
+>             style="background-color: transparent"
+>             width="200px"
+>             class="text-left"
+>             colspan="4"
+>           >
+>             <!-- <span style="color: red">@(C3_Mode5Value_EN)</span><br>
+>             <span
+>               v-if="isCn"
+>             ><span style="color: red">@(C3_Mode5Value_CN)</span></span> -->
+>             <span style="color: red">{{ C3_Mode5Value_EN }}</span>
+>             <span
+>               v-if="isCn"
+>             ><span style="color: red">{{ C3_Mode5Value_CN }}</span></span>
+>           </td>
+>         </tr>
+> 	<button @click="exportWord">123</button>
+> 	...
+> </template>
+> <script>
+> import Docxtemplater from 'docxtemplater'
+> import PizZip from 'pizzip'
+> import JSZipUtils from 'jszip-utils'
+> import { saveAs } from 'file-saver'
+> export default {
+>   data() {
+>     return {
+>       options: [{
+>         value: 'ABS',
+>         label: 'ABS'
+>       }, {
+>         value: 'ESP',
+>         label: 'ESP'
+>       }, {
+>         value: 'IPB',
+>         label: 'IPB'
+>       }, {
+>         value: 'IB',
+>         label: 'IB'
+>       }],
+>       value: '', // select框选择值
+>       C3_Mode5Value_EN: '',
+>       C3_Mode5Value_CN: ''
+>     }
+>   },
+>   methods: {
+>     // 当select发生改变
+>     handleChange(value) {
+>       console.log(value)
+>       switch (value) {
+>         case 'ABS':
+>           this.C3_Mode5Value_EN = 'The ECU is electrically connected and ignition on. Perform a regulation by actuating the pump motor with software simulated synthetic actuation with constant wheel speed = 0 km/h.'
+>           this.C3_Mode5Value_CN = 'ECU电气连接正常，点火开关打开。在轮速=0 km/h，通过软件模拟的方法来驱动马达工作。'
+>           break
+>         case 'ESP':
+>           this.C3_Mode5Value_EN = 'The ECU is electrically connected and ignition on. Perform a regulation by actuating the pump motor with software simulated synthetic actuation with constant wheel speed = 0 km/h.'
+>           this.C3_Mode5Value_CN = 'ECU电气连接正常，点火开关打开。在轮速=0 km/h，通过软件模拟的方法来驱动马达工作。'
+>           break
+>         case 'IPB':
+>           this.C3_Mode5Value_EN = 'DUT is electrically connected and ignition on, operated and controlled with constant pressure 25 bar through mechanical force acting on the brake pedal.'
+>           this.C3_Mode5Value_CN = 'DUT通过作用在制动踏板上25 bar的恒压进行电气连接和点火、操作和控制。'
+>           break
+>         case 'IB':
+>           this.C3_Mode5Value_EN = 'DUT is electrically connected and ignition on, operated and controlled with constant pressure 30 bar through mechanical force acting on the brake pedal or actuation from software.'
+>           this.C3_Mode5Value_CN = 'DUT通过作用在制动踏板上30 bar的恒压或者软件驱动进行电气连接和点火、操作和控制。'
+>           break
+>         default :
+>           this.C3_Mode5Value_EN = ''
+>           this.C3_Mode5Value_CN = ''
+>       }
+>     },
+>     // 点击导出word
+>     exportWord: function() {
+>       const that = this
+>       // 读取并获得模板文件的二进制内容
+>       JSZipUtils.getBinaryContent('/template.docx', function(error, content) {
+>       // model.docx是模板。我们在导出的时候，会根据此模板来导出对应的数据
+>       // 抛出异常
+>         if (error) {
+>           throw error
+>         }
+> 
+>         // 创建一个PizZip实例，内容为模板的内容
+>         const zip = new PizZip(content)
+>         // 创建并加载docxtemplater实例对象
+>         const doc = new Docxtemplater().loadZip(zip)
+>         // 设置模板变量的值
+>         doc.setData({
+>           C3_Mode5Value_EN: that.C3_Mode5Value_EN
+>         })
+> 
+>         try {
+>         // 用模板变量的值替换所有模板变量
+>           doc.render()
+>         } catch (error) {
+>         // 抛出异常
+>           const e = {
+>             message: error.message,
+>             name: error.name,
+>             stack: error.stack,
+>             properties: error.properties
+>           }
+>           console.log(JSON.stringify({ error: e }))
+>           throw error
+>         }
+> 
+>         // 生成一个代表docxtemplater对象的zip文件（不是一个真实的文件，而是在内存中的表示）
+>         const out = doc.getZip().generate({
+>           type: 'blob',
+>           mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+>         })
+>         // 将目标文件对象保存为目标类型的文件，并命名
+>         saveAs(out, 'result.docx')
+>       })
+>     }
+> 
+>   }
+> }
+> </script>
+> ```
+>
+> 然后运行![image-20220211220113613](Akio's Book.assets/image-20220211220113613.png)
+>
+> 点击按钮导出，即可把这个红色文字当作值插入docx文档的插值处
+>
+> ---
+>
+> 对于图片的导出，需要跟强大的助力
+>
+> https://www.cnblogs.com/redRun/p/14710431.html
 
 
 
@@ -13732,6 +14142,38 @@ https://www.bilibili.com/video/BV17m4y1Q7gn?from=search&seid=1312060188951142397
 ### input file如何限制上传的文件类型
 
 https://www.feiniaomy.com/post/520.html
+
+
+
+### Axios请求的跨域问题
+
+https://panjiachen.github.io/vue-element-admin-site/zh/guide/advanced/cors.html
+
+这个问题可以后端解决，也可以在前端解决，前端解决如下
+
+https://juejin.cn/post/6907936189689528328
+
+也可以使用nginx反向代理解决
+
+https://blog.csdn.net/qq_41698074/article/details/113244680
+
+后端解决,security包中新建一个WebConfig类
+
+```java
+// 使用SpringMvc配置实现跨域
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")  //任何路径
+                .allowedOrigins("*")  // 任何源
+                .allowedMethods("*")  // 任何方法(get\post)
+                .allowedHeaders("*"); // 任何请求头
+
+    }
+}
+```
 
 
 
