@@ -4389,7 +4389,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                                                     
+>                                                                                                                                         
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4404,7 +4404,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                                                     
+>                                                                                                                                         
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4412,7 +4412,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                                                     
+>                                                                                                                                         
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4653,7 +4653,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                                                     
+>                                                                                                                                         
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -8047,9 +8047,9 @@ https://www.bilibili.com/video/BV1Zy4y1K7SH?p=64&spm_id_from=pageDriver
       ```js
       props:{
       	name:{
-      	type:String, //类型
-      	required:true, //必要性
-      	default:'老王' //默认值
+              type:String, //类型
+              required:true, //必要性
+              default:'老王' //默认值
       	}
       }
       ```
@@ -8991,10 +8991,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                                 
+>                                           
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                                 
+>                                           
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -9003,10 +9003,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                                 
+>                                           
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                                 
+>                                           
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -11103,7 +11103,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                                            
+>                                                           
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
@@ -13884,6 +13884,327 @@ https://blog.csdn.net/weixin_45393094/article/details/111407514
 
 
 
+### el-select
+
+https://element.eleme.cn/#/zh-CN/component/select
+
+https://www.jb51.net/article/199927.htm
+
+饿了么的select选择框，在项目中我有一个需求，就是我点击表头的这个select，然后其他各个view的对应select值也对应显示相同，然后根据这个select的显示，在后面详情框中显示对应信息。也就是1->2
+
+![image-20220307204835047](Akio%27s%20Book.assets/image-20220307204835047.png)
+
+```vue
+// 表头代码
+<template>
+	<div>
+        <el-select v-model="Product" clearable placeholder="select product">
+          <el-option
+            v-for="item in Product_Options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+    </div>
+</template>
+
+<script>
+// import axios from 'axios'
+// import { any } from 'element-ui'
+import PdfUpload from './commons/PdfUpload.vue'
+import DownloadWord from './commons/DownloadWord.vue'
+export default {
+  components: {
+    PdfUpload,
+    DownloadWord
+    // DownloadWord
+  },
+  props: {
+    chapterPar: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      Product_Options: [{
+        value: 'ABS',
+        label: 'ABS'
+      }, {
+        value: 'ESP',
+        label: 'ESP'
+      }, {
+        value: 'IPB',
+        label: 'IPB'
+      }, {
+        value: 'IB',
+        label: 'IB'
+      }]
+    }
+  },
+  computed: {
+    Product: {
+      get() { return this.$store.state.common_data.Product },
+      set(val) { this.$store.commit('Add_Product', val) }
+    },
+    // 给其他地方使用的:表头点击，其他地方就对应响应，也就是各个view对应的
+    // C4_1
+    C4_1_DUT_placement_SelectValue: {
+      get() { return this.$store.state.chapter4_1.C4_1_DUT_placement_SelectValue },
+      set(val) { this.$store.commit('Add_C4_1_DUT_placement_SelectValue', val) }
+    },
+    C4_1_Dwell_time_SelectValue: {
+      get() { return this.$store.state.chapter4_1.C4_1_Dwell_time_SelectValue },
+      set(val) { this.$store.commit('Add_C4_1_Dwell_time_SelectValue', val) }
+    },
+    // C4_2
+    C4_2_DUT_placement_SelectValue: {
+      get() { return this.$store.state.chapter4_2.C4_2_DUT_placement_SelectValue },
+      set(val) { this.$store.commit('Add_C4_2_DUT_placement_SelectValue', val) }
+    },
+    C4_2_Dwell_time_SelectValue: {
+      get() { return this.$store.state.chapter4_2.C4_2_Dwell_time_SelectValue },
+      set(val) { this.$store.commit('Add_C4_2_Dwell_time_SelectValue', val) }
+    },
+    // C4_3
+    C4_3_Dwell_time_SelectValue: {
+      get() { return this.$store.state.chapter4_3.C4_3_Dwell_time_SelectValue },
+      set(val) { this.$store.commit('Add_C4_3_Dwell_time_SelectValue', val) }
+    },
+    // C4_4
+
+    // C4_5
+
+    // C4_6
+
+    // C4_7
+
+    // C4_8
+
+    // C4_9
+    // C4_10
+    // C4_11
+    // C4_12
+    // C4_13
+    // C4_14
+  },
+  watch: {	// 监视属性
+    Product: function() {
+      this.C4_1_DUT_placement_SelectValue = this.Product
+      this.C4_1_Dwell_time_SelectValue = this.Product
+      //
+       .....
+    }
+  }
+}
+</script>
+```
+
+```vue
+// C4_1代码，只拿这个举例子,下面这里为什么使用:change而不是用@change，因为v-bind的缩写是：，v-on的缩写是@，前者使绑定事件，后者使触发事件，如果使用后者，必须要直接操作每个view的东西，实际点了才会触发，就不能做到表头选择一次，其它详情都带值
+<template>
+	<div>
+       	<tr>
+          <td
+            style="background-color: transparent; font-weight: bold"
+            width="200px"
+            class="text-left"
+          >
+            <span>Dwell time </span><br>
+            <span v-if="isCn">驻留时间</span><br>
+            <el-select v-model="C4_1_Dwell_time_SelectValue" name="C4_1_Dwell_time_product" clearable placeholder="Select Product" :change="handleChange2(C4_1_Dwell_time_SelectValue)">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </td>
+          <td
+            style="background-color: transparent; font-weight: bold"
+            width="200px"
+            class="text-left"
+            colspan="5"
+          >
+            <span style="color: red">{{ C4_1_Dwell_time_value }}</span>
+          </td>
+        </tr>
+    </div>
+</template>
+
+<script>
+import { mapState, mapActions } from 'vuex'
+import { common_data } from '@/layout/mixin/Data_mixin'
+import MainHead from '@/layout/components/MainHead.vue'
+export default {
+  components: { MainHead },
+  mixins: [common_data],
+  data() {
+    return {
+      chapterPars: {
+        chapter: 'chapter4_1'
+      }
+    }
+  },
+  computed: {
+    ...mapState({
+      loading: state => state.common_data.loading, // 加载中显示
+      isCn: state => state.en_cn.isCn,
+      Reference: state => state.common_data.Reference,
+      ReferenceVersion: state => state.common_data.ReferenceVersion,
+      C4_1_DUT_placement_value_EN: state => state.chapter4_1.C4_1_DUT_placement_value_EN,
+      C4_1_DUT_placement_value_CN: state => state.chapter4_1.C4_1_DUT_placement_value_CN,
+      C4_1_Dwell_time_value: state => state.chapter4_1.C4_1_Dwell_time_value,
+      C4_1_SetupPhotos: state => state.chapter4_1.C4_1_SetupPhotos,
+      C4_1_EquipmentPhotos: state => state.chapter4_1.C4_1_EquipmentPhotos,
+      C4_1_MeasurePlots: state => state.chapter4_1.C4_1_MeasurePlots
+    }),
+    C4_1_DUT_placement_SelectValue: {
+      get() { return this.$store.state.chapter4_1.C4_1_DUT_placement_SelectValue },
+      set(val) { this.$store.commit('Add_C4_1_DUT_placement_SelectValue', val) }
+    },
+    C4_1_Dwell_time_SelectValue: {
+      get() { return this.$store.state.chapter4_1.C4_1_Dwell_time_SelectValue },
+      set(val) { this.$store.commit('Add_C4_1_Dwell_time_SelectValue', val) }
+    },
+    C4_1_AccomplishedLevel1: {
+      get() { return this.$store.state.chapter4_1.C4_1_AccomplishedLevel1 },
+      set(val) { this.$store.commit('Add_C4_1_AccomplishedLevel1', val) }
+    },
+    C4_1_AccomplishedLevel2: {
+      get() { return this.$store.state.chapter4_1.C4_1_AccomplishedLevel2 },
+      set(val) { this.$store.commit('Add_C4_1_AccomplishedLevel2', val) }
+    },
+    C4_1_AccomplishedLevel3: {
+      get() { return this.$store.state.chapter4_1.C4_1_AccomplishedLevel3 },
+      set(val) { this.$store.commit('Add_C4_1_AccomplishedLevel3', val) }
+    },
+    C4_1_AccomplishedLevel4: {
+      get() { return this.$store.state.chapter4_1.C4_1_AccomplishedLevel4 },
+      set(val) { this.$store.commit('Add_C4_1_AccomplishedLevel4', val) }
+    },
+    C4_1_Result1: {
+      get() { return this.$store.state.chapter4_1.C4_1_Result1 },
+      set(val) { this.$store.commit('Add_C4_1_Result1', val) }
+    },
+    C4_1_Result2: {
+      get() { return this.$store.state.chapter4_1.C4_1_Result2 },
+      set(val) { this.$store.commit('Add_C4_1_Result2', val) }
+    },
+    C4_1_Result3: {
+      get() { return this.$store.state.chapter4_1.C4_1_Result3 },
+      set(val) { this.$store.commit('Add_C4_1_Result3', val) }
+    },
+    C4_1_Result4: {
+      get() { return this.$store.state.chapter4_1.C4_1_Result4 },
+      set(val) { this.$store.commit('Add_C4_1_Result4', val) }
+    }
+  },
+  methods: {
+    ...mapActions({ add_chapter4_1_dut: 'add_chapter4_1_dut', add_chapter4_1_dwell: 'add_chapter4_1_dwell' }),
+    // 当select发生改变
+    handleChange1(value) {
+      console.log(value)
+      switch (value) {
+        case 'ABS':
+          this.add_chapter4_1_dut(
+            {
+              C4_1_DUT_placement_value_EN: this.DUT_placement_EN_ABS,
+              C4_1_DUT_placement_value_CN: this.DUT_placement_CN_ABS
+            }
+          )
+          break
+        case 'ESP':
+          this.add_chapter4_1_dut(
+            {
+              C4_1_DUT_placement_value_EN: this.DUT_placement_EN_ABS,
+              C4_1_DUT_placement_value_CN: this.DUT_placement_CN_ABS
+            }
+          )
+          break
+        case 'IPB':
+          this.add_chapter4_1_dut(
+            {
+              C4_1_DUT_placement_value_EN: this.DUT_placement_EN_IPB,
+              C4_1_DUT_placement_value_CN: this.DUT_placement_CN_IPB
+            }
+          )
+          break
+        case 'IB':
+          this.add_chapter4_1_dut(
+            {
+              C4_1_DUT_placement_value_EN: this.DUT_placement_EN_IB,
+              C4_1_DUT_placement_value_CN: this.DUT_placement_CN_IB
+            }
+          )
+          break
+        default :
+          this.add_chapter4_1_dut(
+            {
+              C4_1_DUT_placement_value_EN: '',
+              C4_1_DUT_placement_value_CN: ''
+            }
+          )
+      }
+    },
+    // 当select发生改变
+    handleChange2(value) {
+      console.log(value)
+      switch (value) {
+        case 'ABS':
+          this.add_chapter4_1_dwell(
+            {
+              C4_1_Dwell_time_value: this.Dwell_time_ABS
+            }
+          )
+          break
+        case 'ESP':
+          this.add_chapter4_1_dwell(
+            {
+              C4_1_Dwell_time_value: this.Dwell_time_ESP
+            }
+          )
+          break
+        case 'IPB':
+          this.add_chapter4_1_dwell(
+            {
+              C4_1_Dwell_time_value: this.Dwell_time_IPB
+            }
+          )
+          break
+        case 'IB':
+          this.add_chapter4_1_dwell(
+            {
+              C4_1_Dwell_time_value: this.Dwell_time_IB
+            }
+          )
+          break
+        default :
+          this.add_chapter4_1_dwell(
+            {
+              C4_1_Dwell_time_value: ''
+            }
+          )
+      }
+    }
+  }
+}
+</script>
+
+```
+
+![image-20220307205521872](Akio%27s%20Book.assets/image-20220307205521872.png)
+
+![image-20220307205558138](Akio%27s%20Book.assets/image-20220307205558138.png)
+
+
+
+
+
+
+
 ## JsonResult
 
 
@@ -14175,9 +14496,19 @@ public class WebConfig implements WebMvcConfigurer {
 }
 ```
 
+https://blog.csdn.net/qq_41170600/article/details/108539840
+
+https://www.cnblogs.com/kkMuying/p/14704194.html
+
+上面这个链接说的是在你跨域的接口上加上`@CrossOrigin`也可跨域
 
 
 
+
+
+### Java的debug断点跳跃
+
+https://blog.csdn.net/qq_41055045/article/details/107509871
 
 
 
