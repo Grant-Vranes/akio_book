@@ -4389,7 +4389,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                                                                         
+>                                                                                                                                                             
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4404,7 +4404,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                                                                         
+>                                                                                                                                                             
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4412,7 +4412,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                                                                         
+>                                                                                                                                                             
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4653,7 +4653,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                                                                         
+>                                                                                                                                                             
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -8991,10 +8991,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                                           
+>                                                     
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                                           
+>                                                     
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -9003,10 +9003,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                                           
+>                                                     
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                                           
+>                                                     
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -11103,7 +11103,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                                                           
+>                                                                          
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
@@ -14203,6 +14203,229 @@ export default {
 
 
 
+### element的表格
+
+https://blog.csdn.net/Tomwildboar/article/details/82874888
+
+要求是点击查看详情的时候，展示问题的详情，使用了`loadContentByID()`方法，传入这个问题的ID，但是对于`<el-table>`如何获取对应问题的ID呢，如下代码，和如上的链接。
+
+```vue
+<el-table-column label="问题详情" width="220">
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click.native.prevent="loadContentByID(scope.row.ID)">查看详情</el-button>
+        </template>
+      </el-table-column>
+```
+
+![image-20220312170509508](Akio%27s%20Book.assets/image-20220312170509508.png)
+
+![image-20220312170518021](Akio%27s%20Book.assets/image-20220312170518021.png)
+
+```vue
+<template>
+  <div style="margin-left:10px;">
+    <el-dialog title="问题详情" :visible.sync="centerDialogVisible" width="30%" center>
+      <span>问题详情</span>
+      <span v-html="contentNow" />
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <el-table
+      :data="questionTable"
+      style="width: 100%"
+      max-height="100%"
+    >
+      <el-table-column
+        fixed
+        prop="ID"
+        label="#"
+        width="100"
+      />
+      <el-table-column
+        prop="title"
+        label="标题"
+        width="220"
+      />
+      <el-table-column label="问题详情" width="220">
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click.native.prevent="loadContentByID(scope.row.ID)">查看详情</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="userNickName"
+        label="提问者"
+        width="220"
+      />
+      <el-table-column
+        prop="createtime"
+        label="提问时间"
+        width="220"
+      />
+      <el-table-column
+        prop="status"
+        label="问题状态"
+        width="220"
+      />
+      <el-table-column
+        prop="tagNames"
+        label="标签"
+        width="220"
+      />
+      <el-table-column
+        fixed="right"
+        label="options"
+      >
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            size="small"
+            @click.native.prevent="deleteRow(scope.$index, questionTable)"
+          >
+            移除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 分页区 -->
+    <el-pagination
+      :current-page="queryInfo.pagenum"
+      :page-size="queryInfo.pagesize"
+      :page-sizes="[1, 2, 5, 10]"
+      layout="total, sizes, prev, pager, next ,jumper"
+      :total="total"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
+  </div>
+</template>
+
+<script>
+import { getAllQuestions, getQuestion } from '@/api/question'
+export default {
+  data() {
+    return {
+      centerDialogVisible: false,
+      contentNow: '',
+      // 展示数据
+      questionTable: [],
+      // 总条数
+      total: 0,
+      // 参数
+      queryInfo: {
+        query: '',
+        pagenum: 1, // 当前页数
+        pagesize: 5 // 显示一页多少条数据
+      }
+    }
+  },
+  created() {
+    this.loadTable()
+  },
+  methods: {
+    deleteRow(index, rows) {
+      rows.splice(index, 1)
+    },
+    // 监听 pagesize 改变的事件
+    handleSizeChange(newsize) {
+      this.queryInfo.pagesize = newsize
+      // 获取到最新一页显示的数据  重新发送axios请求 这里是封装好的请求方法
+      this.loadTable()
+    },
+    // 监听 页码值 改变的事件
+    handleCurrentChange(newPage) {
+      // 把最新的页码（newPage）赋值给 动态的 pagenum
+      this.queryInfo.pagenum = newPage
+      this.questionTable = []
+      this.loadTable()
+    },
+    loadTable() {
+      getAllQuestions(this.queryInfo.pagenum, this.queryInfo.pagesize).then(response => {
+        console.log(response)
+        this.total = response.total
+        for (let i = 0; i < response.list.length; i++) {
+          this.questionTable.push({
+            ID: response.list[i].id,
+            title: response.list[i].title,
+            userNickName: response.list[i].userNickName,
+            createtime: response.list[i].createtime,
+            status: response.list[i].status,
+            tagName: response.list[i].tagNames
+          })
+        }
+      })
+    },
+    loadContentByID(ID) {
+      console.log(ID)
+      this.centerDialogVisible = true
+      getQuestion(ID).then(response => {
+        console.log(response)
+        this.contentNow = response.content
+      })
+    }
+  }
+}
+</script>
+```
+
+```js
+import request from '@/utils/request'
+
+export function getAllQuestions(pageNum, pageSize) {
+  return request({
+    url: '/v1/questions/allQuestions',
+    method: 'get',
+    params: {
+      pageNum: pageNum,
+      pageSize: pageSize
+    },
+    baseURL: process.env.VUE_APP_BACK
+  })
+}
+
+export function getQuestion(ID) {
+  return request({
+    url: '/v1/questions/' + ID,
+    method: 'get',
+    baseURL: process.env.VUE_APP_BACK
+  })
+}
+```
+
+
+
+### el-popconfirm气泡确认框
+
+```vue
+<template>
+<el-popconfirm
+  title="这是一段内容确定删除吗？"
+>
+  <el-button slot="reference">删除</el-button>
+</el-popconfirm>
+</template>
+```
+
+上述是官网的介绍，
+
+<img src="Akio%27s%20Book.assets/image-20220315100106695.png" alt="image-20220315100106695" style="zoom:67%;" />
+
+这里的confirm用法是`onConfirm`,注意
+
+```vue
+<el-popconfirm title="您的当前保存会覆盖前一次的记录,确认操作吗？" @onConfirm="saveToTheCloud()">
+        <button slot="reference" class="icon-btn">
+          <img src="../../../src/assets/icons/save.png" alt="保存" title="保存当前版本">
+        </button>
+      </el-popconfirm>
+```
+
+
+
+
+
 
 
 ## JsonResult
@@ -14511,6 +14734,31 @@ https://www.cnblogs.com/kkMuying/p/14704194.html
 https://blog.csdn.net/qq_41055045/article/details/107509871
 
 
+
+
+
+### vscode vue项目 debug
+
+https://juejin.cn/post/6844904144457695245
+
+
+
+
+
+### vue,v-html如何识别\n换行符
+
+```html
+<span v-html="value.replace(/\n/gm, '<br>')" /><br>
+```
+对应的value
+```text
+value='您的数据中，如果字符串包含换行符\n它将被翻译为文档中的换行符'
+```
+最终结果
+```text
+您的数据中，如果字符串包含换行符
+它将被翻译为文档中的换行
+```
 
 
 
