@@ -3148,13 +3148,13 @@ https://mp.weixin.qq.com/s/Bf7uVhGiu47uOELjmC5uXQ
 
 记录文件每次的更新，可以对每个版本做一个快照，或是记录补丁文件，适合个人用，如RCS。
 
-![image-20211215210505424](Akio's Book.assets/image-20211215210505424.png)
+<img src="Akio's Book.assets/image-20211215210505424.png" alt="image-20211215210505424" style="zoom:50%;" />
 
 **2、集中版本控制  SVN**
 
 所有的版本数据都保存在服务器上，协同开发者从服务器上同步更新或上传自己的修改
 
-![image-20211215210523519](Akio's Book.assets/image-20211215210523519.png)
+<img src="Akio's Book.assets/image-20211215210523519.png" alt="image-20211215210523519" style="zoom:50%;" />
 
 所有的版本数据都存在服务器上，用户的本地只有自己以前所同步的版本，如果不连网的话，用户就看不到历史版本，也无法切换版本验证问题，或在不同分支工作。而且，所有数据都保存在单一的服务器上，有很大的风险这个服务器会损坏，这样就会丢失所有的数据，当然可以定期备份。代表产品：SVN、CVS、VSS
 
@@ -3231,7 +3231,7 @@ git config --global user.email hao.shi3@dxc.com   #邮箱
 
 Git本地有三个工作区域：工作目录（Working Directory）、暂存区(Stage/Index)、资源库(Repository或Git Directory)。如果在加上远程的git仓库(Remote Directory)就可以分为四个工作区域。文件在这四个区域之间的转换关系如下：
 
-![image-20211215214521656](Akio's Book.assets/image-20211215214521656.png)
+<img src="Akio's Book.assets/image-20211215214521656.png" alt="image-20211215214521656" style="zoom:50%;" />
 
 - Workspace：工作区，就是你平时存放项目代码的地方
 - Index / Stage：暂存区，用于临时存放你的改动，事实上它只是一个文件，保存即将提交到文件列表信息
@@ -3462,17 +3462,17 @@ https://developer.aliyun.com/article/614459
 
 操作：首先，我们需要在idea中添加客户仓库的remotes。不过首先客户公司要提供一个他们仓库的账号和密码
 
-![image-20211215144122940](Akio's Book.assets/image-20211215144122940.png)
+<img src="Akio's Book.assets/image-20211215144122940.png" alt="image-20211215144122940" style="zoom:60%;" />
 
-![image-20211215144235491](Akio's Book.assets/image-20211215144235491.png)
+<img src="Akio's Book.assets/image-20211215144235491.png" alt="image-20211215144235491" style="zoom:67%;" />
 
 然后刷新一下分支，可以发现客户仓库的分支也进来了。所以说我们在我们自己的2021-sprint3分支提交代码后。如果客户那边需要同步。我们就切换到客户的kone/develop分支。然后把我们origin/2021-sprint3的分支合并进来。这样kone/develop分支就是最新的代码。然后在这个分支上去push
 
-![image-20211215144432562](Akio's Book.assets/image-20211215144432562.png)
+<img src="Akio's Book.assets/image-20211215144432562.png" alt="image-20211215144432562" style="zoom:67%;" />
 
-![image-20211215144756427](Akio's Book.assets/image-20211215144756427.png)
+<img src="Akio's Book.assets/image-20211215144756427.png" alt="image-20211215144756427" style="zoom:67%;" />
 
-![image-20211215144835622](Akio's Book.assets/image-20211215144835622.png)
+<img src="Akio's Book.assets/image-20211215144835622.png" alt="image-20211215144835622" style="zoom:67%;" />
 
 
 
@@ -4389,7 +4389,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                                                                                             
+>                                                                                                                                                                                         
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4404,7 +4404,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                                                                                             
+>                                                                                                                                                                                         
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4412,7 +4412,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                                                                                             
+>                                                                                                                                                                                         
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4653,7 +4653,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                                                                                             
+>                                                                                                                                                                                         
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -8991,10 +8991,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                                                     
+>                                                                   
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                                                     
+>                                                                   
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -9003,10 +9003,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                                                     
+>                                                                   
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                                                     
+>                                                                   
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -10433,6 +10433,120 @@ export default new Vuex.Store({
    })
    ```
 
+   > 以下这个是一个实际项目的案例：
+
+   ```js
+   const actions = {
+     add_loading(context, value) {
+       context.commit('Add_loading', value)
+     },
+     add_closing(context, value) {
+       context.commit('Add_closing', value)
+     },
+     add_FirstPageData(context, value) {
+       context.commit('Add_DocNo', value.docNo)
+       context.commit('Add_Department', value.department)
+       context.commit('Add_Author', value.author)
+       context.commit('Add_EMCValidation', value.emcvalidation)
+       context.commit('Add_TPNo', value.tpno)
+       context.commit('Add_DateTime', value.dateTime)
+       context.commit('Add_ApprovalName1', value.approvalName1)
+       context.commit('Add_ApprovalName2', value.approvalName2)
+       context.commit('Add_ApprovalName3', value.approvalName3)
+     }
+   }
+   // 当然actions可以使用如下写法
+   const actions = {
+     add_loading({ commit }, value) {
+       commit('Add_loading', value)
+     },
+     ....
+   }
+   
+   
+   const mutations = {
+     Add_loading(state, value) {
+       state.loading = value
+     },
+     Add_closing(state, value) {
+       state.closing = value
+     },
+     Add_Reference(state, value) {
+       state.Reference = value
+     },
+     Add_ReferenceVersion(state, value) {
+       state.ReferenceVersion = value
+     },
+     Add_Product(state, value) {
+       state.Product = value
+     },
+     //
+     Add_DocNo(state, value) {
+       state.DocNo = value
+     },
+     Add_Department(state, value) {
+       state.Department = value
+     },
+     Add_Author(state, value) {
+       state.Author = value
+     },
+     Add_EMCValidation(state, value) {
+       state.EMCValidation = value
+     },
+     Add_TPNo(state, value) {
+       state.TPNo = value
+     },
+     Add_DateTime(state, value) {
+       state.DateTime = value
+     },
+     Add_ApprovalName1(state, value) {
+       state.ApprovalName1 = value
+     },
+     Add_ApprovalName2(state, value) {
+       state.ApprovalName2 = value
+     },
+     Add_ApprovalName3(state, value) {
+       state.ApprovalName3 = value
+     }
+   }
+   // 当然mutations也可以使用另一种写法 =>
+   const mutations = {
+     Add_loading: (state, value) => {
+       state.loading = value
+     }
+   }
+   
+   
+   
+   // global数据
+   const state = {
+     // loading
+     loading: false,
+     closing: false,
+     // 公共组件选择中的数据
+     Reference: '',
+     ReferenceVersion: '',
+     Product: '',
+     // FirstPage data
+     DocNo: '',
+     Department: '',
+     Author: '',
+     EMCValidation: '',
+     TPNo: '',
+     DateTime: '',
+     ApprovalName1: '',
+     ApprovalName2: '',
+     ApprovalName3: ''
+   }
+   
+   // 创建并暴露store
+   export default ({
+     actions,
+     mutations,
+     state
+   })
+   ```
+
 2. 组件中读取vuex中的数据：`$store.state.sum`
 
 3. 组件中修改vuex中的数据：`$store.dispatch('action中的方法名',数据)` 或 `$store.commit('mutations中的方法名',数据)`
@@ -11103,7 +11217,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                                                                          
+>                                                                                               
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
@@ -14424,7 +14538,120 @@ export function getQuestion(ID) {
 
 
 
+### [Vue warn]: Error in v-on handler (Promise/async): "cancel"
 
+再Vue项目中 使用如下代码的时候，点击cancel出现了意外：
+
+```vue
+<template>
+  <div class="mainhead">
+    <el-row class="row-style">
+      <!-- <svg-icon icon-class="language" /> -->
+      <button class="icon-btn" @click="switchEnAndCn()">
+        <img src="../../../src/assets/icons/language.png" alt="中/英" title="中英文切换">
+      </button>
+      <button class="icon-btn" @click="saveToTheCloud">
+        <img src="../../../src/assets/icons/save.png" alt="保存" title="保存当前版本">
+      </button>
+      <DownloadWord />
+      <!-- 上传文件 -->
+      <PdfUpload :chapter="chapterPar" />
+    </el-row>
+  </div>
+</template>
+
+<script>
+// import axios from 'axios'
+// import { any } from 'element-ui'
+import PdfUpload from './commons/PdfUpload.vue'
+import DownloadWord from './commons/DownloadWord.vue'
+import { mapActions, mapState } from 'vuex'
+import { common_data } from '@/layout/mixin/Data_mixin'
+import { getStateDataByChapter } from '@/utils/state'
+import { saveDataByChapter } from '@/api/sync'
+
+export default {
+  components: {
+    PdfUpload,
+    DownloadWord
+    // DownloadWord
+  },
+  mixins: [common_data],
+  props: {
+    chapterPar: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      fileHold: []
+    }
+  },
+  computed: {
+    ...mapState({
+      state: state => state
+    })
+  },
+  methods: {
+    ...mapActions({
+      add_closing: 'add_closing'
+    }),
+    // switching butween Chinese and English
+    switchEnAndCn() {
+      // console.log('is click')
+      this.$store.dispatch('switchEnAndCn')
+      // 当然中英文的切换可以用全局变量来做
+      // Vue.prototype.$isCn1 = !Vue.prototype.$isCn1
+    },
+    // 当前所有数据保存到云端，第二次保存会覆盖前一次(逻辑覆盖)，数据提取按照最新的日期的来提取
+    async saveToTheCloud() {
+      await this.$msgbox({
+        title: '保存数据[' + this.$props.chapterPar.chapter + ']',
+        message: this.$props.chapterPar.chapter + '的数据将会保存，确认操作吗？',
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: async(action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true
+            instance.confirmButtonText = '保存中...'
+            // const data = getStateData(this.state)
+            const data = getStateDataByChapter(this.state, this.$props.chapterPar.chapter)
+            try {
+              // await saveData(data)
+              // console.log(data)
+              await saveDataByChapter(data, this.$props.chapterPar.chapter)
+              this.$message.success('保存成功')
+            } catch (e) {
+              this.$message.error('保存失败，请稍后重试')
+            } finally {
+              instance.confirmButtonLoading = false
+              instance.confirmButtonText = '确定'
+              done()
+            }
+          } else {
+            done()
+          }
+        }
+      }).catch(() => {})
+    }
+  }
+}
+</script>
+```
+
+<img src="Akio%27s%20Book.assets/image-20220321211900469.png" alt="image-20220321211900469" style="zoom:60%;" />
+
+![image-20220321211656942](Akio%27s%20Book.assets/image-20220321211656942.png)
+
+其实出现这个问题的原因很简单，因为这个弹出框出现了两个按钮，理应给这两个按钮添加两个事件对应。
+
+`this.$confirm`内置[promise](https://so.csdn.net/so/search?q=promise&spm=1001.2101.3001.7020)方法。当**点击确定**的时候，会执行`.then(()=>{})`部分逻辑；同理，当**点击取消**的时候，就会执行`.catch(()=>{})`捕获错误的逻辑。所以只需要给这个整个方法catch一下异常，捕获一下错误 `.catch(() => {})`
+
+![image-20220321212219329](Akio%27s%20Book.assets/image-20220321212219329.png)
+
+https://blog.csdn.net/Dark_programmer/article/details/116796082
 
 
 
@@ -14761,4 +14988,250 @@ value='您的数据中，如果字符串包含换行符\n它将被翻译为文�
 ```
 
 
+
+
+
+### 后端返回数据有时候出现大小写不一致情况
+
+> 后端返回数据有时候出现大小写不一致情况，造成接口返回的数据，前端一直无法取正确
+>
+> 看了看后端定义的返回值的实体，如下
+>
+> ```java
+> @Data
+> @Accessors(chain = true)
+> public class FirstPageData {
+>     private String DocNo;
+>     private String Department;
+>     private String Author;
+>     private String EMCValidation;
+>     private String TPNo;
+>     private String DateTime;
+>     private String ApprovalName1;
+>     private String ApprovalName2;
+>     private String ApprovalName3;
+> }
+> ```
+>
+> 前端接手的值有如下两种情况，画横线的值可能部分大写，也可能出现部分大写。其实这个跟后端实体类的定义有原故，后端定义的值是`EMCValidation` `TPNo`，这样前面几个值都是大写，返回的值可能会出现意外。
+>
+> <img src="Akio%27s%20Book.assets/image-20220318100347400.png" alt="image-20220318100347400" style="zoom:50%;" /><img src="Akio%27s%20Book.assets/image-20220318100624527.png" alt="image-20220318100624527" style="zoom: 33%;" />
+>
+> 为了避免前端接受值的异常，可以使用`@JsonProperty("真实值")`这个注解，接口返回的值就是真实值
+>
+> https://blog.csdn.net/qq_22585453/article/details/103248314
+>
+> ```java
+> @Data
+> @Accessors(chain = true)
+> public class FirstPageData {
+>     private String DocNo;
+>     private String Department;
+>     private String Author;
+>     @JsonProperty("eMCValidation")
+>     private String EMCValidation;
+>     @JsonProperty("tPNo")
+>     private String TPNo;
+>     private String DateTime;
+>     private String ApprovalName1;
+>     private String ApprovalName2;
+>     private String ApprovalName3;
+> }
+> ```
+>
+> 返回值就只有这一种情况
+>
+> <img src="Akio%27s%20Book.assets/image-20220318101007977.png" alt="image-20220318101007977" style="zoom:50%;" />
+
+
+
+
+
+### 如何监视vuex中state的某个状态的变化
+
+https://blog.csdn.net/weixin_43379230/article/details/103636493
+
+现在我的需求是，当数据库取得的值将state中的Product填充的时候，所有页面需要填入Product的地方都自动填上
+
+![image-20220321214524301](Akio%27s%20Book.assets/image-20220321214524301.png)
+
+![image-20220321214540961](Akio%27s%20Book.assets/image-20220321214540961.png)
+
+```vue
+<script>
+    computed: {
+        // 监视state中Product的变动
+        Product_watch() {
+          return this.state.common_data.Product
+        },
+        ...mapState({
+          state: state => state,
+        })
+    },
+    watch: {
+        // 监视state中Product的变动
+        Product_watch: function() {
+          // 当选择ABS/ESP产品时，封闭chapter4.3和chapter4.9，当是其他产品的时候就false解封，closing属性是针对chapter4.3和chapter4.9的
+          if (this.Product === 'ABS' || this.Product === 'ESP') {
+            this.add_closing(true)
+          }
+          if (this.Product === 'IPB' || this.Product === 'IB') {
+            this.add_closing(false)
+          }
+          // 以下所有是为了Product影响全局的product选择,因为声明周期加载问题，要求点击对应路由之后才能进行数据插入，这对于导出word不友好，所以只能在这里全盘监视插入
+          this.C3_Mode5SelectValue = this.Product
+          //
+          this.C4_1_DUT_placement_SelectValue = this.Product
+          this.C4_1_Dwell_time_SelectValue = this.Product
+          //
+          this.C4_2_DUT_placement_SelectValue = this.Product
+          this.C4_2_Dwell_time_SelectValue = this.Product
+          //
+          this.C4_3_Dwell_time_SelectValue = this.Product
+          //
+          this.C4_4_DUT_placement_SelectValue = this.Product
+          //
+          this.C4_5_DUT_placement_SelectValue = this.Product
+          //
+          this.C4_6_DUT_placement_SelectValue = this.Product
+          //
+          this.C4_7_DUT_placement_SelectValue = this.Product
+          //
+          this.C4_8_DUT_placement_SelectValue = this.Product
+          //
+          this.C4_10_DUT_placement_SelectValue = this.Product
+          this.C4_10_OperatingMode_SelectValue = this.Product
+          //
+          this.C4_12_DUT_placement_SelectValue = this.Product
+          //
+          this.C4_13_DUT_placement_SelectValue = this.Product
+        }
+    }
+</script>
+```
+
+
+
+
+
+### vue项目中如何根据路由来决定是否显示某些数据
+
+> 需求：当我在登陆页面的时候显示一个div，进入其他页面的时候不显示这个div
+>
+> `v-if="($route.path === '/login')"`
+>
+> ```vue
+> <template>
+>   <div class="common-headerbar">
+>     <div class="header-colorful-stripe">
+>       <img src="../../../assets/commons/headbar-illustration.png">
+>     </div>
+>     <div v-if="($route.path === '/login')" class="header-row-container">
+>       <div class="logo-container inline-middle">
+>         <img alt src="../../../assets/commons/Bosch-logo.svg">
+>       </div>
+>     </div>
+>   </div>
+> </template>
+> 
+> <style lang="scss">
+>     /*.inline-top {*/
+>     /*    display: inline;*/
+>     /*}*/
+> 
+>     .common-headerbar {
+>         width: 100%;
+>         height: 16px;
+> 
+>         .header-colorful-stripe {
+>             position: absolute;
+>             top: 0;
+>             width: 100%;
+>             line-height: 1;
+>             img {
+>                 width: 100%;
+>                 height: 16px;
+>             }
+>         }
+>         .header-row-container {
+>             display: flex;
+>             align-items: center;
+>             justify-content: space-around;
+>             padding-left: 10px;
+>             height: 75px;
+>             background-color: rgba(255, 255, 255, 1);
+>         }
+>     }
+> 
+>     .logo-container {
+>         display: flex;
+>         flex: 1;
+>         align-items: center;
+>         .demoStyle{
+>             color:red;
+>             font-size: 20px;
+>             font-weight: 700;
+>             line-height: 26px;
+>         }
+>         img {
+>             width: 140px;
+>             height: 70px;
+>             top: 25px;
+>         }
+> 
+>         .logo-line {
+>             width: 1px;
+>             height: 32px;
+>             margin: 0 6px;
+>             background: #dcdbdb;
+>         }
+> 
+>         .logo-left-title {
+>             .title1 {
+>                 line-height: 24px;
+>                 color: rgba(0, 0, 0, 0.8);
+>                 font-size: 14px;
+>                 font-family: BoschSans-Bold;
+>                 white-space: nowrap;
+>             }
+>             .title2 {
+>                 line-height: 24px;
+>                 color: rgba(0, 0, 0, 0.8);
+>                 font-size: 10px;
+>                 font-family: BoschSans-Light;
+>                 white-space: nowrap;
+>             }
+>             .project-title {
+>                 color: #2ea5c9;
+>                 margin: 0 20px;
+>                 line-height: 4px;
+>                 font-size: 14px;
+>                 font-family: BoschSans-Bold;
+>                 white-space: nowrap;
+>             }
+>         }
+>     }
+> </style>
+> ```
+
+
+
+### html如何使div保持在页面中间
+
+> 需求：需要保持这个login表单一直在页面中间，无论放大缩小，也不受显示器的大小的影响。如下
+>
+> ![image-20220323200328527](Akio%27s%20Book.assets/image-20220323200328527.png)
+>
+> 只需要给这个div设置如下即可
+>
+> ```stylus
+> .form-container {
+>     position: absolute;
+>     left: 50%;
+>     top: 50%;
+>     transform: translate(-50%, -50%);
+>   }
+> ```
+>
+> 
 
