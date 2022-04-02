@@ -1860,13 +1860,13 @@ https://www.bilibili.com/video/BV1ug411j71W?from=search&seid=1701008087440065775
 
 ### 简介
 
-![image-20211202203842145](Akio's Book.assets/image-20211202203842145.png)
+<img src="Akio's Book.assets/image-20211202203842145.png" alt="image-20211202203842145" style="zoom:50%;" />
 
-![image-20211202203900623](Akio's Book.assets/image-20211202203900623.png)
+<img src="Akio's Book.assets/image-20211202203900623.png" alt="image-20211202203900623" style="zoom:50%;" />
 
-![image-20211202204012266](Akio's Book.assets/image-20211202204012266.png)
+<img src="Akio's Book.assets/image-20211202204012266.png" alt="image-20211202204012266" style="zoom:50%;" />
 
-![image-20211202203954273](Akio's Book.assets/image-20211202203954273.png)
+<img src="Akio's Book.assets/image-20211202203954273.png" alt="image-20211202203954273" style="zoom:50%;" />
 
 
 
@@ -3482,6 +3482,16 @@ https://zhuanlan.zhihu.com/p/137856034
 
 
 
+### 业务场景4：git clone忽略SSL证书错误
+
+![image-20220330140711203](Akio%27s%20Book.assets/image-20220330140711203.png)
+
+git clone报错如上，使用`git config --global http.sslVerify false`可以单次忽略SSL证书的错误问题，然后重新执行clone命令
+
+![image-20220330140919967](Akio%27s%20Book.assets/image-20220330140919967.png)
+
+
+
 
 
 ## sourceTree
@@ -3637,7 +3647,7 @@ https://blog.csdn.net/it1993/article/details/105207326
 
 
 
-## mybatis puls代码生成器
+## mybatis plus代码生成器
 
 https://www.bilibili.com/video/BV11e411W79W?from=search&seid=10593207625306536939&spm_id_from=333.337.0.0
 
@@ -4389,7 +4399,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                                                                                                                         
+>                                                                                                                                                                                                                 
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4404,7 +4414,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                                                                                                                         
+>                                                                                                                                                                                                                 
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4412,7 +4422,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                                                                                                                         
+>                                                                                                                                                                                                                 
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4653,7 +4663,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                                                                                                                         
+>                                                                                                                                                                                                                 
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -8236,7 +8246,7 @@ Student.vue
 > </script>
 > ```
 >
-> main.js
+> main.js--->全局混入
 >
 > ```javascript
 > //引入Vue
@@ -8279,6 +8289,28 @@ Student.vue
 > 		}
 > 	},
 > }
+> ```
+>
+> 局部混入
+>
+> ```vue
+> <script>
+> import { mapActions, mapState } from 'vuex'
+> import { common_data } from '@/layout/mixin/Data_mixin'
+> import { common_method } from '@/layout/mixin/Method_mixin'
+> import MainHead from '@/layout/components/MainHeadNoOptions.vue'
+> export default {
+>   components: { MainHead },
+>   mixins: [common_data, common_method],
+>   data() {
+>     return {
+>       chapterPars: {
+>         chapter: 'chapter4_10'
+>       }
+>     }
+>   }
+> }
+> </script>
 > ```
 
 
@@ -8473,7 +8505,7 @@ Student.vue
 >
 > 安装7的命令`npm i less-loader@7`
 
-#### 版本安装less-loader
+#### 版本安装less-loader（切换版本）
 
 上面一节写了
 
@@ -8991,10 +9023,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                                                                   
+>                                                                               
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                                                                   
+>                                                                               
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -9003,10 +9035,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                                                                   
+>                                                                               
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                                                                   
+>                                                                               
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -11217,7 +11249,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                                                                                               
+>                                                                                                                 
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
@@ -14883,7 +14915,7 @@ https://blog.csdn.net/Dark_programmer/article/details/116796082
 
 
 
-### Optional JDK1.8新特性
+### Optional JDK1.8新特性(判空工具类)
 
 > https://blog.csdn.net/zknxx/article/details/78586799
 >
@@ -15233,5 +15265,52 @@ https://blog.csdn.net/weixin_43379230/article/details/103636493
 >   }
 > ```
 >
-> 
+
+
+
+### html如何保持背景图平铺
+
+>```css
+>.login_body {
+>      background: url('img/background/background.jpg') no-repeat center/cover;
+>      background-size: 100% 100%;
+>      background-attachment: fixed;
+>    }
+>```
+>
+>![image-20220324214638029](Akio%27s%20Book.assets/image-20220324214638029.png)
+
+
+
+### vue项目js使用正则表达式匹配
+
+> 需求：匹配字符串是否是多个空格
+>
+> ```javascript
+> export const common_method = {
+>   methods: {
+>     measurementShow: function(val) {
+>       return /^\s*$/.test(val)
+>     }
+>   }
+> }
+> ```
+>
+> 使用了`reg.test(str)`, reg的写法都是放在//内，^开头，$结尾
+
+
+
+
+
+### vue项目npm install报错
+
+![image-20220330200226806](Akio%27s%20Book.assets/image-20220330200226806.png)
+
+如上图的错误，大概率是npm的版本问题，使用`npm install npm@6.14.13 -g`，调整版本，然后重新npm install就好了
+
+
+
+
+
+
 
