@@ -1942,7 +1942,7 @@ Docker Hub(https://hub.docker.com)提供了庞大的镜像集合供使用
 
 
 
-## 数据库
+## 数据库substring_index
 
  `order BY substring_index( area_id,':', -1) + 0  ASC`
 
@@ -4399,7 +4399,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                                                                                                                                                 
+>                                                                                                                                                                                                                                                 
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4414,7 +4414,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                                                                                                                                                 
+>                                                                                                                                                                                                                                                 
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4422,7 +4422,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                                                                                                                                                 
+>                                                                                                                                                                                                                                                 
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4663,7 +4663,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                                                                                                                                                 
+>                                                                                                                                                                                                                                                 
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -4895,8 +4895,6 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 
 
 
-
-## IText
 
 
 
@@ -9023,10 +9021,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                                                                               
+>                                                                                               
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                                                                               
+>                                                                                               
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -9035,10 +9033,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                                                                               
+>                                                                                               
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                                                                               
+>                                                                                               
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -11249,7 +11247,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                                                                                                                 
+>                                                                                                                                         
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
@@ -14909,13 +14907,13 @@ https://blog.csdn.net/Dark_programmer/article/details/116796082
 
 ## NOTICE
 
-### [微信小程序使用nginx方向代理实现内嵌非业务域名](https://www.cnblogs.com/kenwar/p/8288882.html)
+### 1、微信小程序使用nginx方向代理实现内嵌非业务域名
 
 > https://www.cnblogs.com/kenwar/p/8288882.html
 
 
 
-### Optional JDK1.8新特性(判空工具类)
+### 2、Optional JDK1.8新特性(判空工具类)
 
 > https://blog.csdn.net/zknxx/article/details/78586799
 >
@@ -14942,13 +14940,13 @@ https://blog.csdn.net/Dark_programmer/article/details/116796082
 
 
 
-### input file如何限制上传的文件类型
+### 3、input file如何限制上传的文件类型
 
 https://www.feiniaomy.com/post/520.html
 
 
 
-### Axios请求的跨域问题
+### 4、Axios请求的跨域问题
 
 https://panjiachen.github.io/vue-element-admin-site/zh/guide/advanced/cors.html
 
@@ -14988,7 +14986,7 @@ https://www.cnblogs.com/kkMuying/p/14704194.html
 
 
 
-### Java的debug断点跳跃
+### 5、Java的debug断点跳跃
 
 https://blog.csdn.net/qq_41055045/article/details/107509871
 
@@ -14996,7 +14994,7 @@ https://blog.csdn.net/qq_41055045/article/details/107509871
 
 
 
-### vscode vue项目 debug
+### 6、vscode vue项目 debug
 
 https://juejin.cn/post/6844904144457695245
 
@@ -15004,7 +15002,7 @@ https://juejin.cn/post/6844904144457695245
 
 
 
-### vue,v-html如何识别\n换行符
+### 7、vue,v-html如何识别\n换行符
 
 ```html
 <span v-html="value.replace(/\n/gm, '<br>')" /><br>
@@ -15023,7 +15021,7 @@ value='您的数据中，如果字符串包含换行符\n它将被翻译为文�
 
 
 
-### 后端返回数据有时候出现大小写不一致情况
+### 8、后端返回数据有时候出现大小写不一致情况
 
 > 后端返回数据有时候出现大小写不一致情况，造成接口返回的数据，前端一直无法取正确
 >
@@ -15079,7 +15077,7 @@ value='您的数据中，如果字符串包含换行符\n它将被翻译为文�
 
 
 
-### 如何监视vuex中state的某个状态的变化
+### 9、如何监视vuex中state的某个状态的变化
 
 https://blog.csdn.net/weixin_43379230/article/details/103636493
 
@@ -15146,7 +15144,7 @@ https://blog.csdn.net/weixin_43379230/article/details/103636493
 
 
 
-### vue项目中如何根据路由来决定是否显示某些数据
+### 10、vue项目中如何根据路由来决定是否显示某些数据
 
 > 需求：当我在登陆页面的时候显示一个div，进入其他页面的时候不显示这个div
 >
@@ -15248,7 +15246,7 @@ https://blog.csdn.net/weixin_43379230/article/details/103636493
 
 
 
-### html如何使div保持在页面中间
+### 11、html如何使div保持在页面中间
 
 > 需求：需要保持这个login表单一直在页面中间，无论放大缩小，也不受显示器的大小的影响。如下
 >
@@ -15268,7 +15266,7 @@ https://blog.csdn.net/weixin_43379230/article/details/103636493
 
 
 
-### html如何保持背景图平铺
+### 12、html如何保持背景图平铺
 
 >```css
 >.login_body {
@@ -15282,7 +15280,7 @@ https://blog.csdn.net/weixin_43379230/article/details/103636493
 
 
 
-### vue项目js使用正则表达式匹配
+### 13、vue项目js使用正则表达式匹配
 
 > 需求：匹配字符串是否是多个空格
 >
@@ -15302,7 +15300,7 @@ https://blog.csdn.net/weixin_43379230/article/details/103636493
 
 
 
-### vue项目npm install报错
+### 14、vue项目npm install报错
 
 ![image-20220330200226806](Akio%27s%20Book.assets/image-20220330200226806.png)
 
@@ -15312,5 +15310,362 @@ https://blog.csdn.net/weixin_43379230/article/details/103636493
 
 
 
+### 15、SpringBoot配置多环境
 
+https://www.jianshu.com/p/b759c1bc289a
+
+pom.xml文件中添加
+
+```xml
+<profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <package.environment>local</package.environment>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <package.environment>dev</package.environment>
+            </properties>
+            <!-- 是否默认 true表示默认-->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+        <profile>
+            <id>uat</id>
+            <properties>
+                <package.environment>uat</package.environment>
+            </properties>
+        </profile>
+
+        <profile>
+            <!-- 生产环境 -->
+            <id>prod</id>
+            <properties>
+                <package.environment>prod</package.environment>
+            </properties>
+        </profile>
+    </profiles>
+```
+
+![image-20220402153415886](Akio%27s%20Book.assets/image-20220402153415886.png)
+
+![image-20220402153427976](Akio%27s%20Book.assets/image-20220402153427976.png)
+
+
+
+
+
+### 16、当做测试的时候，需要大量填充表单
+
+> 当做测试的时候，需要大量填充表单，这个时候可以使用AutoFill插件
+>
+> 插件例子
+>
+> https://www.tohodo.com/autofill/form.html
+>
+> https://www.cnblogs.com/wxfy/p/10823992.html
+
+
+
+
+
+### 17、VSCode Todo Tree VSCode插件 待办事项树
+
+> 我们写程序的时候，难免会遇到一些情况需要标记或者搁置，在写代码的时候会用一些特殊的注释来表示不同的内容，使我们可以快速的定位我们注释的位置。
+>
+> 主要有以下几种：
+>
+> `TODO`: 用来标记待办的地方。常常在有些地方，我们的功能并没有实现，使用`ToDo`标记我们可以快速定位需要实现的部分。
+>
+> `HACK`: 用来标记可能需要更改的地方。在写代码的时候，有的地方我们并不确定他是正确的，可能未来有所更改，这时候可以使用`HACK`标记。
+>
+> `NOTE`: 添加一些说明文字。
+>
+> `INFO`: 用来表达一些信息。
+>
+> `TAG`: 用来创建一些标记。
+>
+> `XXX`: 用来标记一些草率实现的地方。在写代码的时候，有些地方需要频繁修改，这时候使用`XXX`标记。
+>
+> `BUG`: 用来标记BUG~
+>
+> `FIXME`: 用来标记一些需要修复的位置，可以快速定位。
+>
+> https://blog.csdn.net/sinat_39620217/article/details/115614152
+>
+> **下面是我的一些配色：(左侧可以通过点击快速定位到位置)**
+>
+> ![示例](Akio%27s%20Book.assets/1971113-20210402215307403-837355866.png)
+>
+> **配置代码：(直接设置里搜索todo tree，然后随便选一个能打开setting.json的选项，复制进去覆盖就好了)**
+>
+> ```json
+> "todo-tree.tree.showScanModeButton": false,
+> "todo-tree.filtering.excludeGlobs": ["**/node_modules", "*.xml", "*.XML"],
+> "todo-tree.filtering.ignoreGitSubmodules": true,
+> "todohighlight.keywords": [
+> ],
+> "todo-tree.tree.showCountsInTree": true,
+> "todohighlight.keywordsPattern": "TODO:|FIXME:|NOTE:|\\(([^)]+)\\)",
+> "todohighlight.defaultStyle": {
+> 
+> },
+> "todohighlight.isEnable": false,
+> "todo-tree.highlights.customHighlight": {
+> 	// https://microsoft.github.io/vscode-codicons/dist/codicon.html 图标ICON网站
+>  "BUG": {
+>    "icon": "bug",
+>    "foreground": "#F56C6C",
+>    "type": "line"
+>  },
+>  "FIXME": {
+>    "icon": "flame",
+>    "foreground": "#FF9800",
+>    "type": "line"
+>  },
+>  "TODO": {
+>    "foreground": "#FFEB38",
+>    "type": "text-and-comment"
+>  },
+>  "NOTE": {
+>    "icon": "note",
+>    "foreground": "#67C23A",
+>    "type": "text-and-comment"
+>  },
+>  "NOTICE": {
+>      "icon": "note",
+>      "foreground": "#fec655",
+>      "type": "text-and-comment"
+>    },
+>  "INFO": {
+>    "icon": "info",
+>    "foreground": "#909399",
+>    "type": "text-and-comment"
+>  },
+>  "TAG": {
+>    "icon": "tag",
+>    "foreground": "#409EFF",
+>    "type": "text-and-comment"
+>  },
+>  "HACK": {
+>    "icon": "versions",
+>    "foreground": "#E040FB",
+>    "type": "text-and-comment"
+>  },
+>  "ERROR": {
+>    "icon": "flame",
+>    "foreground": "#E91E63",
+>    "type": "line"
+>  },
+>  "DOUBT": {
+>    "icon": "comment-discussion",
+>    "foreground": "#ff5d1d",
+>    "type": "text-and-comment"
+>  },
+>  "NEED_REMOVE": {
+>    "icon": "trash",
+>    "foreground": "#E91E63",
+>    "type": "whole-line"
+>  },
+>  "@TO": {
+>    "icon": "mention",
+>    "foreground": "#E91E63",
+>    "type": "text-and-comment"
+>  },
+>  "MODULE": {
+>    "icon": "squirrel",
+>    "foreground": "#e91e6f",
+>    "type": "text-and-comment"
+>  },
+>  "VERSION": {
+>    "icon": "versions",
+>    "foreground": "#1ee99bb1",
+>    "type": "text-and-comment"
+>  },
+>  "XXX": {
+>    "icon": "unverified",
+>    "foreground": "#E91E63",
+>    "type": "text-and-comment"
+>  }
+> },
+> "todo-tree.general.tags": [
+> 	"BUG",
+>  "HACK",
+>  "FIXME",
+>  "TODO",
+>  "INFO",
+>  "NOTE",
+>  "NOTICE",
+>  "TAG",
+>  "ERROR",
+>  "DOUBT",
+>  "NEED_REMOVE",
+>  "@TO",
+>  "MODULE",
+>  "VERSION",
+>  "XXX"
+> ],
+> "todo-tree.general.statusBar": "total",
+> ```
+>
+
+
+
+
+
+### 18、VUE项目子组件传递信息给父组件
+
+https://blog.csdn.net/weixin_45902969/article/details/118515918  子传父
+
+https://www.cnblogs.com/lunawzh/p/7633162.html   父传子
+
+> 参考如上的链接文章，要求实现，点击Cancel也能关闭该弹框。而是否弹出的属性是父组件控制的，这个弹出框是一个子组件。这就是一个典型的子组件给父组件传递事件
+>
+> <img src="Akio%27s%20Book.assets/image-20220419155837707.png" alt="image-20220419155837707" style="zoom:60%;" />
+>
+> sign-off.vue子组件中
+>
+> ```vue
+> <template>
+>   <div>
+>     <div class="left-gTask-panel">
+>       <div>
+>         <div class="confirm-btn">
+>           <el-button @click="closePanel()">Cancel</el-button>
+>           <el-button type="primary">Confirm</el-button>
+>         </div>
+>       </div>
+>     </div>
+>   </div>
+> </template>
+> 
+> <script>
+> import { boschLocation } from '../../src/utils/constants';
+> // import { ProjectService } from "../providers/project-service";
+> export default {
+>   data() {
+>     return {
+>     }
+>   },
+>   methods: {
+>     // 子组件传递给父组件信息
+>     closePanel() {
+>       this.$emit('closeSignOffPanel');
+>     }
+>   }
+> }
+> </script>
+> ```
+>
+> 父组件中
+>
+> ```vue
+> <DxPopup
+>          :width="800"
+>          height="auto"
+>          :show-title="true"
+>          title="Signoff Paper"
+>          :drag-enabled="false"
+>          :close-on-outside-click="false"
+>          :visible.sync="signOffPopupVisible"
+>          >
+>     <SignOffPaperPanel @closeSignOffPanel="closeSignOffPanel" />
+> </DxPopup>
+> <script>
+> export default {
+>     methods: {
+>         // INFO 子组件的cancel也可以关闭这个面板
+>         async closeSignOffPanel() {
+>           this.signOffPopupVisible = false;
+>         }
+>     }
+> }
+> </script>
+> ```
+>
+> ![image-20220419200617199](Akio%27s%20Book.assets/image-20220419200617199.png)
+>
+> ---
+>
+> 有个需求是父组件的按钮点击之后，给子组件传递数据和事件，典型的父组件->子组件
+>
+> 父组件
+>
+> ```vue
+>  <!-- INFO panel for signoff paper  -->
+> <DxPopup
+>          :width="800"
+>          height="auto"
+>          :show-title="true"
+>          title="Signoff Paper"
+>          :drag-enabled="false"
+>          :close-on-outside-click="false"
+>          :visible.sync="signOffPopupVisible"
+>          >
+>     <SignOffPaperPanel @closeSignOffPanel="closeSignOffPanel" ref="signoffRef" :projectService=projectService />
+> </DxPopup>
+> <el-tooltip effect="light" content="Generate Signoff Paper" placement="top-start">
+>     <el-button v-if="showSignOff(task.workPackage)" type="primary" @click="showSignOffPanel(task)">Signoff</el-button>
+> </el-tooltip>
+> 
+> <script>
+> 	// INFO The panel used to expand SignOff paper
+>     async showSignOffPanel(task) {
+>       // this.openFromDailyStatus = false;
+>       this.signOffPopupVisible = true;// 弹窗属性true
+>       this.$refs.signoffRef.initData(task.uuid);// 调用子组件的initData()方法
+>     },
+> </script>
+> ```
+>
+> 子组件sign-off.vue
+>
+> ```vue
+> <template>
+>   <div>
+>     <div class="left-gTask-panel">
+>         <div class="confirm-btn">
+>           <el-button @click="closePanel()">Cancel</el-button>
+>           <el-button type="primary">Confirm</el-button>
+>         </div>
+>     </div>
+>   </div>
+> </template>
+> 
+> <script>
+> 
+> export default {
+>   data() {
+>     return {
+>     }
+>   },
+>   props: [ 'projectService' ], // 传递数据
+>   methods: {
+>     // 子组件传递给父组件信息
+>     closePanel() {
+>       this.$emit('closeSignOffPanel');
+>     },
+>     // Initialize data
+>     initData(task_uuid) { // projectService是父组件中的
+>       this.$props.projectService.getSignOffPaperInfo(task_uuid).then(response => {
+>         let signOffData = response.data.data;
+>         this.System = signOffData.System;
+>         this.BB_No = signOffData.BBNo;
+>         this.Joint_test_project = signOffData.JointTestProject;
+>         this.Vehicle_ID = signOffData.VehicleId;
+>         // this.Winter_Final = signOffData.Winter/Final;// TODO 需要后端修改结构
+>         this.JT_Time_Period = signOffData.JT_time;
+>       })
+>     }
+>   }
+> }
+> </script>
+> ```
+>
+> ![image-20220419201642669](Akio%27s%20Book.assets/image-20220419201642669.png)
 
