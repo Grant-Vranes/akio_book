@@ -1,4 +1,4 @@
-## MYSQL的安装卸载
+MYSQL的安装卸载
 
 **安装**
 
@@ -4399,7 +4399,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                         
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4414,7 +4414,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                         
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4422,7 +4422,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                         
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4663,7 +4663,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                         
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -9021,10 +9021,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                                                                                                 
+>                                                                                                   
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                                                                                                 
+>                                                                                                   
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -9033,10 +9033,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                                                                                                 
+>                                                                                                   
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                                                                                                 
+>                                                                                                   
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -11247,7 +11247,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                                                                                                                                            
+>                                                                                                                                               
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
@@ -15834,3 +15834,56 @@ https://www.cnblogs.com/lunawzh/p/7633162.html   父传子
 >
 > ![image-20220419201642669](Akio%27s%20Book.assets/image-20220419201642669.png)
 
+
+
+
+
+### 19、VUE项目启动问题node-sass
+
+> ![image-20220421154825290](Akio%27s%20Book.assets/image-20220421154825290.png)
+>
+> 一般node-sass的问题都和nodejs的版本有关系
+>
+> https://blog.csdn.net/weixin_44870969/article/details/124265822
+>
+> ![image-20220421154959494](Akio%27s%20Book.assets/image-20220421154959494-16505274002241.png)
+
+
+
+
+
+### 20、Springboot项目如何连接远程服务器上的数据库
+
+> 没有数据库服务器，就在自己的服务器上装了mysql，希望将数据库的mysql开放给外部用户，设置如下。
+
+1、在自己的服务器放开3306的端口，当然也可以限制ip的来源，限制那些ip才能够访问。
+
+![image-20220421184724888](Akio%27s%20Book.assets/image-20220421184724888.png)
+
+2、在远程数据库创建一个以供开放的角色，这个角色你可以根据不同的需求场景，开放某一个数据库，授予不同的权限等。以下我创建了一个用户Akio，允许来自任何ip的用户都可借此登录。当然你也可以根据语法创建更多类型更多场景的用户。
+
+![image-20220421185543736](Akio%27s%20Book.assets/image-20220421185543736.png)
+
+3、授予权限，`ALL PRIVILEGES` 授予所有权限，`*.*`表示所有的数据库，`'Akio'@'%'`是用户及其host
+
+`GRANT ALL PRIVILEGES ON *.* to 'Akio'@'%';`
+
+`flush privileges;`刷新到内存中，立即生效
+
+![image-20220421191831466](Akio%27s%20Book.assets/image-20220421191831466.png)
+
+4、尝试登陆
+
+![image-20220421185815544](Akio%27s%20Book.assets/image-20220421185815544.png)
+
+5、然后你就可以在你的项目中使用
+
+```properties
+#mysql connect message
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://服务器地址:3306/数据库名称?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+spring.datasource.username=Akio
+spring.datasource.password=
+```
+
+注意：请注意用户的授权
