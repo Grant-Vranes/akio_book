@@ -4399,7 +4399,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                                                                                                                                                                                         
+>                                                                                                                                                                                                                                                                     
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4414,7 +4414,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                                                                                                                                                                                         
+>                                                                                                                                                                                                                                                                     
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4422,7 +4422,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                                                                                                                                                                                         
+>                                                                                                                                                                                                                                                                     
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4663,7 +4663,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                                                                                                                                                                                         
+>                                                                                                                                                                                                                                                                     
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -9021,10 +9021,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                                                                                                   
+>                                                                                                         
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                                                                                                   
+>                                                                                                         
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -9033,10 +9033,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                                                                                                   
+>                                                                                                         
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                                                                                                   
+>                                                                                                         
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -11247,7 +11247,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                                                                                                                                               
+>                                                                                                                                                        
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
@@ -15887,3 +15887,101 @@ spring.datasource.password=
 ```
 
 注意：请注意用户的授权
+
+
+
+
+
+### 21、VUE项目运行时候报错core-js
+
+![image-20220422205818676](Akio%27s%20Book.assets/image-20220422205818676.png)
+
+如上图，那npm run dev运行项目的时候发现，不能运行，提示安装core-js
+
+先打开项目的package.json看看core.js用的是啥版本
+
+![image-20220422210005416](Akio%27s%20Book.assets/image-20220422210005416.png)
+
+然后使用命令安装对应版本
+
+`npm/cnpm install core-js@3.6.5`
+
+> package.json中^,~的详细说明
+>
+> （1）指定版本：比如"axios": “0.21.0”，表示安装0.21.0的版本;
+> （2）波浪号~指定版本：比如 “core-js”: “~3.6.5”, 表示安装3.6.x的最新版本（不低于3.6.5），但是不安装3.7.x，也就是说安装时不改变大版本号和次要版本号
+> （3）^指定版本：比如 “antd”: “^3.1.4”,，表示安装3.1.4及以上的版本，但是不安装4.0.0，也就是说安装时不改变大版本号。
+> ————————————————
+> 版权声明：本文为CSDN博主「大狼狗」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+> 原文链接：https://blog.csdn.net/big_wolf0/article/details/124294655
+
+
+
+
+
+### 22、el-checkbox绑定动态数据发现第一次点击无效，第二次点击才有效
+
+> 先看一下后端传递的值，为了方便前端勾选，特地让后端加了一个isSelected属性，并初始化为false，但不知道传递过来的是false是String对其会有什么影响，可能是这个原因。
+>
+> ![image-20220426150241607](Akio%27s%20Book.assets/image-20220426150241607.png)
+>
+> 代码
+>
+> ```vue
+> <template>
+>     <div v-for="(customer, index) in customerList" :key="index">
+>       <i type="info"><i class="el-icon-user"></i>{{ customer.customer }}</i><br>
+>       <el-checkbox v-for="project in customer.projectList" :key="project.projectIdx" v-model="project.isSelected">{{ project.projectName }}</el-checkbox>
+>       <br><br>
+>     </div>
+> </template>
+> 
+> <script>
+>   export default {
+>     data() {
+>       return {
+>         // 初始面板的数据集合
+>         customerList: [],
+>       };
+>     },
+>     methods: {
+>       // 初始化面板和数据
+>       initCustomerPanel(projectUUID) {
+>         this.projectService.getGenerateGTMM(projectUUID).then(response => {
+>           this.customerList = response.data.data;
+>         })
+>       }
+>     },
+>     created: {
+> 		this.initCustomerPanel();
+>     }
+>   }
+> </script>
+> ```
+>
+> 但是出现了问题，第一次点击只是框框变色，并没有选中，必须要进行第二次点击才能成功选中，用户友好型low
+>
+> ![image-20220426150945336](Akio%27s%20Book.assets/image-20220426150945336.png)
+>
+> 我的解决办法是，在给data中的customerList对象赋值的时候，把其中的isSelected值全部都重新赋值为false
+>
+> ```js
+> initCustomerPanel(projectUUID) {
+>     this.projectService.getGenerateGTMM(projectUUID).then(response => {
+>         this.customerList = response.data.data;
+>         // 给data中customerList对象中的isSelected，
+>         this.customerList.forEach(e1 => {
+>             e1.projectList.forEach(e2 => {
+>                 e2.isSelected = false;
+>             })
+>         });
+>     })
+> },
+> ```
+>
+> 网上找的参考帖子：
+>
+> https://segmentfault.com/q/1010000011649557
+>
+> ![image-20220426152629702](Akio%27s%20Book.assets/image-20220426152629702.png)
+
