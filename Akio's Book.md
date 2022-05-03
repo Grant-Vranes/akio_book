@@ -4399,7 +4399,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                                                 
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4414,7 +4414,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                                                 
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4422,7 +4422,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                                                 
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4663,7 +4663,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                                                 
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -9021,10 +9021,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                                                                                                         
+>                                                                                                               
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                                                                                                         
+>                                                                                                               
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -9033,10 +9033,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                                                                                                         
+>                                                                                                               
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                                                                                                         
+>                                                                                                               
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -11247,7 +11247,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                                                                                                                                                        
+>                                                                                                                                                                 
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
@@ -11618,7 +11618,7 @@ export default new Vuex.Store({
 
 ### vue-router路由
 
-> <img src="Akio's Book.assets/image-20220126103733452.png" alt="image-20220126103733452" style="zoom:50%;" />
+> <img src="Akio's Book.assets/image-20220126103733452.png" alt="image-20220126103733452" style="zoom:70%;" />
 >
 > 1. 理解： 一个路由（route）就是一组映射关系（key - value），多个路由需要路由器（router）进行管理。
 > 2. 前端路由：key是路径，value是组件。
@@ -11629,7 +11629,7 @@ export default new Vuex.Store({
 
 2. 应用插件：`Vue.use(VueRouter)`
 
-3. 编写router配置项:
+3. x编写router配置项:
 
    ```js
    //引入VueRouter
@@ -11958,7 +11958,7 @@ export default new Vuex.Store({
       			component:Test,
       			children:[
       				{
-                            name:'hello' //给路由命名
+                          name:'hello' //给路由命名
       					path:'welcome',
       					component:Hello,
       				}
@@ -14920,32 +14920,32 @@ https://blog.csdn.net/Dark_programmer/article/details/116796082
 > import store from '@/store'
 > 
 > export function exportWordAndImage(report) {
->   console.log(report)
->   // 导出word方法
->   // const _this = this
->   console.log(store.state.en_cn)
->   // console.log(isCn)
->   var templateChose
->   if (report.isCn) {
->     if (report.Product === 'ABS' || report.Product === 'ESP') {
->       templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_CN_ABS_ESP.docx'
->     } else if (report.Product === 'IPB') {
->       templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_CN_IPB.docx'
->     } else if (report.Product === 'IB') {
->       templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_CN_IB.docx'
->     } else {
->       alert('请到FirstPage页面选择产品')
->     }
->   } else {
->     if (report.Product === 'ABS' || report.Product === 'ESP') {
->       templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_EN_ABS_ESP.docx'
->     } else if (report.Product === 'IPB') {
->       templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_EN_IPB.docx'
->     } else if (report.Product === 'IB') {
->       templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_EN_IB.docx'
->     } else {
->       alert('请到FirstPage页面选择产品')
->     }
+>       console.log(report)
+>       // 导出word方法
+>       // const _this = this
+>       console.log(store.state.en_cn)
+>       // console.log(isCn)
+>       var templateChose
+>       if (report.isCn) {
+>         if (report.Product === 'ABS' || report.Product === 'ESP') {
+>           templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_CN_ABS_ESP.docx'
+>         } else if (report.Product === 'IPB') {
+>           templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_CN_IPB.docx'
+>         } else if (report.Product === 'IB') {
+>           templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_CN_IB.docx'
+>         } else {
+>           alert('请到FirstPage页面选择产品')
+>         }
+>       } else {
+>         if (report.Product === 'ABS' || report.Product === 'ESP') {
+>           templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_EN_ABS_ESP.docx'
+>         } else if (report.Product === 'IPB') {
+>           templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_EN_IPB.docx'
+>         } else if (report.Product === 'IB') {
+>           templateChose = process.env.VUE_APP_PUBLIC_PATH + '/template_EN_IB.docx'
+>         } else {
+>           alert('请到FirstPage页面选择产品')
+>         }
 >   }
 >   JSZipUtils.getBinaryContent(templateChose, function(error, content) {
 >     if (error) {
@@ -15925,7 +15925,7 @@ spring.datasource.password=
 >
 > ![image-20220426150241607](Akio%27s%20Book.assets/image-20220426150241607.png)
 >
-> 代码
+> code
 >
 > ```vue
 > <template>
@@ -15985,3 +15985,45 @@ spring.datasource.password=
 >
 > ![image-20220426152629702](Akio%27s%20Book.assets/image-20220426152629702.png)
 
+
+
+
+
+### 23、Vue项目添加多个配置环境
+
+>  ref：https://blog.csdn.net/weixin_45634261/article/details/123505176
+
+VUE项目使用.env配置多种环境，使用.env文件配置全局环境变量，就如同SpringBoot项目的application文件一样
+
+> #### 一、创建多个环境配置文件
+>
+> ```js
+> .env文件是默认的全局配置环境，无论是什么环境都会加载
+> .env.development 文件是开发环境，使用npm run server时默认会加载此配置文件
+> .env.production文件是生产环境，使用npm run build时默认会加载此配置文件
+> .env.自定义名称 根据自身要求，给此配置文件取名，前面一定是.env.
+> ```
+>
+> ![image-20220430215834517](Akio%27s%20Book.assets/image-20220430215834517.png)
+
+> #### 二、编写内容
+>
+> ![image-20220430220314945](Akio%27s%20Book.assets/image-20220430220314945.png)
+>
+> 在配置文件中定义自定义变量的时候，必须以`VUE_APP_`开头，否则Vue无法读取此变量
+
+> #### 三、在package.json文件中编写启动命令
+>
+> ![image-20220430220821256](Akio%27s%20Book.assets/image-20220430220821256.png)
+>
+> ```json
+> "scripts": {
+>     "serve": "vue-cli-service serve", // npm run serve 会默认使用.env.development配置文件
+>     "serve:stage": "vue-cli-service serve --mode stage",
+>     "serve:prod": "vue-cli-service serve --mode production", // 使用npm run serve:prod指令运行时，会加载.env.prod配置文件
+>     "build": "vue-cli-service build", // npm run build 会默认使用.env.production配置文件
+>     "build:dev": "vue-cli-service build --mode development",
+>     "build:stage": "vue-cli-service build --mode stage",    
+>     "lint": "vue-cli-service lint"
+> },
+> ```
