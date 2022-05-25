@@ -4399,7 +4399,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                                                         
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4414,7 +4414,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                                                         
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4422,7 +4422,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                                                         
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4663,7 +4663,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                                                                                                                                                                                                                     
+>                                                                                                                                                                                                                                                                                         
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -9021,10 +9021,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                                                                                                                 
+>                                                                                                                   
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                                                                                                                 
+>                                                                                                                   
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -9033,10 +9033,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                                                                                                                 
+>                                                                                                                   
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                                                                                                                 
+>                                                                                                                   
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -11247,7 +11247,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                                                                                                                                                                    
+>                                                                                                                                                                       
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
@@ -16045,5 +16045,109 @@ VUE项目使用.env配置多种环境，使用.env文件配置全局环境变量
         <skipTests>true</skipTests>
     </configuration>
 </plugin>
+```
+
+
+
+
+
+### 25、获取上下文bean的一个工具类
+
+SpringContextHolder.java
+
+```java
+package com.dxc.kone.callelevator.thirdpartyequipment.service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.StandardCharsets;
+
+/**
+ * @author Akio
+ * 2022/3/24
+ **/
+@Component
+public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
+    private static Logger logger = LoggerFactory.getLogger(SpringContextHolder.class);
+
+    private static ApplicationContext applicationContext = null;
+
+    /**
+     * 取得存储在静态变量中的ApplicationContext.
+     */
+    public static ApplicationContext getApplicationContext() {
+        assertContextInjected();
+        return applicationContext;
+    }
+
+    /**
+     * 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.
+     */
+    public static <T> T getBean(String name) {
+        assertContextInjected();
+        return (T) applicationContext.getBean(name);
+    }
+
+    /**
+     * 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.
+     */
+    public static <T> T getBean(Class<T> requiredType) {
+        assertContextInjected();
+        return applicationContext.getBean(requiredType);
+    }
+
+    /**
+     * 检查ApplicationContext不为空.
+     */
+    private static void assertContextInjected() {
+        if (applicationContext == null) {
+            throw new IllegalStateException("applicaitonContext属性未注入, 请在applicationContext" +
+                    ".xml中定义SpringContextHolder或在SpringBoot启动类中注册SpringContextHolder.");
+        }
+    }
+
+    /**
+     * 清除SpringContextHolder中的ApplicationContext为Null.
+     */
+    public static void clearHolder() {
+        logger.debug("清除SpringContextHolder中的ApplicationContext:"
+                + applicationContext);
+        applicationContext = null;
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        SpringContextHolder.clearHolder();
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        if (SpringContextHolder.applicationContext != null) {
+            logger.warn("SpringContextHolder中的ApplicationContext被覆盖, 原有ApplicationContext为:" + SpringContextHolder.applicationContext);
+        }
+        SpringContextHolder.applicationContext = applicationContext;
+    }
+
+
+    @Bean
+    public RestTemplate restTemplate() {
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(2000);
+        requestFactory.setReadTimeout(10000);
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        return restTemplate;
+    }
+}
 ```
 
