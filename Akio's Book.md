@@ -4399,7 +4399,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                                                                                                                                                                                                                 
+>                                                                                                                                                                                                                                                                                     
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4414,7 +4414,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                                                                                                                                                                                                                 
+>                                                                                                                                                                                                                                                                                     
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4422,7 +4422,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                                                                                                                                                                                                                 
+>                                                                                                                                                                                                                                                                                     
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4663,7 +4663,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                                                                                                                                                                                                                 
+>                                                                                                                                                                                                                                                                                     
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -9021,10 +9021,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                                                                                                               
+>                                                                                                                 
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                                                                                                               
+>                                                                                                                 
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -9033,10 +9033,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                                                                                                               
+>                                                                                                                 
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                                                                                                               
+>                                                                                                                 
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -11247,7 +11247,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                                                                                                                                                                 
+>                                                                                                                                                                    
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
@@ -16027,3 +16027,69 @@ VUE项目使用.env配置多种环境，使用.env文件配置全局环境变量
 >     "lint": "vue-cli-service lint"
 > },
 > ```
+
+
+
+
+
+
+
+### 24、linux——mail
+
+https://www.cnblogs.com/dannylinux/p/13153189.html
+
+```bash
+# 基本上mail的配置都在/etc/postfix/main.cf
+```
+
+```bash
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+
+
+# Debian specific:  Specifying a file name will cause the first
+# line of that file to be used as the name.  The Debian default
+# is /etc/mailname.
+# myorigin = /etc/mailname
+
+smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
+biff = no
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+# Uncomment the next line to generate "delayed mail" warnings
+#delay_warning_time = 4h
+
+readme_directory = no
+
+# See http://www.postfix.org/COMPATIBILITY_README.html -- default to 2 on
+# fresh installs.
+compatibility_level = 2
+
+# TLS parameters
+smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_use_tls=yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
+# information on enabling SSL in the smtp client.
+
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+myhostname = localhost.localdomain
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+myorigin = /etc/mailname
+mydestination = $myhostname, localhost.localdomain, localhost.localdomain, localhost
+# relayhost = smtp.localdomain 就是因为这个导致如下图Host or domain name not found的错误，注释就好了
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = all
+```
+
+![image-20220603182700904](Akio%27s%20Book.assets/image-20220603182700904.png)
+
+然后就可以随意发邮件了，而且我发现也不用配置`/etc/mail.rc`
