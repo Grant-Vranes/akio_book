@@ -4230,7 +4230,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >             <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 >             <project.hibernate.version>5.0.7.Final</project.hibernate.version>
 >         </properties>
->     
+>
 >         <dependencies>
 >             <!-- junit -->
 >             <dependency>
@@ -4239,28 +4239,28 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >                 <version>4.12</version>
 >                 <scope>test</scope>
 >             </dependency>
->     
+>
 >             <!-- hibernate对jpa的支持包 -->
 >             <dependency>
 >                 <groupId>org.hibernate</groupId>
 >                 <artifactId>hibernate-entitymanager</artifactId>
 >                 <version>${project.hibernate.version}</version>
 >             </dependency>
->     
+>
 >             <!-- c3p0 -->
 >             <dependency>
 >                 <groupId>org.hibernate</groupId>
 >                 <artifactId>hibernate-c3p0</artifactId>
 >                 <version>${project.hibernate.version}</version>
 >             </dependency>
->     
+>
 >             <!-- log日志 -->
 >             <dependency>
 >                 <groupId>log4j</groupId>
 >                 <artifactId>log4j</artifactId>
 >                 <version>1.2.17</version>
 >             </dependency>
->     
+>
 >             <!-- Mysql and MariaDB -->
 >             <dependency>
 >                 <groupId>mysql</groupId>
@@ -4304,7 +4304,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >                 <property name="javax.persistence.jdbc.user" value="root" />
 >                 <!-- 数据库密码 -->
 >                 <property name="javax.persistence.jdbc.password" value="root" />
->     
+>
 >                 <!--jpa提供者的可选配置：我们的JPA规范的提供者为hibernate，所以jpa的核心配置中兼容hibernate的配置 -->
 >                 <!--显示/打印sql-->
 >                 <property name="hibernate.show_sql" value="true" />
@@ -4317,7 +4317,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >                 <property name="hibernate.hbm2ddl.auto" value="create" />
 >             </properties>
 >         </persistence-unit>
->     
+>
 >     </persistence>
 >     ```
 >
@@ -4325,14 +4325,14 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >
 >     ```java
 >     package com.shenhua.domain;
->     
+>
 >     import lombok.AllArgsConstructor;
 >     import lombok.Data;
 >     import lombok.NoArgsConstructor;
->     
+>
 >     import javax.persistence.*;
 >     import java.io.Serializable;
->     
+>
 >     /**
 >      * @Desp If you have any questions,please contact hao.shi3@dxc.com
 >      * @Author hshi20
@@ -4399,7 +4399,11 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			Persisitence：静态方法（根据持久化单元名称创建实体管理器工厂）
 >     				createEntityMnagerFactory（持久化单元名称）
 >     			作用：创建实体管理器工厂
->                                                                                                                                                                                                                                                                                     
+> <<<<<<< HEAD
+>
+> =======
+>
+> >>>>>> 65f77776cd730cdc5df5f3470725a92ee8ffbc89
 >     		2.根据实体管理器工厂，创建实体管理器
 >     			EntityManagerFactory ：获取EntityManager对象
 >     			方法：createEntityManager
@@ -4409,12 +4413,16 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				维护了所有的实体管理器对象
 >     				再创建EntityManagerFactory的过程中会根据配置创建数据库表
 >     			* EntityManagerFactory的创建过程比较浪费资源
->     			特点：线程安全的对象
+>     				特点：线程安全的对象
 >     				多个线程访问同一个EntityManagerFactory不会有线程安全问题
 >     			* 如何解决EntityManagerFactory的创建过程浪费资源（耗时）的问题？
 >     			思路：创建一个公共的EntityManagerFactory的对象
 >     			* 静态代码块的形式创建EntityManagerFactory
->                                                                                                                                                                                                                                                                                     
+> <<<<<<< HEAD
+>
+> =======
+>
+> >>>>>> 65f77776cd730cdc5df5f3470725a92ee8ffbc89
 >     		3.创建事务对象，开启事务
 >     			EntityManager对象：实体类管理器
 >     				beginTransaction : 创建事务对象
@@ -4422,7 +4430,11 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     				merge  ： 更新
 >     				remove ： 删除
 >     				find/getRefrence ： 根据id查询
->                                                                                                                                                                                                                                                                                     
+> <<<<<<< HEAD
+>
+> =======
+>
+> >>>>>> 65f77776cd730cdc5df5f3470725a92ee8ffbc89
 >     			Transaction 对象 ： 事务
 >     				begin：开启事务
 >     				commit：提交事务
@@ -4455,18 +4467,19 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >             factory.close();
 >         }
 >     }
+>     
 >     ```
 >
 >     点击运行，可以详细看到执行过程中的一些sql语句
->
+>     
 >     <img src="Akio's Book.assets/image-20220114164700716.png" alt="image-20220114164700716" style="zoom:50%;" />
->
+>     
 >     <img src="Akio's Book.assets/image-20220114164751475.png" alt="image-20220114164751475" style="zoom:60%;" />
->
+>     
 >     ---
->
+>     
 >     **常用注解：**
->
+>     
 >     > ```java
 >     > 	    @Entity
 >     >         	作用：指定当前类是实体类。
@@ -4503,7 +4516,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     /*
 >         解决实体管理器工厂的浪费资源和耗时问题
 >             通过静态代码块的形势，当程序第一次访问此工具类时，创建一个公共的实体管理器工厂对象
->     
+>
 >         第一次访问getEntityManager方法：经过静态代码块建一个factory对象，再调用方法创建一个EntityManager对象
 >         第二次方法getEntityManager方法：直接通过一个已经创建好的factory对象，创建EntityManager对象
 >      */
@@ -4515,7 +4528,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >             // 注意：该方法参数必须和persistence.xml中persistence-unit标签name属性取值一致
 >             em = Persistence.createEntityManagerFactory("myJpa");
 >         }
->     
+>
 >         /**
 >          * 使用管理器工厂生产一个管理器对象
 >          *
@@ -4663,7 +4676,11 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
->                                                                                                                                                                                                                                                                                     
+> <<<<<<< HEAD
+>
+> =======
+>
+> >>>>>> 65f77776cd730cdc5df5f3470725a92ee8ffbc89
 >     	// 查询实体的缓存问题
 >     	@Test
 >     	public void testGetOne() {
@@ -4693,6 +4710,7 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     			em.close();
 >     		}
 >     	}
+>     
 >     ```
 
 ###### 延迟加载和立即加载
@@ -8977,10 +8995,10 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->   
+>
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->   
+>
 >   			function saveData(){
 >   				localStorage.setItem('msg','hello!!!')
 >   				localStorage.setItem('msg2',666)
@@ -8989,10 +9007,10 @@ Student.vue
 >   			function readData(){
 >   				console.log(localStorage.getItem('msg'))
 >   				console.log(localStorage.getItem('msg2'))
->   
+>
 >   				const result = localStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->   
+>
 >   				// console.log(localStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -9021,10 +9039,17 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->                                                                                                                 
+>   <<<<<<< HEAD
+>   
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
->                                                                                                                 
+>
+> =======
+>
+>   		<script type="text/javascript" >
+>   			let p = {name:'张三',age:18}
+>
+> >>>>>> 65f77776cd730cdc5df5f3470725a92ee8ffbc89
 >   			function saveData(){
 >   				sessionStorage.setItem('msg','hello!!!')
 >   				sessionStorage.setItem('msg2',666)
@@ -9033,10 +9058,17 @@ Student.vue
 >   			function readData(){
 >   				console.log(sessionStorage.getItem('msg'))
 >   				console.log(sessionStorage.getItem('msg2'))
->                                                                                                                 
+> <<<<<<< HEAD
+>
 >   				const result = sessionStorage.getItem('person')
 >   				console.log(JSON.parse(result))
->                                                                                                                 
+>
+> =======
+>
+>   				const result = sessionStorage.getItem('person')
+>   				console.log(JSON.parse(result))
+>
+> >>>>>> 65f77776cd730cdc5df5f3470725a92ee8ffbc89
 >   				// console.log(sessionStorage.getItem('msg3'))
 >   			}
 >   			function deleteData(){
@@ -9048,6 +9080,7 @@ Student.vue
 >   		</script>
 >   	</body>
 >   </html>
+>   
 >   ```
 >
 > ---
@@ -11211,7 +11244,7 @@ export default new Vuex.Store({
 >    computed: {
 >        //借助mapState生成计算属性：sum、school、subject（对象写法）
 >         ...mapState({sum:'sum',school:'school',subject:'subject'}),
->             
+>
 >        //借助mapState生成计算属性：sum、school、subject（数组写法）
 >        ...mapState(['sum','school','subject']),
 >    },
@@ -11223,7 +11256,7 @@ export default new Vuex.Store({
 >    computed: {
 >        //借助mapGetters生成计算属性：bigSum（对象写法）
 >        ...mapGetters({bigSum:'bigSum'}),
->    
+>
 >        //借助mapGetters生成计算属性：bigSum（数组写法）
 >        ...mapGetters(['bigSum'])
 >    },
@@ -11235,7 +11268,7 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：incrementOdd、incrementWait（对象形式）
 >        ...mapActions({incrementOdd:'jiaOdd',incrementWait:'jiaWait'})
->    
+>
 >        //靠mapActions生成：incrementOdd、incrementWait（数组形式）
 >        ...mapActions(['jiaOdd','jiaWait'])
 >    }
@@ -11247,10 +11280,15 @@ export default new Vuex.Store({
 >    methods:{
 >        //靠mapActions生成：increment、decrement（对象形式）
 >        ...mapMutations({increment:'JIA',decrement:'JIAN'}),
->                                                                                                                                                                    
+> <<<<<<< HEAD
+>
+> =======
+>
+> >>>>>> 65f77776cd730cdc5df5f3470725a92ee8ffbc89
 >        //靠mapMutations生成：JIA、JIAN（对象形式）
 >        ...mapMutations(['JIA','JIAN']),
 >    }
+>    
 >    ```
 >
 > > 备注：mapActions与mapMutations使用时，若需要传递参数需要：在模板中绑定事件时传递好参数，否则参数是事件对象。
@@ -16018,17 +16056,138 @@ VUE项目使用.env配置多种环境，使用.env文件配置全局环境变量
 >
 > ```json
 > "scripts": {
->     "serve": "vue-cli-service serve", // npm run serve 会默认使用.env.development配置文件
->     "serve:stage": "vue-cli-service serve --mode stage",
->     "serve:prod": "vue-cli-service serve --mode production", // 使用npm run serve:prod指令运行时，会加载.env.prod配置文件
->     "build": "vue-cli-service build", // npm run build 会默认使用.env.production配置文件
->     "build:dev": "vue-cli-service build --mode development",
->     "build:stage": "vue-cli-service build --mode stage",    
->     "lint": "vue-cli-service lint"
-> },
+>  "serve": "vue-cli-service serve", // npm run serve 会默认使用.env.development配置文件
+>  "serve:stage": "vue-cli-service serve --mode stage",
+>  "serve:prod": "vue-cli-service serve --mode production", // 使用npm run serve:prod指令运行时，会加载.env.prod配置文件
+>  "build": "vue-cli-service build", // npm run build 会默认使用.env.production配置文件
+>  "build:dev": "vue-cli-service build --mode development",
+>  "build:stage": "vue-cli-service build --mode stage",    
+>  "lint": "vue-cli-service lint"
+> }, 
 > ```
 
 
+
+
+
+### 24、SpringBoot打包忽略Test测试集
+
+打包时忽略单元测试，pom.xml文件添加如下依赖，刷新maven，然后package
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>2.20.1</version>
+    <configuration>
+        <skipTests>true</skipTests>
+    </configuration>
+</plugin>
+```
+
+
+
+
+
+### 25、获取上下文bean的一个工具类
+
+SpringContextHolder.java
+
+```java
+package com.dxc.kone.callelevator.thirdpartyequipment.service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.StandardCharsets;
+
+/**
+ * @author Akio
+ * 2022/3/24
+ **/
+@Component
+public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
+    private static Logger logger = LoggerFactory.getLogger(SpringContextHolder.class);
+
+    private static ApplicationContext applicationContext = null;
+
+    /**
+     * 取得存储在静态变量中的ApplicationContext.
+     */
+    public static ApplicationContext getApplicationContext() {
+        assertContextInjected();
+        return applicationContext;
+    }
+
+    /**
+     * 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.
+     */
+    public static <T> T getBean(String name) {
+        assertContextInjected();
+        return (T) applicationContext.getBean(name);
+    }
+
+    /**
+     * 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.
+     */
+    public static <T> T getBean(Class<T> requiredType) {
+        assertContextInjected();
+        return applicationContext.getBean(requiredType);
+    }
+
+    /**
+     * 检查ApplicationContext不为空.
+     */
+    private static void assertContextInjected() {
+        if (applicationContext == null) {
+            throw new IllegalStateException("applicaitonContext属性未注入, 请在applicationContext" +
+                    ".xml中定义SpringContextHolder或在SpringBoot启动类中注册SpringContextHolder.");
+        }
+    }
+
+    /**
+     * 清除SpringContextHolder中的ApplicationContext为Null.
+     */
+    public static void clearHolder() {
+        logger.debug("清除SpringContextHolder中的ApplicationContext:"
+                + applicationContext);
+        applicationContext = null;
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        SpringContextHolder.clearHolder();
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        if (SpringContextHolder.applicationContext != null) {
+            logger.warn("SpringContextHolder中的ApplicationContext被覆盖, 原有ApplicationContext为:" + SpringContextHolder.applicationContext);
+        }
+        SpringContextHolder.applicationContext = applicationContext;
+    }
+
+
+    @Bean
+    public RestTemplate restTemplate() {
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(2000);
+        requestFactory.setReadTimeout(10000);
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        return restTemplate;
+    }
+}
+```
 
 
 
