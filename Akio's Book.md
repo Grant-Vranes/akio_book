@@ -3981,16 +3981,28 @@ https://blog.csdn.net/u014209205/article/details/79961622 'parent.relativePath' 
 >
 > pom.xml
 >
+> maven由于约定大于配置，我们之后可能会遇到我们写的配置文件，无法被导出或者生效的问题
+>
 > ```xml
-> <build>
+> <!--在build中配置resources，来防止我们资源导出失败的问题-->
+>     <build>
 >         <resources>
->         <!-- 声明mapper.xml文件在java目录下 -->
->         <resource>
->             <directory>src/main/java</directory>
->             <includes>
->                 <include>**/*.xml</include>
->             </includes>
->         </resource>
+>             <resource>
+>                 <directory>src/main/resources</directory>
+>                 <includes>
+>                     <include>**/*.properties</include>
+>                     <include>**/*.xml</include>
+>                 </includes>
+>                 <filtering>true</filtering>
+>             </resource>
+>             <resource>
+>                 <directory>src/main/java</directory>
+>                 <includes>
+>                     <include>**/*.properties</include>
+>                     <include>**/*.xml</include>
+>                 </includes>
+>                 <filtering>true</filtering>
+>             </resource>
 >         </resources>
 >     </build>
 > ```
