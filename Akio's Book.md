@@ -1,4 +1,4 @@
-MYSQL的安装卸载
+## MYSQL的安装卸载
 
 **安装**
 
@@ -4481,17 +4481,17 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     }
 >     
 >     ```
->            
+>                
 >     点击运行，可以详细看到执行过程中的一些sql语句
->                 
+>                     
 >     <img src="Akio's Book.assets/image-20220114164700716.png" alt="image-20220114164700716" style="zoom:50%;" />
->                 
+>                     
 >     <img src="Akio's Book.assets/image-20220114164751475.png" alt="image-20220114164751475" style="zoom:60%;" />
->                 
+>                     
 >     ---
->                 
+>                     
 >     **常用注解：**
->                 
+>                     
 >     > ```java
 >     > 	    @Entity
 >     >         	作用：指定当前类是实体类。
@@ -9052,7 +9052,7 @@ Student.vue
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
 >   <<<<<<< HEAD
->         
+>           
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
 >
