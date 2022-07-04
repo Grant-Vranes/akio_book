@@ -808,7 +808,7 @@ https://www.cnblogs.com/muxi0407/p/11599570.html
 
 
 
-## Nginx
+## Nginx-Windows
 
 ### 装载启动
 
@@ -854,6 +854,24 @@ https://nginx.org/en/download.html
 > 注意：以上命令均需要到nginx的路径的cmd下运行，他暂时没有全局命令（除非将其设置到全局）
 >
 > ![image-20211116092752301](Akio's Book.assets/image-20211116092752301.png)
+
+
+
+
+
+## Nginx-Linux
+
+视频： https://www.bilibili.com/video/BV1F5411J7vK?spm_id_from=333.999.0.0&vd_source=9bad1517ba68ac5958696a8c079d241e
+
+笔记： https://blog.csdn.net/qq_44866424/article/details/119138010
+
+
+
+
+
+
+
+
 
 
 
@@ -4481,17 +4499,17 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     }
 >     
 >     ```
->                
+>                    
 >     点击运行，可以详细看到执行过程中的一些sql语句
->                     
+>                         
 >     <img src="Akio's Book.assets/image-20220114164700716.png" alt="image-20220114164700716" style="zoom:50%;" />
->                     
+>                         
 >     <img src="Akio's Book.assets/image-20220114164751475.png" alt="image-20220114164751475" style="zoom:60%;" />
->                     
+>                         
 >     ---
->                     
+>                         
 >     **常用注解：**
->                     
+>                         
 >     > ```java
 >     > 	    @Entity
 >     >         	作用：指定当前类是实体类。
@@ -9052,7 +9070,7 @@ Student.vue
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
 >   <<<<<<< HEAD
->           
+>             
 >   		<script type="text/javascript" >
 >   			let p = {name:'张三',age:18}
 >
