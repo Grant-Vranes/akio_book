@@ -866,7 +866,7 @@ https://nginx.org/en/download.html
 笔记:	https://blog.csdn.net/qq_44866424/article/details/119138010
 
 
- 
+
 
 ### 前言
 
@@ -4811,17 +4811,17 @@ jpa规范，实现jpa规范，内部是由接口和抽象类组成
 >     }
 >     
 >     ```
->                        
+>                            
 >     点击运行，可以详细看到执行过程中的一些sql语句
->                             
+>                                 
 >     <img src="Akio's Book.assets/image-20220114164700716.png" alt="image-20220114164700716" style="zoom:50%;" />
->                             
+>                                 
 >     <img src="Akio's Book.assets/image-20220114164751475.png" alt="image-20220114164751475" style="zoom:60%;" />
->                             
+>                                 
 >     ---
->                             
+>                                 
 >     **常用注解：**
->                             
+>                                 
 >     > ```java
 >     > 	    @Entity
 >     >         	作用：指定当前类是实体类。
@@ -9381,57 +9381,37 @@ Student.vue
 >   		<button onclick="readData()">点我读取一个数据</button>
 >   		<button onclick="deleteData()">点我删除一个数据</button>
 >   		<button onclick="deleteAllData()">点我清空一个数据</button>
->   <<<<<<< HEAD
->               
->   		<script type="text/javascript" >
->   			let p = {name:'张三',age:18}
->
-> =======
->
->   		<script type="text/javascript" >
->   			let p = {name:'张三',age:18}
->
-> >>>>>> 65f77776cd730cdc5df5f3470725a92ee8ffbc89
->   			function saveData(){
->   				sessionStorage.setItem('msg','hello!!!')
->   				sessionStorage.setItem('msg2',666)
->   				sessionStorage.setItem('person',JSON.stringify(p))
->   			}
->   			function readData(){
->   				console.log(sessionStorage.getItem('msg'))
->   				console.log(sessionStorage.getItem('msg2'))
-> <<<<<<< HEAD
->
->   				const result = sessionStorage.getItem('person')
->   				console.log(JSON.parse(result))
->
-> =======
->
->   				const result = sessionStorage.getItem('person')
->   				console.log(JSON.parse(result))
->
-> >>>>>> 65f77776cd730cdc5df5f3470725a92ee8ffbc89
->   				// console.log(sessionStorage.getItem('msg3'))
->   			}
->   			function deleteData(){
->   				sessionStorage.removeItem('msg2')
->   			}
->   			function deleteAllData(){
->   				sessionStorage.clear()
->   			}
->   		</script>
->   	</body>
->   </html>
 >   
+>                 		<script type="text/javascript" >
+>   			let p = {name:'张三',age:18}
+>         function saveData(){
+>          sessionStorage.setItem('msg','hello!!!')
+>           sessionStorage.setItem('msg2',666)
+>          sessionStorage.setItem('person',JSON.stringify(p))
+>         }
+>         function readData(){
+>          console.log(sessionStorage.getItem('msg'))
+>           console.log(sessionStorage.getItem('msg2'))
+>           const result = sessionStorage.getItem('person')
+>           console.log(JSON.parse(result))
+>           // console.log(sessionStorage.getItem('msg3'))
+>         }
+>         function deleteData(){
+>           sessionStorage.removeItem('msg2')
+>         }
+>         function deleteAllData(){
+>           sessionStorage.clear()
+>        }
+>       </script>
+>    </body>
+>  </html>
 >   ```
 >
-> ---
->
 > 学习了本地存储，我们可以将TODO-list案例更改为本地存储
->
-> App.vue
->
-> ```vue
+> 
+>App.vue
+> 
+>   ```
 > <template>
 > 	<div id="root">
 > 		<div class="todo-container">
@@ -9442,15 +9422,15 @@ Student.vue
 > 			</div>
 > 		</div>
 > 	</div>
-> </template>
+>   </template>
 > 
-> <script>
+><script>
 > 	import MyHeader from './components/MyHeader'
-> 	import MyList from './components/MyList'
+>	import MyList from './components/MyList'
 > 	import MyFooter from './components/MyFooter.vue'
-> 
+>
 > 	export default {
-> 		name:'App',
+>		name:'App',
 > 		components:{MyHeader,MyList,MyFooter},
 > 		data() {
 > 			return {
@@ -9537,7 +9517,7 @@ Student.vue
 > 	}
 > </style>
 >   ```
->
+> 
 
 
 
